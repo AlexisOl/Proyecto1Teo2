@@ -1,0 +1,2 @@
+CREATE DATABASE 'ecommerce-gt' IF NOT EXIST
+
