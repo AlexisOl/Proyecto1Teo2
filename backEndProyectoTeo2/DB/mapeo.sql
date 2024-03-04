@@ -1,2 +1,8 @@
 CREATE DATABASE 'ecommerce-gt' IF NOT EXIST
 
+CREATE TABLE rol(
+    id INT NOT NULL AUTO_INCREMENT, 
+    
+
+    
+);
