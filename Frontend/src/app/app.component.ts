@@ -7,6 +7,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSliderModule} from '@angular/material/slider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @Component({
   selector: 'app-root',
@@ -21,7 +23,9 @@ import {MatSliderModule} from '@angular/material/slider';
     MatIconModule,
   MatButtonModule,
   MatToolbarModule,
-  MatSliderModule],
+  MatSliderModule,
+
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

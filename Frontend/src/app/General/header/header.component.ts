@@ -4,6 +4,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -13,9 +14,17 @@ import {MatMenuModule} from '@angular/material/menu';
 })
 export class HeaderComponent implements OnInit{
 
-  iraLogin(){
+  constructor(private rutas: Router){}
 
+
+  //funciones de rutas
+  irInicio(){
+    this.rutas.navigate(['/inicio'])
   }
+  iraLogin(){
+    this.rutas.navigate(['/login'])
+  }
+
 
   ngOnInit(): void {}
 
