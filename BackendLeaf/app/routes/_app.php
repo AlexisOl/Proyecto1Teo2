@@ -7,4 +7,5 @@ app()->get('/', function () {
     render('index');
 });
 
-app()-> get('/prueba', 'contactoController@Index');
+// ruta para usuarios LOGIN
+app()-> get('/nombreUsuario', 'usuarioController@Index');

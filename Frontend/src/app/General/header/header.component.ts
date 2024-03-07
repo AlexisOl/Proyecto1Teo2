@@ -24,6 +24,12 @@ export class HeaderComponent implements OnInit{
   iraLogin(){
     this.rutas.navigate(['/login'])
   }
+  iraVoluntariado(){
+    this.rutas.navigate(['/voluntariado'])
+  }
+  iraCompras(){
+    this.rutas.navigate(['/compras'])
+  }
 
 
   ngOnInit(): void {}

@@ -97,7 +97,7 @@ Leaf\Core::loadApplicationConfig();
 |
 | **Uncomment the line below to use Leaf Db or Auth**
 */
-// \Leaf\Database::initDb();
+ \Leaf\Database::initDb();
 
 /*
 |--------------------------------------------------------------------------
