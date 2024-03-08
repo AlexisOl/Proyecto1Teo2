@@ -1,0 +1,66 @@
+<app-header-usuario/>
+
+<div class="container">
+  <form class="form-container" #f = "ngForm">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Vista General de Ventas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Nombre de Usuario
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="identificador de Sucursal"
+              name="nombreUsuario"
+              readonly
+            />
+          </div>
+        </div>
+        <hr/>
+
+        <div class="row">
+          <div class="col-md-6">
+            <button  mat-raised-button color="primary">
+              Creacion de nueva publicacion
+            </button>
+          </div>
+
+          <div class="col-md-6">
+            <button  mat-raised-button color="primary">
+              Creacion de nuevo Producto
+            </button>
+          </div>
+        </div>
+        <hr/>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>
+
+
+
+<!--COMIENZO DE LAS PUBLICACIONES DE LAS VENTAS-->
+<div class="container">
+  <div class="row">
+    <div class="cl-md-10">
+      <div class="titulo">
+        <hr/>
+        <h1>Tus Ventas</h1>
+      </div>
+      <button mat-icon-button (click)="openDialog()">
+        <div>
+          <mat-icon  aria-hidden="false" aria-label="Example home icon" fontIcon="add"></mat-icon>
+        </div>
+        </button>
+    </div>
+
+  </div>
+</div>
+
+

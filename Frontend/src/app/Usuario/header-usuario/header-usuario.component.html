@@ -1,21 +1,21 @@
 <p>
   <mat-toolbar color="primary">
     <!--SECCION DE BOTONES DE OPCIONES-->
-    <button mat-button >Inicio</button>
+    <button mat-button (click)="iraInicio()" >Inicio</button>
     <span class="example-spacer"></span>
 
-    <button mat-button >Compras</button>
+    <button mat-button (click)="iraCompras()">Compras</button>
     <span class="example-spacer"></span>
 
-    <button mat-button >Ventas</button>
+    <button mat-button (click)="iraVentas()" >Ventas</button>
     <span class="example-spacer"></span>
 
-    <button mat-button >Voluntariado</button>
+    <button mat-button (click)="iraVoluntariado()">Voluntariado</button>
     <span class="example-spacer"></span>
 
     <button mat-button [matMenuTriggerFor]="fileMenu">{{nombreUsuario}}</button>
     <mat-menu #fileMenu="matMenu">
-      <button  mat-menu-item >Cerrar Sesion</button>
+      <button  mat-menu-item (click)="cerrarSesion()" >Cerrar Sesion</button>
     </mat-menu>
   </mat-toolbar>
 

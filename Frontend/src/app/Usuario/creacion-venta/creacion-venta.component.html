@@ -1,0 +1,63 @@
+<form class="form-container" #f="ngForm">
+  <div #ingresoCliente>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Nombre del Archivo
+        </label>
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Nombre del titulo"
+          name="ProductoBodega"
+          [(ngModel)]="nombre"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="fecha" class="mt-5 d-flex justify-content-center">
+          Fecha de ingreso de Publicacion
+        </label>
+        <!--para la fecha-->
+        <ngb-datepicker
+          #dp
+          [(ngModel)]="model"
+          (navigate)="date = $event.next"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="nombre" class="mt-5 d-flex justify-content-center"
+          >Ingreso de Descripcion</label
+        >
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder> </textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <label for="nombre" class="mt-5 d-flex justify-content-center"
+          >Seleccion de Producto</label
+        >
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Seleccione el producto"
+          name="ProductoBodega"
+          [(ngModel)]="nombreProducto"
+        />
+      </div>
+    </div>
+  </div>
+</form>
+
+<hr />
+
+<!--ingreso de los botones del modal-->
+<div class="row">
+  <div class="col-md-6">
+    <button class="btn btn-primary">Crear</button>
+  </div>
+  <div class="col-md-6">
+    <button class="btn btn-warning" (click)="cerrar()">Cancelar</button>
+  </div>
+</div>
