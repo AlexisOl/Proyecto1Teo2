@@ -50,31 +50,39 @@ CREATE TABLE categoria(
 
 ALTER TABLE categoria 
   ADD UNIQUE key  `nombreunico` (`nombre`);
-
---- creacion de producto 
-CREATE TABLE producto(
-  id INT NOT NULL AUTO_INCREMENT,
-  nombre varchar(200) NOT NULl,
-  descripcion varchar(1500),
-  imagen varchar(1000),
-  precio decimal not null,
-  identificador_usuario int not null,
-  identificador_categoria int not null,
-  PRIMARY KEY(id)
+-- Creación de la tabla producto
+CREATE TABLE producto (
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(200) NOT NULL,
+    descripcion VARCHAR(1500),
+    imagen VARCHAR(1000),
+    precio DECIMAL NOT NULL,
+    identificador_usuario INT NOT NULL,
+    identificador_categoria INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (identificador_categoria) REFERENCES categoria(id)
 );
 
--- llave foranesa de producto
-
------CREACION DE PUBLICACION 
-CREATE TABLE publicacion(
-  id int not NULL AUTO_INCREMENT,
-  titulo varchar(300) not null,
-  fecha date not null,
-  descripcion varchar(3000),
-  identificador_usuario int not null,
-  identificador_producto int not null,
-  estado varchar(200) not null
+-- Creación de la tabla publicacion
+CREATE TABLE publicacion (
+    id INT NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(300) NOT NULL,
+    fecha DATE NOT NULL,
+    descripcion VARCHAR(3000),
+    identificador_usuario INT NOT NULL,
+    identificador_producto INT NOT NULL,
+    estado VARCHAR(200) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (identificador_producto) REFERENCES producto(id)
 );
+
+
+----------------------
+----------------------
+----------------------
+----------------------
 ------ script de incersion
 --- para rol
 INSERT INTO rol (tipoRol) values("Administrador"),("Usuario");

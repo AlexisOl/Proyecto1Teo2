@@ -1,0 +1,80 @@
+<h1 class="justify-content-center">Creacion del Archivo</h1>
+
+<form class="form-container" #f="ngForm">
+  <div #ingresoCliente>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Nombre del Producto
+        </label>
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Nombre de Producto"
+          name="ProductoBodega"
+          [(ngModel)]="nombre"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Precio del producto
+        </label>
+        <input
+          type="number"
+          class="form-control mt-2"
+          placeholder="Precio del Producto"
+          name="precioProducto"
+          [(ngModel)]="precio"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Categorias del producto
+        </label>
+        <mat-form-field>
+          <mat-label>Seleccione categoria</mat-label>
+          <mat-select [(ngModel)]="selectedValue" name="food">
+            @for (food of categorias; track food.id) {
+            <mat-option [value]="food.id">{{ food.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Imagen Asociada
+        </label>
+        <input
+          type="file"
+          class="form-control mt-2"
+          placeholder="Imagen del Producto"
+          name="imagen"
+          [(ngModel)]="imagen"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Descripcion Asociada
+        </label>
+        <textarea matInput name="descripcion"  [(ngModel)]="descripcion"[value]="descripcion"></textarea>
+
+      </div>
+    </div>
+  </div>
+  <hr />
+</form>
+
+<!--Para botonoes-->
+
+<div class="row">
+  <div class="col-md-6">
+    <button class="btn btn-primary" (click)="crearProducto()">Crear</button>
+  </div>
+  <div class="col-md-6">
+    <button class="btn btn-warning" (click)="cerrar()">Cancelar</button>
+  </div>
+</div>
