@@ -46,7 +46,7 @@ export class CreacionProductosComponent implements OnInit {
     productoNuevo.precio =this.precio
     productoNuevo.descripcion =this.descripcion
     productoNuevo.imagen =this.imagen
-    productoNuevo.identificador_usuario = this.servicioUsuario.getUsuario()?.idRol;
+    productoNuevo.identificador_usuario = this.servicioUsuario.getUsuario()?.id;
     productoNuevo.identificador_categoria = Number( this.selectedValue)
     console.log(productoNuevo, this.descripcion);
     //ingreso del producto

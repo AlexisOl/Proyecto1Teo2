@@ -10,6 +10,7 @@ import { CreacionProductosComponent } from '../creacion-productos/creacion-produ
 import { VentasServicioService } from '../../services/ventas-servicio.service';
 import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { producto } from '../../models/producto';
+import { publicacion } from '../../models/publicacion';
 @Component({
   selector: 'app-ventas-usuario',
   standalone: true,
@@ -20,6 +21,7 @@ import { producto } from '../../models/producto';
 export class VentasUsuarioComponent implements OnInit{
   // valors de vista de productos y ventas
   productosIngresados:producto[]=[];
+  publicacionesIngresadas:any;
   productosValores:any;
 
   constructor(public dialog: MatDialog,
@@ -49,15 +51,31 @@ export class VentasUsuarioComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.categoriasServicio.obtenerProductosId(this.servicioUsuario.getUsuario()?.idRol).subscribe(
-      (nuevosProd:producto) => {
-
-       this.productosIngresados.push(nuevosProd)
-      this.productosValores =nuevosProd
-       console.log(nuevosProd[1], typeof(nuevosProd));
+    // para las publicaciones
+    this.categoriasServicio.obtenerPublicacionesId(this.servicioUsuario.getUsuario()?.id).subscribe(
+      (nuevasPublicaciones:publicacion) => {
+        if (nuevasPublicaciones){
+          this.publicacionesIngresadas=(nuevasPublicaciones)
+        } else {
+          this.publicacionesIngresadas = []
+        }
 
       }
     )
+    // para los productos
+    this.categoriasServicio.obtenerProductosId(this.servicioUsuario.getUsuario()?.id).subscribe(
+      (nuevosProd: producto | producto[]) => {
+        if (Array.isArray(nuevosProd)) {
+          this.productosIngresados = nuevosProd;
+          this.productosValores = nuevosProd;
+        } else {
+          this.productosIngresados = [nuevosProd]; // Convierte el objeto único a un array
+          this.productosValores = [nuevosProd];
+        }
+
+        console.log(nuevosProd, typeof nuevosProd);
+      }
+    );
     console.log("a",this.productosIngresados);
 
 

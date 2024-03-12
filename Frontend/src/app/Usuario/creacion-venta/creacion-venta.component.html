@@ -1,9 +1,9 @@
 <form class="form-container" #f="ngForm">
   <div #ingresoCliente>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label for="nombre" class="mt-5 d-flex justify-content-center">
-          Nombre del Archivo
+          Nombre del Titulo de publicacion
         </label>
         <input
           type="text"
@@ -13,17 +13,32 @@
           [(ngModel)]="nombre"
         />
       </div>
-      <div class="col-md-6">
-        <label for="fecha" class="mt-5 d-flex justify-content-center">
-          Fecha de ingreso de Publicacion
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Nombre de Usuario
         </label>
-        <!--para la fecha-->
-        <ngb-datepicker
-          #dp
-          [(ngModel)]="model"
-          (navigate)="date = $event.next"
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Nombre del titulo"
+          name="nombreUsuario"
+          disabled="true"
+          [(ngModel)]="nombreUsuario"
         />
       </div>
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center"
+          >Seleccion de Producto</label
+        >
+        <input
+          type="number"
+          class="form-control mt-2"
+          placeholder="Seleccione el producto"
+          name="ProductoBodega"
+          [(ngModel)]="nombreProducto"
+        />
+      </div>
+
     </div>
     <div class="row">
       <div class="col-md-6">
@@ -31,20 +46,8 @@
           >Ingreso de Descripcion</label
         >
         <mat-form-field class="example-full-width">
-          <textarea matInput placeholder> </textarea>
+          <textarea matInput placeholder [(ngModel)]="descripcion"> </textarea>
         </mat-form-field>
-      </div>
-      <div class="col-md-6">
-        <label for="nombre" class="mt-5 d-flex justify-content-center"
-          >Seleccion de Producto</label
-        >
-        <input
-          type="text"
-          class="form-control mt-2"
-          placeholder="Seleccione el producto"
-          name="ProductoBodega"
-          [(ngModel)]="nombreProducto"
-        />
       </div>
     </div>
   </div>
@@ -55,7 +58,7 @@
 <!--ingreso de los botones del modal-->
 <div class="row">
   <div class="col-md-6">
-    <button class="btn btn-primary">Crear</button>
+    <button class="btn btn-primary" (click)="ingreso()">Crear</button>
   </div>
   <div class="col-md-6">
     <button class="btn btn-warning" (click)="cerrar()">Cancelar</button>
