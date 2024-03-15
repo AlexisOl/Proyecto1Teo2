@@ -29,3 +29,16 @@ app() -> post('/ingresoPublicacion', 'PublicacionController@ingresoPublicacion')
 app() -> get('/vistaPublicacion', 'PublicacionController@vistaPublicacion');
 // obteners todas las publicaciones
 app() -> get('/obtenerTodaPublicacion', 'PublicacionController@vistaTotalPublicacion');
+
+
+// para las asignaciones de todos los productos por publicacion
+app() -> post('/asignacionProductos', 'ArticulosPublicacionController@ingresoArticulosPublicacion');
+
+
+//ventas especifico
+// ruta para obtener los productos en base a su id
+app() -> get('/obtenerProductoId', 'ProductoController@obtenerProductoId');
+
+/// funcion para obtener los productos en base a su publicacion
+
+app() -> get('/obtenerInfoPorPublicacion', 'ArticulosPublicacionController@obtenerProductosIdPublicacion');

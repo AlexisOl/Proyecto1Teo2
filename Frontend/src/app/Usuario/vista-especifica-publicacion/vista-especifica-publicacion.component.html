@@ -1,0 +1,66 @@
+
+<h1 class="justify-content-center">Vista Especifica de Venta</h1>
+
+<div #ingresoCliente>
+  <div class="row">
+    <div class="col-md-6">
+      <label
+        for="nombre"
+        class="mt-5 d-flex justify-content-center"
+      >
+        Titulo de venta
+      </label>
+      <input
+        type="text"
+        class="form-control mt-2"
+        placeholder="nombre archivo"
+        name="ProductoBodega"
+        readonly
+      />
+    </div>
+    <div class="col-md-6">
+      <label
+        for="nombre"
+        class="mt-5 d-flex justify-content-center"
+      >
+        Precio de producto
+      </label>
+      <input
+      type="text"
+      class="form-control mt-2"
+      placeholder="Extension Elemento"
+      name="extension"
+      readonly
+    />
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+
+  <div class="col-md-6">
+
+      <ul>
+        @for (item of datosProductosPublicacion; track $index) {
+          <li>{{item.precioProducto}}</li>
+          <li>{{item.cantidadProducto}}</li>
+        }
+        <h1>otros datos</h1>
+        @for (item of datosEspecificosProductos; track $index) {
+          <li>{{item.nombre}}</li>
+        }
+      </ul>
+  </div>
+  </div>
+
+
+<!--Para botonoes-->
+
+<hr/>
+<div class="row">
+  <div class="col-md-6">
+    <button  class="btn btn-warning" (click)="cerrar()">Cerrar</button>
+
+  </div>
+</div>
+

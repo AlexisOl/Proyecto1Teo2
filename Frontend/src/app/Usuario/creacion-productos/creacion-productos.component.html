@@ -51,10 +51,11 @@
           class="form-control mt-2"
           placeholder="Imagen del Producto"
           name="imagen"
-          [(ngModel)]="imagen"
+          (change)="onFileSelected($event)"
         />
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-8">
         <label for="nombre" class="mt-5 d-flex justify-content-center">

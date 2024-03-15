@@ -11,6 +11,7 @@ import { VentasServicioService } from '../../services/ventas-servicio.service';
 import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { producto } from '../../models/producto';
 import { publicacion } from '../../models/publicacion';
+import { VistaEspecificaPublicacionComponent } from '../vista-especifica-publicacion/vista-especifica-publicacion.component';
 @Component({
   selector: 'app-ventas-usuario',
   standalone: true,
@@ -49,11 +50,28 @@ export class VentasUsuarioComponent implements OnInit{
   }
 
 
+  //* este modal es para ver las publicaciones de forma
+  //* asi que le mando la info de la publicacion como tal para que desgloce mas
+  modalParaVistaEspecifica(informacion: publicacion){
+    this.dialog.open(VistaEspecificaPublicacionComponent, {
+      width:'80%',
+      height:"650px",
+      data: {datos: informacion}
+    });
+  }
 
+
+
+
+///-------------------------
+///-------------------------
   ngOnInit(): void {
+
+
     // para las publicaciones
     this.categoriasServicio.obtenerPublicacionesId(this.servicioUsuario.getUsuario()?.id).subscribe(
       (nuevasPublicaciones:publicacion) => {
+        console.log("a", typeof(nuevasPublicaciones), nuevasPublicaciones);
         if (nuevasPublicaciones){
           this.publicacionesIngresadas=(nuevasPublicaciones)
         } else {
@@ -76,7 +94,6 @@ export class VentasUsuarioComponent implements OnInit{
         console.log(nuevosProd, typeof nuevosProd);
       }
     );
-    console.log("a",this.productosIngresados);
 
 
   }

@@ -71,13 +71,25 @@ CREATE TABLE publicacion (
     fecha DATE NOT NULL,
     descripcion VARCHAR(3000),
     identificador_usuario INT NOT NULL,
-    identificador_producto INT NOT NULL,
     estado VARCHAR(200) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (identificador_producto) REFERENCES producto(id)
 );
 
+
+--todo Quitar lo del estado aqui se me fue
+---tabla de publicacion y productos en esta
+CREATE TABLE articulosporPublicacion (
+    id INT NOT NULL AUTO_INCREMENT,
+    cantidadProducto int NOT NULL,
+    precioProducto decimal NOT NULL,
+    identificador_publicacion INT NOT NULL,
+    identificador_producto INT NOT NULL,
+    estado VARCHAR(200) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (identificador_publicacion) REFERENCES publicacion(id),
+    FOREIGN KEY (identificador_producto) REFERENCES producto(id)
+);
 
 ----------------------
 ----------------------

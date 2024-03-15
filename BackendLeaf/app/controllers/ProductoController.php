@@ -3,8 +3,11 @@
 namespace App\Controllers;
 
 use App\Models\Producto;
+use Doctrine\DBAL\Types\Type;
 use Leaf\DB;
 use Psy\Util\Json;
+
+use function PHPSTORM_META\type;
 
 class ProductoController extends Controller
 {
@@ -18,19 +21,11 @@ class ProductoController extends Controller
         ->select('producto')
         ->where('identificador_usuario', '=', $idUsuario)
         ->all();
-        if ($result) {
-            return response()->json($result);
-
-        } else {
-            // cambio de forma de json en php
-            return response()->json(["mensaje"=>'error no existen datos']);
-
-        }
+        return response()->json($result ?? []);
     }
     public function ingresoProducto()
     {
         $producto = app()-> request()->get('producto');
-
         // ejecucion de insersion
         db()
         ->insert("producto")
@@ -45,9 +40,18 @@ class ProductoController extends Controller
         ->execute();
 
         // retorno
-        print(($producto['nombre']."todo biem"));
+        print($producto['imagen']."todo biem".($producto['imagen'])."sss");
+    }
 
+    //funcion para obtener algun producto en base a id
 
+    public function obtenerProductoId(){
+        $idproducto = app() -> request() -> get('id');
+        $result = db()
+        ->select('producto')
+        ->where('id', '=', $idproducto)
+        ->all();
+        return response()->json($result ?? []);
 
     }
 }

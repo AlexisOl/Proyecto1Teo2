@@ -2,31 +2,27 @@
 
 namespace App\Controllers;
 
-use App\Models\Publicacion;
 use Leaf\DB;
 use Psy\Util\Json;
 
-class PublicacionController extends Controller
+class ArticulosPublicacionController extends Controller
 {
-    public function ingresoPublicacion()
+    public function ingresoArticulosPublicacion()
     {
-        //generacion de la fecha actual
-        $date = date('d-m-y');
 
-        $publicacion = app()-> request()->get('publicacion');
+        $publicacion = app()-> request()->get('asignacionProductos');
 
         // ejecucion de insersion
         // aqui peticion primeor de cuantas tiene
         // en base a eso aceptar automaticamente
         $insertResult = db()
-        ->insert("publicacion")
+        ->insert("articulosporPublicacion")
         ->params([
-          "titulo" => $publicacion['titulo'],
-          "fecha" => $date,
-          "descripcion" => $publicacion['descripcion'],
-          "identificador_usuario" => $publicacion['identificador_usuario'],
+          "cantidadProducto" => $publicacion['cantidadProducto'],
+          "precioProducto" => $publicacion['precioProducto'],
+          "identificador_publicacion" => $publicacion['identificador_publicacion'],
           "identificador_producto" => $publicacion['identificador_producto'],
-          "estado" => "En espera",
+          "estado" => $publicacion['nombre'],
         ])
         ->execute();
         if ($insertResult) {
@@ -39,25 +35,19 @@ class PublicacionController extends Controller
             // Si la inserción falla, devuelve un mensaje de error
             return response()->json(["success" => false, "message" => "Error al crear la publicación"]);
         }
-        // en base al usuario se obtiene los productos ingresados
-
-
     }
 
-    //metodo para la vista de publicaciones
-    public function vistaPublicacion(){
-        $idUsuario =  request()->get('id');
-        //consulta de la base de datos
+
+//funcion para obtener los productos por publicacion
+    public function obtenerProductosIdPublicacion(){
+        $producto_publicacion = app() -> request() -> get('id');
         $result = db()
-        ->select('publicacion')
-        ->where('identificador_usuario', '=', $idUsuario)
+        ->select('articulosporPublicacion')
+        ->where('identificador_publicacion', '=', $producto_publicacion)
         ->all();
-        //envio de datos o vacio para evitar problemas
         return response()->json($result ?? []);
+
     }
 
-    public function vistaTotalPublicacion(){
-        response() -> json(Publicacion::all());
-    }
 
 }
