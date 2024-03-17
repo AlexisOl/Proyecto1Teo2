@@ -64,28 +64,38 @@ CREATE TABLE producto (
     FOREIGN KEY (identificador_categoria) REFERENCES categoria(id)
 );
 
+--* ESTADO
 -- Creación de la tabla publicacion
-CREATE TABLE publicacion (
+CREATE TABLE estado (
     id INT NOT NULL AUTO_INCREMENT,
+    tipo VARCHAR(300) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+--*publicacion
+CREATE TABLE publicacion (
+    id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     titulo VARCHAR(300) NOT NULL,
     fecha DATE NOT NULL,
     descripcion VARCHAR(3000),
-    identificador_usuario INT NOT NULL,
-    estado VARCHAR(200) NOT NULL,
-    PRIMARY KEY (id),
+    identificador_usuario INT(11) NOT NULL,
+    identificador_producto INT(11) NOT NULL,
+    estado int(2) NOT NULL,
     FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (identificador_producto) REFERENCES producto(id),
+    FOREIGN KEY (estado) REFERENCES estado(id)
+
 );
 
-
---todo Quitar lo del estado aqui se me fue
+--*articulos por publicacion
 ---tabla de publicacion y productos en esta
 CREATE TABLE articulosporPublicacion (
     id INT NOT NULL AUTO_INCREMENT,
     cantidadProducto int NOT NULL,
     precioProducto decimal NOT NULL,
     identificador_publicacion INT NOT NULL,
+    --! quita este 
     identificador_producto INT NOT NULL,
-    estado VARCHAR(200) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (identificador_publicacion) REFERENCES publicacion(id),
     FOREIGN KEY (identificador_producto) REFERENCES producto(id)
@@ -100,3 +110,6 @@ CREATE TABLE articulosporPublicacion (
 INSERT INTO rol (tipoRol) values("Administrador"),("Usuario");
 ---- para usuarios
 INSERT INTO usuario (user, password, idRol) values("juan123", "hola123", 1),("Usuario", "simon", 2),("pepito99", "adios", 2);
+
+
+insert into estado (tipo) values ('En espera'), ('Cancelado'), ('Vendido'), ('En venta'), ('Reportado');

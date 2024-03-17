@@ -26,7 +26,7 @@ class PublicacionController extends Controller
           "descripcion" => $publicacion['descripcion'],
           "identificador_usuario" => $publicacion['identificador_usuario'],
           "identificador_producto" => $publicacion['identificador_producto'],
-          "estado" => "En espera",
+          "estado" => 1,
         ])
         ->execute();
         if ($insertResult) {
@@ -56,8 +56,71 @@ class PublicacionController extends Controller
         return response()->json($result ?? []);
     }
 
-    public function vistaTotalPublicacion(){
-        response() -> json(Publicacion::all());
+    //vista de la publicacion con un join del nombre
+    public function vistaPublicacionEstado(){
+            $idUsuario = request()->get('id');
+            // Consulta de la base de datos con un join
+            $result = db()
+                ->query("SELECT p.*, e.tipo AS tipo_estado
+                         FROM publicacion p
+                         INNER JOIN estado e ON p.estado = e.id
+                         WHERE p.identificador_usuario = ".$idUsuario)
+                ->all();
+            // Envío de datos o vacío para evitar problemas
+            return response()->json($result ?? []);
+
     }
+
+
+    //esto para la pagina principal de ventas
+    // excepto cancelado o en espera
+    public function vistaTotalPublicacion(){
+        $respuesta = db()
+        ->  select('publicacion')
+        ->where('estado', 3)
+        ->orWhere('estado', 4)
+        ->orWhere('estado', 5)
+        ->all();
+        return response()->json($respuesta ?? []);
+
+    }
+    //funcion para la vista de toda publicacion para ADMIN
+    //tiene varios join de usaurios y estado
+    public function vistaPublicacionesAdmin(){
+        $result = db()
+        -> query("SELECT p.*, e.tipo AS tipo_estado, u.user AS nombre_usuario
+        FROM publicacion p
+        JOIN estado e ON p.estado = e.id
+        JOIN usuario u ON p.identificador_usuario = u.id;")
+        ->all();
+
+        return response()->json($result ?? []);
+    }
+    //fucnion para aceptar la venta
+    public function aceptarVenta(){
+        $idVenta = request()->get('id');
+
+        $resultado = db()
+        ->update("publicacion")
+        ->params(["estado" => 4])
+        ->where("id", $idVenta)
+        ->execute();
+
+        return response()->json($resultado ?? []);
+    }
+    //funcion para rechazar la venta
+
+    public function rechazarVenta(){
+        $idVenta = request()->get('id');
+
+        $resultado = db()
+        ->update("publicacion")
+        ->params(["estado" => 2])
+        ->where("id", $idVenta)
+        ->execute();
+
+        return response()->json($resultado ?? []);
+    }
+    //funcion para eliminar la venta
 
 }

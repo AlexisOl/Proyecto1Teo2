@@ -22,7 +22,6 @@ class ArticulosPublicacionController extends Controller
           "precioProducto" => $publicacion['precioProducto'],
           "identificador_publicacion" => $publicacion['identificador_publicacion'],
           "identificador_producto" => $publicacion['identificador_producto'],
-          "estado" => $publicacion['nombre'],
         ])
         ->execute();
         if ($insertResult) {
@@ -47,6 +46,21 @@ class ArticulosPublicacionController extends Controller
         ->all();
         return response()->json($result ?? []);
 
+    }
+
+    //funcion para obtener los productos por publicacion
+    public function prueba(){
+        $idPublicacion = app()->request()->get('id');
+
+        // Realizar una consulta SQL con una cláusula JOIN para combinar las tablas producto y articulosporPublicacion
+        $result = db()
+            ->query("SELECT p.*, a.cantidadProducto, a.precioProducto
+                      FROM producto p
+                      JOIN articulosporPublicacion a ON p.id = a.identificador_producto
+                      WHERE a.identificador_publicacion = ".$idPublicacion )
+            ->fetchAll();
+
+        return response()->json($result ?? []);
     }
 
 

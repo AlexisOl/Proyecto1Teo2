@@ -4,8 +4,11 @@ namespace App\Controllers;
 
 use App\Models\Producto;
 use Doctrine\DBAL\Types\Type;
+use Faker\Core\File;
 use Leaf\DB;
+use Leaf\FS;
 use Psy\Util\Json;
+
 
 use function PHPSTORM_META\type;
 
@@ -26,6 +29,9 @@ class ProductoController extends Controller
     public function ingresoProducto()
     {
         $producto = app()-> request()->get('producto');
+        //para las fotos
+
+
         // ejecucion de insersion
         db()
         ->insert("producto")
@@ -44,6 +50,14 @@ class ProductoController extends Controller
     }
 
     //funcion para obtener algun producto en base a id
+    public function uploadImage() {
+        FS::createFile("prueba/items.txt");
+        FS::writeFile("items.txt", "Hello");
+        FS::writeFile("items.png", "Hello");
+// Crear un archivo
+    }
+
+
 
     public function obtenerProductoId(){
         $idproducto = app() -> request() -> get('id');
