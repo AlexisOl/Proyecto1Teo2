@@ -45,7 +45,7 @@ export class VentasServicioService {
   }
   //funcion para obtener que tipos de productos se tiene por publicacion POR ID
   public obtenerTodaInfoporPublicacionId(id: number|undefined):Observable<asignacionProductos>{
-    return this.http.get<asignacionProductos>(this.URL+"/obtenerInfoPorPublicacion?id="+id)
+    return this.http.get<asignacionProductos>(this.URL+"/obtenerProductosPorPublicacion?id="+id)
   }
   //funcion para obtener todos los productos en base al id
   public obtenerProductoId_Producto(id: number|undefined):Observable<producto>{

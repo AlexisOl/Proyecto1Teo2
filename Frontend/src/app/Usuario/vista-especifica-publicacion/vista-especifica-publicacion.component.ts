@@ -17,6 +17,10 @@ export class VistaEspecificaPublicacionComponent implements OnInit {
   //* ahora los datos para la visualizacion
   datosProductosPublicacion: any
   datosEspecificosProductos:any
+  nombrePublicacion:string=''
+  fechaPublicacion!:Date
+  estadoPublicacion!:string
+
 
   constructor( @Inject(MAT_DIALOG_DATA) public data: any,
               private referencia: MatDialogRef<VistaEspecificaPublicacionComponent>,
@@ -35,11 +39,7 @@ export class VistaEspecificaPublicacionComponent implements OnInit {
         this.datosProductosPublicacion = elemento
         console.log(elemento);
 
-        this.ventasServicio.obtenerProductoId_Producto(elemento.identificador_producto).subscribe(
-          (articulo:producto) => {
-            this.datosEspecificosProductos=articulo
-          }
-        );
+
       }
     );
 

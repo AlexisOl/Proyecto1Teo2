@@ -1,0 +1,56 @@
+<app-header-admin/>
+
+<div class="container">
+  <div class="row">
+    <h1>Tabla de Publicaciones </h1>
+    <!--tabla con la informacion general-->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Titulo de publicacion</th>
+          <th scope="col">Usuario de la publicacion</th>
+          <th scope="col">fecha</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Vista Publicacion</th>
+          <th scope="col">Opcion</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of listaPublicaciones; track $index) {
+
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ item.titulo }}</td>
+          <td>{{ item.nombre_usuario }}</td>
+          <td>{{ item.fecha }}</td>
+          <td>{{ item.tipo_estado }}</td>
+          <td><button class="btn btn-info">Ver publicacion</button></td>
+          <td>
+            <div class="container">
+              <div class="row">
+                @if (item.estado==1) {
+                  <div class="col-md-4">
+                    <button class="btn btn-success"
+                    (click)="aceptar(item.id)"
+                    >Aprobar</button>
+                  </div>
+                  <div class="col-md-4">
+                    <button class="btn btn-danger"
+                    (click)="rechazar(item.id)"
+                    >Eliminar</button>
+                  </div>
+                } @else {
+                  <h1>Estado generado</h1>
+                }
+
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

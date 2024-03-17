@@ -9,7 +9,7 @@ export const routes: Routes =
  {path:'', redirectTo: 'inicio', pathMatch: 'full'  },
  {path:'login', component:LoginVistaComponent},
  {path:'generalUsuario', loadChildren:() => import('./Usuario/usuario-module/usuario-module.module').then(m => m.UsuarioModuleModule)},
- {path:'generalAdmin', component:GeneralAdminComponent}
+ {path:'generalAdmin', loadChildren:() => import('./Admin/admin-module/admin-module.module').then(n => n.AdminModuleModule)}
 ];
 
 

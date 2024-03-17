@@ -1,0 +1,19 @@
+<p>
+  <mat-toolbar color="primary">
+    <!--SECCION DE BOTONES DE OPCIONES-->
+    <button mat-button (click)="iraInicio()">Inicio</button>
+    <span class="example-spacer"></span>
+
+    <button mat-button (click)="iraPublicaciones()">Gestion de Publicaciones</button>
+    <span class="example-spacer"></span>
+
+    <button mat-button (click)="iraUsuarios()" >Ingreso de Usuarios</button>
+    <span class="example-spacer"></span>
+
+    <button mat-button [matMenuTriggerFor]="fileMenu">{{nombreUsuario}}</button>
+    <mat-menu #fileMenu="matMenu">
+      <button  mat-menu-item (click)="cerrarSesion()" >Cerrar Sesion</button>
+    </mat-menu>
+  </mat-toolbar>
+
+</p>

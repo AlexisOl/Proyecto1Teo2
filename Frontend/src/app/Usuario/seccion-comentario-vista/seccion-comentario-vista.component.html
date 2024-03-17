@@ -1,5 +1,5 @@
 
-<h1 class="justify-content-center">Vista Especifica de Venta</h1>
+<h1 class="justify-content-center">Seccion de Comentario con:</h1>
 
 <div #ingresoCliente>
   <div class="row">
@@ -8,55 +8,22 @@
         for="nombre"
         class="mt-5 d-flex justify-content-center"
       >
-        Titulo de Publicacion
+        Usario con quien conversa
       </label>
       <input
         type="text"
         class="form-control mt-2"
-        placeholder="nombre archivo"
+        placeholder="Nombre Usuario"
         name="ProductoBodega"
-        [value]="this.data.datos.titulo"
         readonly
       />
-    </div>
-    <div class="col-md-4">
-      <label
-        for="nombre"
-        class="mt-5 d-flex justify-content-center"
-      >
-        Estado de publicacion
-      </label>
-      <input
-      type="text"
-      class="form-control mt-2"
-      placeholder="Extension Elemento"
-      name="extension"
-      [value]="this.data.datos.tipo_estado"
-      readonly
-    />
-    </div>
-    <div class="col-md-4">
-      <label
-        for="nombre"
-        class="mt-5 d-flex justify-content-center"
-      >
-        Fecha de publicacion
-      </label>
-      <input
-      type="text"
-      class="form-control mt-2"
-      placeholder="Extension Elemento"
-      name="extension"
-      [value]="this.data.datos.fecha"
-      readonly
-    />
     </div>
   </div>
 </div>
 <hr>
 <div class="container">
   <div class="row">
-    <h1>Tabla de Productos a vender</h1>
+    <h1>Tabla de Mensajes</h1>
     <!--tabla con la informacion general-->
     <table class="table table-striped">
       <thead>
@@ -69,7 +36,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (item of datosProductosPublicacion; track $index) {
+        @for (item of mensajes; track $index) {
 
         <tr>
           <td>{{ $index + 1 }}</td>
@@ -86,14 +53,8 @@
     </table>
   </div>
 </div>
-<!--Para la comunicacion-->
-<hr>
-<div class="container">
-  <h1>Comunicacion con clientes</h1>
 
-</div>
 <!--Para botonoes-->
-
 <hr/>
 <div class="row">
   <div class="col-md-6">

@@ -23,6 +23,7 @@ export class CreacionProductosComponent implements OnInit {
   precio: number = 0;
   descripcion: string = '';
   imagen: string = '';
+  imagenTotal:any;
 
   extensiones: any[] = ['.txt', '.html'];
   foods: any[] = [
@@ -41,9 +42,12 @@ export class CreacionProductosComponent implements OnInit {
     // Obtener el nombre del archivo
     const fileName: string = event.target.files[0].name;
     // Puedes hacer lo que necesites con fileName
-    console.log('Nombre del archivo seleccionado:', fileName, event.target.files[0].name);
+
+    console.log('Nombre del archivo seleccionado:' ,fileName, event.target.files[0].name);
     // Asignar fileName a la propiedad imagen si lo necesitas
+
     this.imagen = fileName;
+    this.imagenTotal = event.target.files[0]
   }
 
   crearProducto() {
