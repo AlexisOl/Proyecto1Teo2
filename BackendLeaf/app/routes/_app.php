@@ -57,3 +57,14 @@ app() -> get('/aceptarVenta', 'PublicacionController@aceptarVenta');
 app() -> get('/rechazarVenta', 'PublicacionController@rechazarVenta');
 
 
+//COMPRAS
+
+//ingreso de los comentarios
+app() -> post('/ingresoComentario', 'ComentariosController@ingresoComentario');
+//
+app() -> get('/obtenerInfoPublicacionCompra', 'PublicacionController@vistaPublicacionesEspecificasCompras');
+
+
+//obtener comentarios por publicacion y id de usuario que pregunta
+app() -> get('/obtenerConversacionEspecifica', 'ComentariosController@verComentariosPorId');
+//obtener los usuarios que hayan comentado unico

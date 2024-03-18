@@ -121,6 +121,22 @@ class PublicacionController extends Controller
 
         return response()->json($resultado ?? []);
     }
-    //funcion para eliminar la venta
+
+    //funcion para obtener la vista de publicacion
+    // en base al id de publicacion pero de compras
+
+    public function vistaPublicacionesEspecificasCompras(){
+        $idUsuario = request()->get('id');
+        // Consulta de la base de datos con un join
+        $result = db()
+            ->query("SELECT p.*, e.tipo AS tipo_estado
+            FROM publicacion p
+            INNER JOIN estado e ON p.estado = e.id
+            WHERE p.id =".$idUsuario)
+            ->all();
+        // Envío de datos o vacío para evitar problemas
+        return response()->json($result ?? []);
+
+}
 
 }

@@ -101,6 +101,19 @@ CREATE TABLE articulosporPublicacion (
     FOREIGN KEY (identificador_producto) REFERENCES producto(id)
 );
 
+--*comentarios 
+  CREATE TABLE comentarios(
+    id INT NOT NULL AUTO_INCREMENT,
+    fecha DATE NOT NULL,
+    mensaje varchar(3000) NOT NULL,
+    id_publicacion INT NOT NULL,
+    id_usuarioPregunta INT NOT NULL,
+    respuestaUsuarioOriginal boolean NOT null,
+    PRIMARY KEY(id),
+    FOREIGN KEY (id_publicacion) REFERENCES publicacion(id),
+    FOREIGN KEY (id_usuarioPregunta) REFERENCES usuario(id)
+  );
+
 ----------------------
 ----------------------
 ----------------------
