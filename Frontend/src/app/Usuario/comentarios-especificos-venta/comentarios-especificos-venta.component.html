@@ -1,0 +1,61 @@
+<div class="container">
+  <h1>Comunicacion</h1>
+
+  <div class="row">
+    <h1>Tabla de Mensajes</h1>
+    <!--tabla con la informacion general-->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Usuario</th>
+          <th scope="col">mensaje</th>
+          <th scope="col">Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of comentariosPublicacion; track $index) {
+
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ item.nombreUsuarioRespuesta }}</td>
+          <td>{{ item.mensaje }}</td>
+          <td>{{ item.fecha }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <label for="nombre" class="mt-5 d-flex justify-content-center">
+        Ingreso de mensaje
+      </label>
+      <div class="md-form">
+        <textarea
+          type="text"
+          id="form7"
+          class="md-textarea md-textarea-auto form-control"
+          mdbInput
+          [value]="textoComentario"
+          name="textoComentario"
+          [(ngModel)]="textoComentario"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <button class="btn btn-success"
+        (click)="enviarMensaje()"
+        >Enviar Comentario</button>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+  <div class="row">
+    <div class="col-md-6">
+      <button class="btn btn-warning" (click)="cerrar()">Cerrar</button>
+    </div>
+  </div>
+</div>

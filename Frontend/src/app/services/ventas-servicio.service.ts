@@ -5,6 +5,7 @@ import { categorias } from '../models/categorias';
 import { producto } from '../models/producto';
 import { publicacion } from '../models/publicacion';
 import { asignacionProductos } from '../models/asignacionProductos';
+import { comentario } from '../models/comentario';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,14 @@ export class VentasServicioService {
   //funcion para obtener que tipos de productos se tiene por publicacion
   public obtenerTodaInfoporPublicacion():Observable<asignacionProductos>{
     return this.http.get<asignacionProductos>(this.URL+"/obtenerInfoPorPublicacion")
+  }
+
+
+
+  //* SECCION DE COMENTARIOS
+  public verComentarioEnPublicacion(id_publicacion:number):Observable<comentario>{
+
+    return this.http.get<comentario>(this.URL+"/obtenerUsuariosComentarios?idPublicacion="+id_publicacion)
   }
 
 

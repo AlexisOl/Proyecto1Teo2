@@ -2,8 +2,13 @@
 
 namespace App\Controllers;
 
+use Doctrine\DBAL\Types\Type;
 use Leaf\DB;
 use Psy\Util\Json;
+use \Datetime;
+use \DateTimeZone;
+
+use function PHPSTORM_META\type;
 
 class ComentariosController extends Controller
 {
@@ -11,12 +16,21 @@ class ComentariosController extends Controller
     public function ingresoComentario()
     {
         //generacion de la fecha actual
-        $date = date('d-m-y');
+        $now = new DateTime('', new DateTimeZone('America/Mexico_City'));
+        $date= $now->format('y-m-d');
         $comentario = app()->request()->get('comentario');
 
         // Convertir respuestaUsuarioOriginal a booleano
-        $respuestaUsuarioOriginal = $comentario['respuestaUsuarioOriginal'] === '1' ? false : true;
-
+        //$respuestaUsuarioOriginal = $comentario['respuestaUsuarioOriginal'] === '1' ? false : true;
+        if($comentario['respuestaUsuarioOriginal']==0){
+            print('false');
+            $valorNuevo  = 1;
+        } else {
+            print( 'true');
+            $valorNuevo ='0';
+        }
+        //$valorNuevo =$comentario['respuestaUsuarioOriginal']=='0'? true:false;
+       // print($comentario['respuestaUsuarioOriginal']."--". gettype($comentario['respuestaUsuarioOriginal']). $valorNuevo."   -- ". gettype($valorNuevo));
         $insertResult = db()
             ->insert("comentarios")
             ->params([
@@ -24,7 +38,7 @@ class ComentariosController extends Controller
                 "mensaje" => $comentario['mensaje'],
                 "id_publicacion" => $comentario['id_publicacion'],
                 "id_usuarioPregunta" => $comentario['id_usuarioPregunta'],
-                "respuestaUsuarioOriginal" =>  $respuestaUsuarioOriginal,
+                "respuestaUsuarioOriginal" => $valorNuevo
             ])
             ->execute();
 
@@ -45,6 +59,24 @@ class ComentariosController extends Controller
             // ->select('comentarios')
             // ->where('id_publicacion', $idUsuario)
             // ->where('id_usuarioPregunta', $idPublicacion)
+            ->all();
+        return response()->json($respuesta ?? []);
+    }
+
+    //* para la vista del vendedor
+    // ? obtenemos los comentarios asociados a la publicacion unicos id
+    public function verComentariosPorIdPublicacion() {
+        // id publicacion
+        $idPublicacion = app()->request()->get('idPublicacion');
+        $respuesta = db()
+            ->query("SELECT DISTINCT c.id_usuarioPregunta,
+            c.id_publicacion,
+            u.user AS nombreUsuario,
+            p.identificador_usuario AS id_usuario_publicacion
+            FROM comentarios c
+            JOIN usuario u ON c.id_usuarioPregunta = u.id
+            JOIN publicacion p ON c.id_publicacion = p.id
+            WHERE p.id =  ".$idPublicacion)
             ->all();
         return response()->json($respuesta ?? []);
     }

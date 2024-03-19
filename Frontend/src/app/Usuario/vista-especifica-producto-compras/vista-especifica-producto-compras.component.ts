@@ -6,6 +6,7 @@ import { VentasServicioService } from '../../services/ventas-servicio.service';
 import { VistaEspecificaPublicacionComponent } from '../vista-especifica-publicacion/vista-especifica-publicacion.component';
 import { comentario } from '../../models/comentario';
 import { FormsModule } from '@angular/forms';
+import { asignacionProductos } from '../../models/asignacionProductos';
 
 @Component({
   selector: 'app-vista-especifica-producto-compras',
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class VistaEspecificaProductoComprasComponent implements OnInit{
   comentariosPublicacion:any
+  datosProductosPublicacion:any
   textoComentario:any
 
   constructor( @Inject(MAT_DIALOG_DATA) public data: any,
@@ -52,6 +54,13 @@ export class VistaEspecificaProductoComprasComponent implements OnInit{
 
 
   ngOnInit(): void {
+    //vista especifica
+    this.ventasServicio.obtenerTodaInfoporPublicacionId(this.data.datos[0].id).subscribe(
+      (elemento:asignacionProductos)=> {
+        this.datosProductosPublicacion = elemento
+        console.log(elemento);
+      }
+    );
     // ver bien porque le mande el all en el php por eso asi
     console.log(this.data.datos[0].fecha,"<", this.data);
     //para obtener comentarios

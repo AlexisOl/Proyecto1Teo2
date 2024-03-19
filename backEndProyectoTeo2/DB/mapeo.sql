@@ -114,6 +114,34 @@ CREATE TABLE articulosporPublicacion (
     FOREIGN KEY (id_usuarioPregunta) REFERENCES usuario(id)
   );
 
+  --!PARA VENTAS
+
+  --*factura
+CREATE TABLE factura(
+    id INT NOT NULL AUTO_INCREMENT,
+    id_publicacion int not null,
+    id_cliente int not null,
+    fecha DATE not null,
+    precioTotal decimal not null,
+    PRIMARY KEY(id),
+    FOREIGN KEY (id_publicacion) REFERENCES publicacion(id),
+    FOREIGN KEY (id_cliente) REFERENCES usuario(id)
+    
+);
+  --*detalleCompra
+  CREATE TABLE detalleFactura(
+    id INT NOT NULL AUTO_INCREMENT,
+    id_factura int not null,
+    id_producto int not null,
+    cantidadComprado int not null,
+    precioParcial decimal not null,
+    PRIMARY KEY(id),
+    FOREIGN KEY (id_factura) REFERENCES factura(id),
+    FOREIGN KEY (id_producto) REFERENCES producto(id)
+  );
+
+  --*compraRealizada
+
 ----------------------
 ----------------------
 ----------------------

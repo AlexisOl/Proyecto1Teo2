@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { HeaderUsuarioComponent } from '../header-usuario/header-usuario.component';
@@ -8,23 +8,37 @@ import { VistaEspecificaPublicacionComponent } from '../vista-especifica-publica
 import { MatDialog } from '@angular/material/dialog';
 import { ComprasServicioService } from '../../services/compras-servicio.service';
 import { VistaEspecificaProductoComprasComponent } from '../vista-especifica-producto-compras/vista-especifica-producto-compras.component';
-
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-compras-usuario',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, HeaderUsuarioComponent],
+  imports: [CommonModule, MatCardModule, MatButtonModule, HeaderUsuarioComponent, MatPaginator, MatPaginatorModule],
   templateUrl: './compras-usuario.component.html',
   styleUrl: './compras-usuario.component.css'
 })
-export class ComprasUsuarioComponent implements OnInit{
+export class ComprasUsuarioComponent implements OnInit, AfterViewInit{
   // elementos de uso
   todasPublicaciones:any;
   publicacionEspecifica:any
+
+  // para las paginas
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+
+
+
   constructor(private ventasServicio: VentasServicioService,
               public dialog: MatDialog,
               private comprasServicio: ComprasServicioService){}
 
 
+
+
+  ngAfterViewInit() {
+    if (this.todasPublicaciones) {
+      this.todasPublicaciones.paginator = this.paginator;
+    }
+  }
 
     //* este modal es para ver las publicaciones de forma
   //* asi que le mando la info de la publicacion como tal para que desgloce mas
@@ -53,11 +67,16 @@ export class ComprasUsuarioComponent implements OnInit{
 
 
   ngOnInit(): void {
-      this.ventasServicio.obtenerTodasPublicaciones().subscribe(
-        (publicaciones: publicacion) => {
-          this.todasPublicaciones = publicaciones
+    this.ventasServicio.obtenerTodasPublicaciones().subscribe(
+      (publicaciones: publicacion) => {
+        this.todasPublicaciones = publicaciones;
+        console.log(publicaciones);
+        if (this.paginator) {
+          this.todasPublicaciones.paginator = this.paginator;
         }
-      )
+      }
+    );
   }
+
 
 }

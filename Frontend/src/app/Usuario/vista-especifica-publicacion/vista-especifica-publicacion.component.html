@@ -92,53 +92,36 @@
   <h1>Comunicacion</h1>
 
   <div class="row">
-    <h1>Tabla de Mensajes</h1>
-    <!--tabla con la informacion general-->
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">No.</th>
-          <th scope="col">Usuario</th>
-          <th scope="col">mensaje</th>
-          <th scope="col">Fecha</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of datosProductosPublicacion; track $index) {
-
-        <tr>
-          <td>{{ $index + 1 }}</td>
-          <td>{{ item.nombre }}</td>
-          <td>{{ item.precioProducto }}</td>
-          <td>{{ item.cantidadProducto }}</td>
-          <td>{{ item.precio }}</td>
-          <td>{{ item.descripcion }}</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <label
-        for="nombre"
-        class="mt-5 d-flex justify-content-center"
-      >
-        Ingreso de mensaje
-      </label>
-      <div class="md-form">
-        <textarea type="text"
-            id="form7"
-            class="md-textarea md-textarea-auto form-control"
-             mdbInput
-             [value]="textoComentario"
-             ></textarea>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <button class="btn btn-success">Enviar Comentario</button>
-      </div>
+    <h1>Usuarios con Mensajes</h1>
+    <!--vista de personas con mensajes-->
+    <div class="container">
+      @for (item of personasqueComentaron; track $index) {
+                  <!--generacion de cards-->
+                  <div class="col-md-3 mb-4">
+                    <mat-card [style.height.%]="100" class="mat-elevation-z4 text-center">
+                      <mat-card-header>
+                        <mat-card-title>{{ item.nombreUsuario }}</mat-card-title>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <div class="row">
+                          <div
+                            class="col-md-10 d-flex justify-content-center text-center"
+                            style="margin-bottom: 10px; margin-left: 7%"
+                          >
+                            <button
+                              mat-raised-button
+                              color="primary"
+                              style="width: 60%; margin-right: 5px; height: 95%"
+                              (click)="modalParaVistaEspecificaComentario(item)"
+                              >
+                              Ver Conversacion
+                            </button>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+      }
     </div>
   </div>
 </div>

@@ -67,4 +67,10 @@ app() -> get('/obtenerInfoPublicacionCompra', 'PublicacionController@vistaPublic
 
 //obtener comentarios por publicacion y id de usuario que pregunta
 app() -> get('/obtenerConversacionEspecifica', 'ComentariosController@verComentariosPorId');
-//obtener los usuarios que hayan comentado unico
+//obtener los usuarios que hayan comentado unico para vendedor
+app() -> get('/obtenerUsuariosComentarios', 'ComentariosController@verComentariosPorIdPublicacion');
+
+
+//solo prueba de fehca
+app() -> get('/fecha', 'FacturaController@pruebaFecha');
+
