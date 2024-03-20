@@ -29,3 +29,12 @@
 .dropdown-item:hover {
   background-color: #ddd;
 }
+
+
+.containerMonedas {
+  border: 1px solid #0cb37b; /* Define el borde del contenedor */
+  padding: 10px; /* Agrega espacio alrededor del contenido */
+  border-radius: 5px; /* Agrega esquinas redondeadas al borde */
+  background-color: #0cb876; /* Color de fondo */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+}

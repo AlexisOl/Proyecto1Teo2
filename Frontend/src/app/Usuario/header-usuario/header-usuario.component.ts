@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class HeaderUsuarioComponent implements OnInit {
 
   nombreUsuario:string|undefined = ''
+  cantidadMonedas:number|undefined=0
   constructor(private sesionServicio: SesionServicioService,
               private rutas:Router){}
 
@@ -43,6 +44,9 @@ export class HeaderUsuarioComponent implements OnInit {
   }
   ngOnInit(): void {
     this.nombreUsuario = this.sesionServicio.getUsuario()?.user;
+    this.cantidadMonedas =this.sesionServicio.getUsuario()?.cantidad_monedas;
+    console.log(this.cantidadMonedas, this.nombreUsuario);
+
   }
 
 

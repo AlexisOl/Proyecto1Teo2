@@ -73,6 +73,12 @@ export class VentasServicioService {
     return this.http.get<comentario>(this.URL+"/obtenerUsuariosComentarios?idPublicacion="+id_publicacion)
   }
 
+  //**SECCION DE VENTAS ESPECIFICOS */
+
+  public obtenerVentasRealizadas(idUsuario:number):Observable<publicacion> {
+    return this.http.get<publicacion>(this.URL+"/obtenerVentasRealizadas");
+  }
+
 
 
 }

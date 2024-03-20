@@ -1,13 +1,7 @@
-
-<h1 class="justify-content-center">Vista Especifica de Venta</h1>
-
 <div #ingresoCliente>
   <div class="row">
     <div class="col-md-4">
-      <label
-        for="nombre"
-        class="mt-5 d-flex justify-content-center"
-      >
+      <label for="nombre" class="mt-5 d-flex justify-content-center">
         Titulo de Publicacion
       </label>
       <input
@@ -20,40 +14,34 @@
       />
     </div>
     <div class="col-md-4">
-      <label
-        for="nombre"
-        class="mt-5 d-flex justify-content-center"
-      >
+      <label for="nombre" class="mt-5 d-flex justify-content-center">
         Estado de publicacion
       </label>
       <input
-      type="text"
-      class="form-control mt-2"
-      placeholder="Extension Elemento"
-      name="extension"
-      [value]="this.data.datos[0].tipo_estado"
-      readonly
-    />
+        type="text"
+        class="form-control mt-2"
+        placeholder="Extension Elemento"
+        name="extension"
+        [value]="this.data.datos[0].tipo_estado"
+        readonly
+      />
     </div>
     <div class="col-md-4">
-      <label
-        for="nombre"
-        class="mt-5 d-flex justify-content-center"
-      >
+      <label for="nombre" class="mt-5 d-flex justify-content-center">
         Fecha de publicacion
       </label>
       <input
-      type="text"
-      class="form-control mt-2"
-      placeholder="Extension Elemento"
-      name="extension"
-      [value]="this.data.datos[0].fecha"
-      readonly
-    />
+        type="text"
+        class="form-control mt-2"
+        placeholder="Extension Elemento"
+        name="extension"
+        [value]="this.data.datos[0].fecha"
+        readonly
+      />
     </div>
   </div>
 </div>
-<hr>
+<hr />
 <div class="container">
   <div class="row">
     <h1>Tabla de Productos a vender</h1>
@@ -76,9 +64,9 @@
           <td>{{ item.nombre }}</td>
           <td>{{ item.precioProducto }}</td>
           @if (item.cantidadProducto==0) {
-            <td>vendido</td>
+          <td>vendido</td>
           }@else {
-            <input
+          <input
             type="number"
             class="form-control mt-2"
             placeholder="Cantidad de Producto a Vender"
@@ -91,7 +79,14 @@
           }
           <td>{{ item.precio }}</td>
           <td>{{ item.descripcion }}</td>
-          <td><button class="btn btn-primary">Agregar</button></td>
+          <td>
+            <button
+              class="btn btn-primary"
+              (click)="eliminar(item, item.id, item.precio)"
+            >
+              Agregar
+            </button>
+          </td>
         </tr>
 
         }
@@ -111,23 +106,55 @@
           <th scope="col">Nombre de Articulo</th>
           <th scope="col">Cantidad a Comprar</th>
           <th scope="col">Precio</th>
+          <th scope="col">Eliminar Seleccion</th>
         </tr>
       </thead>
       <tbody>
-        @for (item of comentariosPublicacion; track $index) {
+        @for (item of datosParaComprar; track $index) {
 
         <tr>
           <td>{{ $index + 1 }}</td>
-          <td>{{ item.nombreUsuarioRespuesta }}</td>
-          <td>{{ item.mensaje }}</td>
-          <td>{{ item.fecha }}</td>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.cantidadProducto }}</td>
+          <td>{{ item.precio * item.cantidadProducto }}</td>
+          <td>
+            <button
+              class="btn btn-danger"
+              (click)="agregar(item.id, item, item.precio)"
+            >
+              Eliminar
+            </button>
+          </td>
         </tr>
         }
       </tbody>
     </table>
+    <label for="nombre" class="mt-5 d-flex justify-content-center">
+      Precio Total
+    </label>
+    <input
+      type="text"
+      class="form-control mt-2"
+      placeholder="Precio Total"
+      name="precioTotal"
+      [value]=""
+      [(ngModel)]="precioTotal"
+      readonly
+    />
   </div>
 </div>
-<hr>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <button class="btn btn-primary"
+      (click)="generarCompra()"
+      >Aceptar Venta</button>
+    </div>
+  </div>
+</div>
+
+<hr />
+
 <div class="container">
   <h1>Comunicacion</h1>
 
@@ -158,41 +185,36 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <label
-        for="nombre"
-        class="mt-5 d-flex justify-content-center"
-      >
+      <label for="nombre" class="mt-5 d-flex justify-content-center">
         Ingreso de mensaje
       </label>
       <div class="md-form">
-        <textarea type="text"
-            id="form7"
-            class="md-textarea md-textarea-auto form-control"
-             mdbInput
-             [value]="textoComentario"
-            name="textoComentario"
-             [(ngModel)]="textoComentario"
-             ></textarea>
+        <textarea
+          type="text"
+          id="form7"
+          class="md-textarea md-textarea-auto form-control"
+          mdbInput
+          [value]="textoComentario"
+          name="textoComentario"
+          [(ngModel)]="textoComentario"
+        ></textarea>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
-        <button class="btn btn-success"
-        (click)="registroComentario()"
-        >Enviar Comentario</button>
+        <button class="btn btn-success" (click)="registroComentario()">
+          Enviar Comentario
+        </button>
       </div>
     </div>
   </div>
 </div>
 <!--Para botonoes-->
 
-<hr/>
+<hr />
 <div class="row">
+
   <div class="col-md-6">
-    <button  class="btn btn-secondary" >Editar</button>
-  </div>
-  <div class="col-md-6">
-    <button  class="btn btn-warning" (click)="cerrar()">Cerrar</button>
+    <button class="btn btn-warning" (click)="cerrar()">Cerrar</button>
   </div>
 </div>
-

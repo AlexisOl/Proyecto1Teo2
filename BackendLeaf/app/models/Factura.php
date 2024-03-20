@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Estado extends Model
+class Factura extends Model
 {
     protected $table = 'factura';
 

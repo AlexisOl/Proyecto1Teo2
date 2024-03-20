@@ -17,6 +17,7 @@ export class GeneralUsuarioComponent implements OnInit{
   //informacion para presentar en la tabla
   nombreUsuario:string|undefined = ''
   areaUsuario:string = ''
+  panelAbierto:boolean = false
 
   constructor(private sesionServicio: SesionServicioService){}
 

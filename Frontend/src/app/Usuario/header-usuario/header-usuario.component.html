@@ -12,6 +12,10 @@
 
     <button mat-button (click)="iraVoluntariado()">Voluntariado</button>
     <span class="example-spacer"></span>
+    <div class="containerMonedas">
+      <h1>Cantidad de Monedas: {{cantidadMonedas}}</h1>
+    </div>
+    <span class="example-spacer"></span>
 
     <button mat-button [matMenuTriggerFor]="fileMenu">{{nombreUsuario}}</button>
     <mat-menu #fileMenu="matMenu">

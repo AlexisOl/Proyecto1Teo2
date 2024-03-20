@@ -70,7 +70,12 @@ app() -> get('/obtenerConversacionEspecifica', 'ComentariosController@verComenta
 //obtener los usuarios que hayan comentado unico para vendedor
 app() -> get('/obtenerUsuariosComentarios', 'ComentariosController@verComentariosPorIdPublicacion');
 
-
+// GENERACION DE FACTURAS
 //solo prueba de fehca
 app() -> get('/fecha', 'FacturaController@pruebaFecha');
+//ingreso de la factura
+app() -> post('/ingresoFactura', 'FacturaController@ingresoFactura');
+//ingreso detallado
+app() -> post('/ingresoDetalleFactura', 'DetalleFacturaController@ingresoDetallado');
+
 
