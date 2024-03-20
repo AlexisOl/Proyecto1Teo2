@@ -13,7 +13,7 @@ app()->get('/', function () {
 app()-> get('/nombreUsuario', 'usuarioController@Index');
 
 
-//--------RUTAS VENTAS
+//***--------RUTAS VENTAS
 //ruta para obtener las categorias
 app() -> get('/obtenerCategorias', 'CategoriaController@todasCategorias');
 //ruta de ingreso de productos
@@ -22,14 +22,20 @@ app() -> post('/ingresoProducto', 'ProductoController@ingresoProducto');
 app() -> get('/vistaProducto', 'ProductoController@obtencionTotal');
 
 
-// para publicaciones
+// *para publicaciones ==== VENTAS
 // ingreso
 app() -> post('/ingresoPublicacion', 'PublicacionController@ingresoPublicacion');
 // vista general de publicaciones por usuario
 app() -> get('/vistaPublicacion', 'PublicacionController@vistaPublicacionEstado');
 // obteners todas las publicaciones
 app() -> get('/obtenerTodaPublicacion', 'PublicacionController@vistaTotalPublicacion');
-//funcion para la vistad de puublicaciones
+//funcion para la cantidad de publicaciones
+app() -> get('/obtenerInformacionVentasRealizadas', 'PublicacionController@obtenerInformacionVentasRealizadas');
+
+//funcion para obtener todas las publicaciones por id
+app() -> get('/obtenerTodasLasPublicacionesporId', 'PublicacionController@obtenerTodasLasPublicacionesporId');
+
+
 
 
 
@@ -37,7 +43,7 @@ app() -> get('/obtenerTodaPublicacion', 'PublicacionController@vistaTotalPublica
 app() -> post('/asignacionProductos', 'ArticulosPublicacionController@ingresoArticulosPublicacion');
 
 
-//ventas especifico
+//*ventas especifico
 // ruta para obtener los productos en base a su id
 app() -> get('/obtenerProductoId', 'ProductoController@obtenerProductoId');
 
@@ -48,7 +54,7 @@ app() -> get('/obtenerProductosPorPublicacion', 'ArticulosPublicacionController@
 
 app() -> get('/prueba', 'ProductoController@uploadImage');
 
-//ADMIN
+//*ADMIN
 //funcion para que muestre las ventas
 app() -> get('/obtenerTodaPublicacionAdmin', 'PublicacionController@vistaPublicacionesAdmin');
 //funcion para aceptar las ventas
@@ -57,7 +63,7 @@ app() -> get('/aceptarVenta', 'PublicacionController@aceptarVenta');
 app() -> get('/rechazarVenta', 'PublicacionController@rechazarVenta');
 
 
-//COMPRAS
+//**COMPRAS
 
 //ingreso de los comentarios
 app() -> post('/ingresoComentario', 'ComentariosController@ingresoComentario');
@@ -70,7 +76,12 @@ app() -> get('/obtenerConversacionEspecifica', 'ComentariosController@verComenta
 //obtener los usuarios que hayan comentado unico para vendedor
 app() -> get('/obtenerUsuariosComentarios', 'ComentariosController@verComentariosPorIdPublicacion');
 
-// GENERACION DE FACTURAS
+
+app() -> get('/obtenerPublicacionesNombre', 'PublicacionController@vistaTotalPublicacionPorBusquedaProducto');
+
+
+
+//*** */ GENERACION DE FACTURAS
 //solo prueba de fehca
 app() -> get('/fecha', 'FacturaController@pruebaFecha');
 //ingreso de la factura

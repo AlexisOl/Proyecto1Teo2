@@ -65,7 +65,8 @@ class FacturaController extends Controller
         $id = app()->request()->get('id');
         $idFactura = app() -> request()->get('id_factura');
         $peticion = db()
-        -> query(" SELECT f.id AS id_factura, p.titulo AS titulo_publicacion,
+        -> query(" SELECT f.id AS id_factura,
+        p.titulo AS titulo_publicacion,
         f.fecha,
         f.precioTotal,
         d.id_producto,
