@@ -168,3 +168,62 @@
     </div>
   </div>
 </div>
+
+
+<!--Ventas finales realizadas-->
+<div class="container">
+  <hr/>
+  <h1>Tus Ventas Realizadas</h1>
+  <div class="row">
+    <mat-accordion>
+      @for (item of this.todasLasFacturas; track $index) {
+      <mat-expansion-panel
+        (opened)="panelAbierto = true"
+        (closed)="panelAbierto = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Compra No. {{ item.id }} </mat-panel-title>
+          <mat-panel-description>
+            Desglozar para mas informacion
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <!--tabla con la informacion general-->
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Indice</th>
+                <th scope="col">Cantidad Comprado</th>
+                <th scope="col">Id de factura</th>
+                <th scope="col">Nombre de Producto</th>
+                <th scope="col">Nombre de vendedor</th>
+                <th scope="col">Precio Parcial</th>
+                <th scope="col">fecha</th>
+                <th scope="col">titulo de publicacion</th>
+              </tr>
+            </thead>
+            @for (detalle of this.facturasDetalle[item.id-1]; track $index) {
+            <tbody>
+              <tr>
+                <td>{{ $index+1 }}</td>
+                <td>{{ detalle.cantidadComprado }}</td>
+                <td>{{ detalle.id_factura }}</td>
+                <td>{{ detalle.nombre_producto }}</td>
+                <td>{{ detalle.nombre_usuario }}</td>
+                <td>{{ detalle.precioParcial }}</td>
+                <td>{{ detalle.fecha }}</td>
+                <td>{{ detalle.titulo_publicacion }}</td>
+              </tr>
+            </tbody>
+            @if ($index+1 === this.facturasDetalle[item.id-1].length) {
+              <p>Precio Total de la compra: {{detalle.precioTotal}}</p>
+            }
+            }
+          </table>
+        </div>
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </div>
+</div>

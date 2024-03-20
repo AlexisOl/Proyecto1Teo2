@@ -12,10 +12,12 @@ import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { producto } from '../../models/producto';
 import { publicacion } from '../../models/publicacion';
 import { VistaEspecificaPublicacionComponent } from '../vista-especifica-publicacion/vista-especifica-publicacion.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-ventas-usuario',
   standalone: true,
-  imports: [HeaderUsuarioComponent, MatIconModule, MatCardModule, FormsModule, MatButtonModule],
+  imports: [MatExpansionModule,HeaderUsuarioComponent, MatIconModule, MatCardModule, FormsModule, MatButtonModule],
   templateUrl: './ventas-usuario.component.html',
   styleUrl: './ventas-usuario.component.css'
 })
@@ -24,6 +26,9 @@ export class VentasUsuarioComponent implements OnInit{
   productosIngresados:producto[]=[];
   publicacionesIngresadas:any;
   productosValores:any;
+  panelAbierto:boolean = false
+  todasLasFacturas:any;
+  facturasDetalle:any=[]
 
   constructor(public dialog: MatDialog,
     private categoriasServicio: VentasServicioService,
@@ -62,6 +67,36 @@ export class VentasUsuarioComponent implements OnInit{
 
 
 
+//*obtener todas las ventas realizadas
+
+  ventasRealizadas(){
+    this.categoriasServicio.obtenerTodasLasPublicacionesporId(this.servicioUsuario.getUsuario()?.id).pipe(
+      switchMap((publicaciones:any) =>{
+        this.todasLasFacturas = publicaciones;
+        console.log(publicaciones,"a");
+
+        return this.ventasDetallesIndividuales();
+      })
+    ).subscribe();
+  }
+
+  ventasDetallesIndividuales(){
+    return this.todasLasFacturas.map((valores:any)=>{
+      console.log(valores.id);
+
+      //ahora si retorna todo
+      return this.categoriasServicio.obtenerInformacionVentasRealizadas(this.servicioUsuario.getUsuario()?.id,valores.id).subscribe(
+        (valores:any) =>{
+          console.log(valores);
+          this.facturasDetalle.push(valores)
+
+        }
+      )
+
+    })
+  }
+
+
 
 ///-------------------------
 ///-------------------------
@@ -94,7 +129,7 @@ export class VentasUsuarioComponent implements OnInit{
         console.log(nuevosProd, typeof nuevosProd);
       }
     );
-
+    this.ventasRealizadas();
 
   }
 }

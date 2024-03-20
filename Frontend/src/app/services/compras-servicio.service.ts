@@ -48,4 +48,15 @@ export class ComprasServicioService {
   public obtenerFacturasIdDetalle(id:number|undefined, idFactura:number):Observable<factura> {
     return this.http.get<factura>(this.URL+"/obtenerFacturasDetalle?id="+id+"&id_factura="+idFactura)
   }
+
+
+  //funcion para obtener las publicaciones por nombre
+  // de producto
+  public obtenerPublicacionesNombre(nombre:string):Observable<publicacion>{
+    return this.http.get<publicacion>(this.URL+"/obtenerPublicacionesNombre?nombre="+nombre);
+  }
+
+  //!(generar que sean multiples)funcion para obtener publicaciones por categorias
+
+
 }

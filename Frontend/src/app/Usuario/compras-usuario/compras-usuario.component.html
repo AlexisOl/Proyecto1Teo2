@@ -17,13 +17,16 @@
         class="form-control mt-2"
         placeholder="Que estas buscando?"
         name="busquedaPublicacion"
+        [(ngModel)]="busquedaPublicacion"
       />
     </div>
     <div class="col-md-3">
       <label for="nombre" class="mt-5 d-flex justify-content-center">
-        Estado de publicacion
+        Generar Busqueda
       </label>
-      <button class="btn btn-warning ">Buscar</button>
+      <button class="btn btn-warning "
+      (click)="buscar()"
+      >Buscar</button>
     </div>
   </div>
 </div>

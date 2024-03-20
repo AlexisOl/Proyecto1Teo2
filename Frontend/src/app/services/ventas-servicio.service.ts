@@ -17,7 +17,7 @@ export class VentasServicioService {
 
   // funcion para obtener las cateogias
 
-
+// * para los productos
   public obtenerCategorias():Observable<categorias>{
     return this.http.get<categorias>(this.URL+"/obtenerCategorias")
   }
@@ -29,12 +29,12 @@ export class VentasServicioService {
   public obtenerProductosId(id: number|undefined):Observable<producto> {
     return this.http.get<producto>(this.URL+"/vistaProducto?id="+ id)
   }
+//* para las publicaciones
 
   //funcion para el ingreso de publicaciones
   public ingresoPublicacion(publicacion:publicacion):Observable<publicacion> {
     return this.http.post<publicacion>(this.URL+"/ingresoPublicacion",{publicacion})
   }
-
 
   //funcion  para los articulos por publicacion
   public ingresoArticuloPublicacion(asignacionProductos: asignacionProductos):Observable<asignacionProductos>{
@@ -67,6 +67,9 @@ export class VentasServicioService {
 
 
 
+
+
+
   //* SECCION DE COMENTARIOS
   public verComentarioEnPublicacion(id_publicacion:number):Observable<comentario>{
 
@@ -79,6 +82,14 @@ export class VentasServicioService {
     return this.http.get<publicacion>(this.URL+"/obtenerVentasRealizadas");
   }
 
+  //funcion para obtener todas las publciaciones aceptadas
+  public obtenerInformacionVentasRealizadas(id:number|undefined, id_publicacion:number):Observable<publicacion>{
+    return this.http.get<publicacion>(this.URL+"/obtenerInformacionVentasRealizadas?id="+id+"&id_publicacion="+id_publicacion)
+  }
 
+  //funcion para obtener todas las publciaciones por id
+  public obtenerTodasLasPublicacionesporId(id:number|undefined):Observable<publicacion>{
+    return this.http.get<publicacion>(this.URL+"/obtenerTodasLasPublicacionesporId?id="+id)
+  }
 
 }

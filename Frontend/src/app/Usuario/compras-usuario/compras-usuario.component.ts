@@ -10,10 +10,11 @@ import { ComprasServicioService } from '../../services/compras-servicio.service'
 import { VistaEspecificaProductoComprasComponent } from '../vista-especifica-producto-compras/vista-especifica-producto-compras.component';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-compras-usuario',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, HeaderUsuarioComponent, MatPaginator, MatPaginatorModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, HeaderUsuarioComponent, MatPaginator, MatPaginatorModule, FormsModule],
   templateUrl: './compras-usuario.component.html',
   styleUrl: './compras-usuario.component.css'
 })
@@ -21,6 +22,7 @@ export class ComprasUsuarioComponent implements OnInit, AfterViewInit{
   // elementos de uso
   todasPublicaciones:any;
   publicacionEspecifica:any
+  busquedaPublicacion:string=''
 
   // para las paginas
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
@@ -66,7 +68,20 @@ export class ComprasUsuarioComponent implements OnInit, AfterViewInit{
   }
 
 
-  ngOnInit(): void {
+  //*busqueda
+  // funcion para poder busacr en base a producto
+  buscar(){
+    if(this.busquedaPublicacion!=''){
+      this.comprasServicio.obtenerPublicacionesNombre(this.busquedaPublicacion).subscribe(
+        (publicaciones: publicacion) => {
+          this.todasPublicaciones = publicaciones
+        }
+      );
+    } else{
+      this.obtenerPublicaciones();
+    }
+  }
+  obtenerPublicaciones(){
     this.ventasServicio.obtenerTodasPublicaciones().subscribe(
       (publicaciones: publicacion) => {
         this.todasPublicaciones = publicaciones;
@@ -76,6 +91,10 @@ export class ComprasUsuarioComponent implements OnInit, AfterViewInit{
         }
       }
     );
+  }
+
+  ngOnInit(): void {
+    this.obtenerPublicaciones();
   }
 
 
