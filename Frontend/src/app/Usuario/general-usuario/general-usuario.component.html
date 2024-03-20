@@ -1,4 +1,4 @@
-<app-header-usuario/>
+<app-header-usuario />
 <div class="container">
   <mat-card class="example-card">
     <mat-card-header>
@@ -13,7 +13,7 @@
           </label>
         </div>
       </div>
-      <hr/>
+      <hr />
       <div class="row">
         <!--tabla con la informacion general-->
         <table class="table table-striped">
@@ -24,22 +24,69 @@
             </tr>
           </thead>
           <tbody>
-              <tr>
-                <td>{{ nombreUsuario }}</td>
-                <td>{{ areaUsuario }}</td>
-              </tr>
+            <tr>
+              <td>{{ nombreUsuario }}</td>
+              <td>{{ areaUsuario }}</td>
+            </tr>
           </tbody>
         </table>
-
       </div>
-      <hr/>
+      <hr />
     </mat-card-content>
   </mat-card>
 
-
   <h1>Tus Compras</h1>
-  <hr>
+  <hr />
   <div class="row">
+    <mat-accordion>
+      @for (item of this.todasLasFacturas; track $index) {
+      <mat-expansion-panel
+        (opened)="panelAbierto = true"
+        (closed)="panelAbierto = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Compra No. {{ item.id }} </mat-panel-title>
+          <mat-panel-description>
+            Desglozar para mas informacion
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
+        <div class="row">
+          <!--tabla con la informacion general-->
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Indice</th>
+                <th scope="col">Cantidad Comprado</th>
+                <th scope="col">Id de factura</th>
+                <th scope="col">Nombre de Producto</th>
+                <th scope="col">Nombre de vendedor</th>
+                <th scope="col">Precio Parcial</th>
+                <th scope="col">fecha</th>
+                <th scope="col">titulo de publicacion</th>
+              </tr>
+            </thead>
+            @for (detalle of this.facturasDetalle[item.id-1]; track $index) {
+            <tbody>
+              <tr>
+                <td>{{ $index+1 }}</td>
+                <td>{{ detalle.cantidadComprado }}</td>
+                <td>{{ detalle.id_factura }}</td>
+                <td>{{ detalle.nombre_producto }}</td>
+                <td>{{ detalle.nombre_usuario }}</td>
+                <td>{{ detalle.precioParcial }}</td>
+                <td>{{ detalle.fecha }}</td>
+                <td>{{ detalle.titulo_publicacion }}</td>
+              </tr>
+            </tbody>
+            @if ($index+1 === this.facturasDetalle[item.id-1].length) {
+              <p>Precio Total de la compra: {{detalle.precioTotal}}</p>
+            }
+            }
+          </table>
+        </div>
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
   </div>
 </div>

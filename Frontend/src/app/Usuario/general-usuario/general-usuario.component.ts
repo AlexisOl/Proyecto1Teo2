@@ -5,10 +5,14 @@ import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { ComprasServicioService } from '../../services/compras-servicio.service';
+import { factura } from '../../models/factura';
+import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-general-usuario',
   standalone: true,
-  imports: [HeaderUsuarioComponent, MatCardModule, FormsModule, MatButtonModule],
+  imports: [MatExpansionModule, HeaderUsuarioComponent, MatCardModule, FormsModule, MatButtonModule],
   templateUrl: './general-usuario.component.html',
   styleUrl: './general-usuario.component.css'
 })
@@ -18,18 +22,50 @@ export class GeneralUsuarioComponent implements OnInit{
   nombreUsuario:string|undefined = ''
   areaUsuario:string = ''
   panelAbierto:boolean = false
+  todasLasFacturas:any
+  facturasDetalle:any=[]
 
-  constructor(private sesionServicio: SesionServicioService){}
+  constructor(private sesionServicio: SesionServicioService,
+              private comprarServicio: ComprasServicioService){}
 
+
+
+  obtenerLasFacturas(){
+    this.comprarServicio.obtenerFacturasId(this.sesionServicio.getUsuario()?.id).pipe(
+      switchMap((factura:any) =>{
+        this.todasLasFacturas = factura;
+        console.log(factura,"a");
+
+        return this.detalleFactura();
+      })
+    ).subscribe();
+  }
+
+  detalleFactura(){
+
+    return this.todasLasFacturas.map((valores:any)=>{
+      console.log(valores.id);
+
+      //ahora si retorna todo
+      return this.comprarServicio.obtenerFacturasIdDetalle(this.sesionServicio.getUsuario()?.id,valores.id).subscribe(
+        (valores:any) =>{
+          console.log(valores);
+          this.facturasDetalle.push(valores)
+
+        }
+      )
+
+    })
+  }
 
   ngOnInit(): void {
     this.nombreUsuario = this.sesionServicio.getUsuario()?.user;
     switch(this.sesionServicio.getUsuario()?.idRol) {
       case 1:
-        this.areaUsuario = "Administrador"
+        this.areaUsuario = "Usuario"
         break;
       case 2:
-        this.areaUsuario = "Usuario"
+        this.areaUsuario = "Administrador"
         break;
       default:
         this.areaUsuario = 'error'
@@ -37,6 +73,6 @@ export class GeneralUsuarioComponent implements OnInit{
     }
       console.log(
        this.sesionServicio.getUsuario()?.password);
-
+        this.obtenerLasFacturas();
   }
 }

@@ -50,4 +50,37 @@ class FacturaController extends Controller
     }
 
     //vista de compras realizadas
+
+    //obtiene los ids de facturas
+    public function obtenerIdFacturas(){
+        $id = app() ->request()->get('id');
+        $peticion = db()
+        -> query('select distinct id from factura where id_cliente ='.$id)
+        ->fetchAll();
+        return response()->json($peticion ?? []);
+
+    }
+    //obtiene todas las compras en base al id de publicacion y de usuarui
+    public function obtenerComprasRealizadasUsuarios(){
+        $id = app()->request()->get('id');
+        $idFactura = app() -> request()->get('id_factura');
+        $peticion = db()
+        -> query(" SELECT f.id AS id_factura, p.titulo AS titulo_publicacion,
+        f.fecha,
+        f.precioTotal,
+        d.id_producto,
+        d.cantidadComprado,
+        d.precioParcial,
+        pr.nombre AS nombre_producto,
+        u.user AS nombre_usuario
+        FROM factura f
+        JOIN detalleFactura d ON f.id = d.id_factura
+        JOIN publicacion p ON f.id_publicacion = p.id
+        JOIN producto pr ON d.id_producto = pr.id
+        JOIN usuario u ON p.identificador_usuario = u.id
+        where f.id_cliente ={$id} and f.id ={$idFactura};")
+        ->fetchAll();
+        return response()->json($peticion ?? []);
+
+    }
 }

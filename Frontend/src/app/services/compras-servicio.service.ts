@@ -40,7 +40,12 @@ export class ComprasServicioService {
   }
 
   //funcion para obtener las facturas de los usuarios
-  public obtenerFacturasId(id:number):Observable<factura> {
+  public obtenerFacturasId(id:number|undefined):Observable<factura> {
     return this.http.get<factura>(this.URL+"/obtenerFacturas?id="+id)
+  }
+
+  //funcion para obtener el detalle de cada factura
+  public obtenerFacturasIdDetalle(id:number|undefined, idFactura:number):Observable<factura> {
+    return this.http.get<factura>(this.URL+"/obtenerFacturasDetalle?id="+id+"&id_factura="+idFactura)
   }
 }

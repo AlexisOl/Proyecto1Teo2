@@ -78,4 +78,8 @@ app() -> post('/ingresoFactura', 'FacturaController@ingresoFactura');
 //ingreso detallado
 app() -> post('/ingresoDetalleFactura', 'DetalleFacturaController@ingresoDetallado');
 
+app() -> get('/obtenerFacturas', 'FacturaController@obtenerIdFacturas');
+
+app() -> get('/obtenerFacturasDetalle', 'FacturaController@obtenerComprasRealizadasUsuarios');
+
 
