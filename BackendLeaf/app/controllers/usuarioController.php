@@ -28,7 +28,7 @@ class UsuarioController extends Controller
 
     //funcion para obtener la info del usuario por id
     public function obtenerInformacionId(){
-        $id = (string) request()->get('ID');
+        $id = (string) request()->get('id');
         $result = db()
         ->select('usuario')
         ->where('id', '=', $id)

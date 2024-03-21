@@ -53,7 +53,7 @@
           <th scope="col">Nombre de Producto</th>
           <th scope="col">Cantidad de Productos</th>
           <th scope="col">Precio general</th>
-          @if (this.idUsuario) {
+          @if (this.idUsuario && this.idUsuario==2) {
             <th scope="col">Agregar</th>
           }
         </tr>
@@ -87,7 +87,7 @@
 
           <td>{{ item.precio }}</td>
           <td>{{ item.descripcion }}</td>
-          @if (this.idUsuario) {
+          @if (this.idUsuario ) {
             <td>
               <button
                 class="btn btn-primary"
@@ -226,7 +226,7 @@
   <div class="container">
     <ngb-alert [dismissible]="false">
       <strong>Informacion</strong>
-      Para poder interactuar y comprar productos debe ingresar al sistema, sino comuniquese al contacto:
+      Para poder interactuar y comprar productos debe ingresar al sistema, sino comuniquese al contacto: {{infoUsuario?infoUsuario.contacto:'sin contacto'}}
     </ngb-alert>
   </div>
 

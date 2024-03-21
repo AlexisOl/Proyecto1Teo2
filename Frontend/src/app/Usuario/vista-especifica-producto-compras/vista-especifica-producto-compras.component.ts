@@ -58,7 +58,8 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   //obtencion de los comentarios asociados a la publicacion
   //! COMO CLIENTE
   obtenerComentarios() {
-    this.comprasServicio
+    if(this.idUsuario){
+      this.comprasServicio
       .verConversacionCliente(
         this.sesionServicio.getUsuario()?.id,
         this.data.datos[0].id
@@ -66,6 +67,8 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
       .subscribe((comentarios: comentario) => {
         this.comentariosPublicacion = comentarios;
       });
+    }
+
   }
 
   // funcion para agregar los elementos seleccionados
@@ -91,19 +94,22 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   //funcion para generar la compra
 
   generarCompra() {
-    const generarFactura: factura = new factura();
-    generarFactura.id_cliente = this.sesionServicio.getUsuario()?.id;
-    generarFactura.id_publicacion = this.data.datos[0].id;
-    generarFactura.precioTotal = this.precioTotal;
+    if(this.idUsuario){
+      const generarFactura: factura = new factura();
+      generarFactura.id_cliente = this.sesionServicio.getUsuario()?.id;
+      generarFactura.id_publicacion = this.data.datos[0].id;
+      generarFactura.precioTotal = this.precioTotal;
 
-    this.comprasServicio
-      .insertarFactura(generarFactura)
-      .pipe(
-        switchMap((factura: any) => {
-          return this.generarDetalleFactura(factura.insertedId);
-        })
-      )
-      .subscribe();
+      this.comprasServicio
+        .insertarFactura(generarFactura)
+        .pipe(
+          switchMap((factura: any) => {
+            return this.generarDetalleFactura(factura.insertedId);
+          })
+        )
+        .subscribe();
+    }
+
   }
 
   //funcion para generar el detalle de las facturas
@@ -155,5 +161,6 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
     console.log(this.data.datos[0].identificador_usuario, '<', this.data);
     //para obtener comentarios
     this.obtenerComentarios();
+    this.obtencionInfoUsuarioPublicacion();
   }
 }

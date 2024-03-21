@@ -28,7 +28,7 @@ export class ComprasServicioService {
 
   //funcion para obtener la conversacion CLIENTE
   public verConversacionCliente(idCliente:number|undefined, idPublicacion:number|undefined){
-    return this.http.get<comentario>(this.URL+"/obtenerConversacionEspecifica?idCliente="+idCliente+"&idPublicacion="+idPublicacion)
+      return this.http.get<comentario>(this.URL+"/obtenerConversacionEspecifica?idCliente="+idCliente+"&idPublicacion="+idPublicacion)
   }
 
   //funcion para poder generar la factura

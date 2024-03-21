@@ -25,7 +25,9 @@
           <td>{{ item.nombre_usuario }}</td>
           <td>{{ item.fecha }}</td>
           <td>{{ item.tipo_estado }}</td>
-          <td><button class="btn btn-info">Ver publicacion</button></td>
+          <td><button class="btn btn-info"
+            (click)="modalParaVistaEspecifica(item.id)"
+            >Ver publicacion</button></td>
           <td>
             <div class="container">
               <div class="row">
