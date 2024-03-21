@@ -10,11 +10,13 @@ import { asignacionProductos } from '../../models/asignacionProductos';
 import { factura } from '../../models/factura';
 import { detalleFactura } from '../../models/detalleFactura';
 import { switchMap } from 'rxjs';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-vista-especifica-producto-compras',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgbAlert],
   templateUrl: './vista-especifica-producto-compras.component.html',
   styleUrl: './vista-especifica-producto-compras.component.css',
 })
@@ -24,6 +26,9 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   datosParaComprar: any = [];
   textoComentario: any;
   precioTotal: number = 0;
+  idUsuario!:number|undefined
+  infoUsuario:any
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -120,7 +125,25 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
     });
   }
 
+  //* para usuarios no ingresados
+  obtencionInfoUsuarioPublicacion(){
+    this.comprasServicio.obtenerInfoUsuarios(this.data.datos[0].identificador_usuario).subscribe(
+      (usuario:usuario) =>{
+        this.infoUsuario= usuario;
+        try {
+          console.log(usuario);
+        } catch (error) {
+          console.log(error);
+
+        }
+
+      }
+    )
+  }
+
   ngOnInit(): void {
+    //ver usuario
+    this.idUsuario = this.sesionServicio.getUsuario()?.id;
     //vista especifica
     this.ventasServicio
       .obtenerTodaInfoporPublicacionId(this.data.datos[0].id)
@@ -129,7 +152,7 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
         console.log(elemento);
       });
     // ver bien porque le mande el all en el php por eso asi
-    console.log(this.data.datos[0].fecha, '<', this.data);
+    console.log(this.data.datos[0].identificador_usuario, '<', this.data);
     //para obtener comentarios
     this.obtenerComentarios();
   }

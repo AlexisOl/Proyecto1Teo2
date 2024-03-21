@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VistaEspecificaProductoComprasComponent } from '../../Usuario/vista-especifica-producto-compras/vista-especifica-producto-compras.component';
 import { ComprasServicioService } from '../../services/compras-servicio.service';
 import { FormsModule } from '@angular/forms';
+import { usuario } from '../../models/usuario';
 @Component({
   selector: 'app-vista-compra-visita',
   standalone: true,
@@ -18,7 +19,9 @@ export class VistaCompraVisitaComponent implements OnInit {
 
   // elementos de uso
   todasPublicaciones:any;
+  busquedaPublicacion!:string
   publicacionEspecifica:any
+
   constructor(private ventasServicio: VentasServicioService,
               public dialog: MatDialog,
               private comprasServicio: ComprasServicioService){}

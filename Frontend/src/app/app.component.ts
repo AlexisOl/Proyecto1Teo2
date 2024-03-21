@@ -8,6 +8,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSliderModule} from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -24,7 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   MatButtonModule,
   MatToolbarModule,
   MatSliderModule,
-
+  NgbAlertModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

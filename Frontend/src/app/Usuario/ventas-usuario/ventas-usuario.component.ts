@@ -28,7 +28,8 @@ export class VentasUsuarioComponent implements OnInit{
   productosValores:any;
   panelAbierto:boolean = false
   todasLasFacturas:any;
-  facturasDetalle:any=[]
+  facturasDetalle:any[]=[]
+  $indice: any;
 
   constructor(public dialog: MatDialog,
     private categoriasServicio: VentasServicioService,
@@ -90,10 +91,20 @@ export class VentasUsuarioComponent implements OnInit{
           console.log(valores);
           this.facturasDetalle.push(valores)
 
+          console.log(this.facturasDetalle[0],"///");
+
         }
       )
 
     })
+  }
+
+  obtenerTotal(valor:number){
+    let element =0
+    for (let index = 0; index < this.facturasDetalle[valor].length; index++) {
+       element += Number(this.facturasDetalle[valor][index].precioParcial);
+    }
+    return element;
   }
 
 
@@ -130,6 +141,7 @@ export class VentasUsuarioComponent implements OnInit{
       }
     );
     this.ventasRealizadas();
+
 
   }
 }

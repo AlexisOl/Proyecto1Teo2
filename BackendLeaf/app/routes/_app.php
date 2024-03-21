@@ -9,7 +9,7 @@ app()->get('/', function () {
     render('index');
 });
 
-// ruta para usuarios LOGIN
+//* ruta para usuarios LOGIN
 app()-> get('/nombreUsuario', 'usuarioController@Index');
 
 
@@ -78,6 +78,11 @@ app() -> get('/obtenerUsuariosComentarios', 'ComentariosController@verComentario
 
 
 app() -> get('/obtenerPublicacionesNombre', 'PublicacionController@vistaTotalPublicacionPorBusquedaProducto');
+
+
+//! COMRPAS no logeados
+app() -> get('/obtenerInfoUsuarios', 'usuarioController@obtenerInformacionId');
+
 
 
 

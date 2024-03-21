@@ -39,7 +39,7 @@
   <hr />
   <div class="row">
     <mat-accordion>
-      @for (item of this.todasLasFacturas; track $index) {
+      @for (item of this.todasLasFacturas; track item; let index = $index) {
       <mat-expansion-panel
         (opened)="panelAbierto = true"
         (closed)="panelAbierto = false"
@@ -66,7 +66,7 @@
                 <th scope="col">titulo de publicacion</th>
               </tr>
             </thead>
-            @for (detalle of this.facturasDetalle[item.id-1]; track $index) {
+            @for (detalle of this.facturasDetalle[index]; track $index) {
             <tbody>
               <tr>
                 <td>{{ $index+1 }}</td>
@@ -79,8 +79,8 @@
                 <td>{{ detalle.titulo_publicacion }}</td>
               </tr>
             </tbody>
-            @if ($index+1 === this.facturasDetalle[item.id-1].length) {
-              <p>Precio Total de la compra: {{detalle.precioTotal}}</p>
+            @if ($index+1 === this.facturasDetalle[index].length) {
+              <p>Precio Total de la compra: {{this.obtenerTotal(index)}}</p>
             }
             }
           </table>

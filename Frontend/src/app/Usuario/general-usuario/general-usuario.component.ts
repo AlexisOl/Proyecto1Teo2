@@ -9,6 +9,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { ComprasServicioService } from '../../services/compras-servicio.service';
 import { factura } from '../../models/factura';
 import { switchMap } from 'rxjs';
+import { usuario } from '../../models/usuario';
 @Component({
   selector: 'app-general-usuario',
   standalone: true,
@@ -56,6 +57,15 @@ export class GeneralUsuarioComponent implements OnInit{
       )
 
     })
+  }
+
+
+  obtenerTotal(valor:number){
+    let element =0
+    for (let index = 0; index < this.facturasDetalle[valor].length; index++) {
+       element += Number(this.facturasDetalle[valor][index].precioParcial);
+    }
+    return element;
   }
 
   ngOnInit(): void {

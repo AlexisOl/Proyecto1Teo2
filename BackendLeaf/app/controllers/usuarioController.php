@@ -25,4 +25,20 @@ class UsuarioController extends Controller
             return response()->json(['mensaje' => 'No existe']);
         }
     }
+
+    //funcion para obtener la info del usuario por id
+    public function obtenerInformacionId(){
+        $id = (string) request()->get('ID');
+        $result = db()
+        ->select('usuario')
+        ->where('id', '=', $id)
+        ->first();
+
+    // Verificar si se encontró un usuario
+    if ($result) {
+        return response()->json($result);
+    } else {
+        return response()->json(['mensaje' => 'No existe']);
+    }
+    }
 }

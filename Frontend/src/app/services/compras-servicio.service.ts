@@ -5,6 +5,7 @@ import { comentario } from '../models/comentario';
 import { publicacion } from '../models/publicacion';
 import { factura } from '../models/factura';
 import { detalleFactura } from '../models/detalleFactura';
+import { usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,9 @@ export class ComprasServicioService {
 
   //!(generar que sean multiples)funcion para obtener publicaciones por categorias
 
+  //* compras no logeados
+  public obtenerInfoUsuarios(id:number|undefined):Observable<usuario>{
+    return this.http.get<usuario>(this.URL+"/obtenerInfoUsuarios?id="+id);
+  }
 
 }

@@ -53,7 +53,9 @@
           <th scope="col">Nombre de Producto</th>
           <th scope="col">Cantidad de Productos</th>
           <th scope="col">Precio general</th>
-          <th scope="col">Agregar</th>
+          @if (this.idUsuario) {
+            <th scope="col">Agregar</th>
+          }
         </tr>
       </thead>
       <tbody>
@@ -63,30 +65,39 @@
           <td>{{ $index + 1 }}</td>
           <td>{{ item.nombre }}</td>
           <td>{{ item.precioProducto }}</td>
-          @if (item.cantidadProducto==0) {
-          <td>vendido</td>
-          }@else {
-          <input
-            type="number"
-            class="form-control mt-2"
-            placeholder="Cantidad de Producto a Vender"
-            name="cantidadProductoVenta"
-            [value]="item.cantidadProducto"
-            [min]="1"
-            [max]="item.cantidadProducto"
-            [(ngModel)]="item.cantidadProducto"
-          />
+          @if (this.idUsuario) {
+            @if (item.cantidadProducto==0) {
+              <td>vendido</td>
+              }@else {
+              <input
+                type="number"
+                class="form-control mt-2"
+                placeholder="Cantidad de Producto a Vender"
+                name="cantidadProductoVenta"
+                [value]="item.cantidadProducto"
+                [min]="1"
+                [max]="item.cantidadProducto"
+                [(ngModel)]="item.cantidadProducto"
+              />
+              }
+          } @else {
+          <td>{{ item.cantidadProducto }}</td>
+
           }
+
           <td>{{ item.precio }}</td>
           <td>{{ item.descripcion }}</td>
-          <td>
-            <button
-              class="btn btn-primary"
-              (click)="eliminar(item, item.id, item.precio)"
-            >
-              Agregar
-            </button>
-          </td>
+          @if (this.idUsuario) {
+            <td>
+              <button
+                class="btn btn-primary"
+                (click)="eliminar(item, item.id, item.precio)"
+              >
+                Agregar
+              </button>
+            </td>
+          }
+
         </tr>
 
         }
@@ -94,6 +105,8 @@
     </table>
   </div>
 </div>
+<!--PARA VER SI ESTA INGRESADO-->
+@if (this.idUsuario) {
 <!--Para el resumen de valores-->
 <div class="container">
   <div class="row">
@@ -209,6 +222,17 @@
     </div>
   </div>
 </div>
+} @else{
+  <div class="container">
+    <ngb-alert [dismissible]="false">
+      <strong>Informacion</strong>
+      Para poder interactuar y comprar productos debe ingresar al sistema, sino comuniquese al contacto:
+    </ngb-alert>
+  </div>
+
+
+}
+
 <!--Para botonoes-->
 
 <hr />
