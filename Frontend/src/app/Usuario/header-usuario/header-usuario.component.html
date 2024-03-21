@@ -13,7 +13,7 @@
     <button mat-button (click)="iraVoluntariado()">Voluntariado</button>
     <span class="example-spacer"></span>
     <div class="containerMonedas">
-      <h1>Cantidad de Monedas: {{cantidadMonedas}}</h1>
+      <h1>Cantidad de Monedas: {{this.usuario?this.usuario.cantidad_monedas:''}}</h1>
     </div>
     <span class="example-spacer"></span>
 

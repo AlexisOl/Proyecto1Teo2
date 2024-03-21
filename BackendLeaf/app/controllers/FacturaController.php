@@ -23,64 +23,43 @@ class FacturaController extends Controller
         $now = new DateTime('', new DateTimeZone('America/Mexico_City'));
         $date = $now->format('y-m-d');
         $factura = app()->request()->get('factura');
-        $valorMonetario=0;
-        //? antes debo verificar que si se tenga la cantidad de dinero necesaria y eliminar
-        // $resultados = db()
-        // ->select('usuario')
-        // ->where("cantidad_monedas >= {$factura['precioTotal']} and id = {$factura['id_cliente']}")
-        // ->fetchAll();
+        $valorMonetario = 0;
 
-        // if (!empty($resultados)) {
-        //     foreach ($resultados as $fila) {
-        //         $valorMonetario= $fila['cantidad_monedas'];
-        //     }
-        // } else {
-        //     // Manejar el caso en el que no se encontraron resultados
-        //     echo "No se encontraron resultados.";
-        // }
+        // Consulta para obtener la cantidad de dinero en la cuenta del cliente
+        $resultados = db()
+            ->select('usuario')
+            ->where("cantidad_monedas >= {$factura['precioTotal']} and id = {$factura['id_cliente']}")
+            ->fetchAll();
 
+        if (!empty($resultados)) {
+            $valorMonetario = $resultados[0]['cantidad_monedas'];
+        }
+        if ($resultados) {
+            $nuevaCantidadMonedas = $valorMonetario - $factura['precioTotal'];
+            $peticion = db()
+                ->update("usuario")
+                ->params(["cantidad_monedas" =>  $nuevaCantidadMonedas])
+                ->where("id", $factura['id_cliente'])
+                ->execute();
 
-        //
-
-        // if ($resultados) {
-            // Verificar que los parámetros necesarios están presentes y no son nulos
-            if (isset($factura['id_publicacion'], $factura['id_cliente'], $factura['precioTotal'])) {
-                // Realizar la consulta
-                //valor actual
-                $nuevaCantidadMonedas = /*$valorMonetario - */$factura['precioTotal'];
-                $insertResult = db()
-                    ->insert("factura")
-                    ->params([
-                        "id_publicacion" => $factura['id_publicacion'],
-                        "id_cliente" => $factura['id_cliente'],
-                        "fecha" => $date,
-                        "precioTotal" => $factura['precioTotal'],
-                    ])
-                    ->execute();
-
-                    // //*actualizacion
-                    // $peticion = db()
-                    // ->update("usuario")
-                    // ->params(["cantidad_monedas" =>  $nuevaCantidadMonedas ])
-                    // ->where("id",$factura['id_cliente'])
-                    // ->execute();
-
-                if ($insertResult /*&& $peticion*/) {
-                    $insertedId = db()->lastInsertId();
-                    return response()->json(["success" => true, "message" => "Publicación creada correctamente", "insertedId" => $insertedId]);
-                } else {
-                    return response()->json(["success" => false, "message" => "Error al crear la publicación"]);
-                }
+            $insertResult = db()
+                ->insert("factura")
+                ->params([
+                    "id_publicacion" => $factura['id_publicacion'],
+                    "id_cliente" => $factura['id_cliente'],
+                    "fecha" => $date,
+                    "precioTotal" => $factura['precioTotal'],
+                ])
+                ->execute();
+            if ($insertResult && $peticion) {
+                $insertedId = db()->lastInsertId();
+                return response()->json(["success" => true, "message" => "Publicación creada correctamente", "insertedId" => $insertedId]);
             } else {
-            return response()->json(["success" => false, "message" => "Parámetros incompletos o nulos"]);
-
+                return response()->json(["success" => false, "message" => "Error al crear la publicación"]);
             }
-        // } else {
-        //     return response()->json(["success" => false, "message" => "cantidad de dinero insuficiente"]);
-
-        //     // Alguno de los parámetros está ausente o es nulo
-        // }
+        }
     }
+
 
     //vista de compras realizadas
 

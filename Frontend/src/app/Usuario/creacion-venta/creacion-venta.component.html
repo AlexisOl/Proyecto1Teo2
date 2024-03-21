@@ -34,10 +34,17 @@
           <label for="nombre" class="mt-5 d-flex justify-content-center"
             >Ingreso de Descripcion</label
           >
-          <mat-form-field class="example-full-width">
-            <textarea matInput placeholder [(ngModel)]="descripcion">
-            </textarea>
-          </mat-form-field>
+          <div class="md-form">
+            <textarea
+              type="text"
+              id="form7"
+              class="md-textarea md-textarea-auto form-control"
+              mdbInput
+              [value]="descripcion"
+              name="descripcion"
+              [(ngModel)]="descripcion"
+            ></textarea>
+          </div>
         </div>
       </div>
     </div>

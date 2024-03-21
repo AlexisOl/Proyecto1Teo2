@@ -14,12 +14,17 @@ export class SesionServicioService {
   user$ = this.user.asObservable();
   isLoggedIn$: Observable<boolean> = this.user$.pipe(map(Boolean));
 
+
+  private cantidadMonedasSubject = new BehaviorSubject<number|undefined>(0);
+  cantidadMonedas$ = this.cantidadMonedasSubject.asObservable();
+
   constructor(private http: HttpClient) {
 //iniciar servicio
     const usuarioString = localStorage.getItem('usuario');
     if (usuarioString) {
       this.usuario = JSON.parse(usuarioString);
       this.user.next(this.usuario);
+      this.cantidadMonedasSubject.next(this.usuario?.cantidad_monedas);
     }
 
   }
@@ -45,5 +50,10 @@ export class SesionServicioService {
 
   isAuthenticated(): boolean {
     return !!this.getUsuario();
+  }
+
+  // para las monedas
+  actualizarCantidadMonedas(cantidad: number): void {
+    this.cantidadMonedasSubject.next(cantidad);
   }
 }

@@ -14,6 +14,8 @@ import { publicacion } from '../../models/publicacion';
 import { VistaEspecificaPublicacionComponent } from '../vista-especifica-publicacion/vista-especifica-publicacion.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { switchMap } from 'rxjs';
+import { usuario } from '../../models/usuario';
+import { ProductoEspecificoComponent } from '../producto-especifico/producto-especifico.component';
 @Component({
   selector: 'app-ventas-usuario',
   standalone: true,
@@ -30,6 +32,7 @@ export class VentasUsuarioComponent implements OnInit{
   todasLasFacturas:any;
   facturasDetalle:any[]=[]
   $indice: any;
+  nombreUsuario!:string|undefined;
 
   constructor(public dialog: MatDialog,
     private categoriasServicio: VentasServicioService,
@@ -62,6 +65,15 @@ export class VentasUsuarioComponent implements OnInit{
     this.dialog.open(VistaEspecificaPublicacionComponent, {
       width:'80%',
       height:"650px",
+      data: {datos: informacion}
+    });
+  }
+  //* este modal es para ver los productos de forma
+  //* asi que le mando la info de la publicacion como tal para que desgloce mas
+  modalParaVistaEspecificaProducto(informacion: producto){
+    this.dialog.open(ProductoEspecificoComponent, {
+      width:'80%',
+      height:"350px",
       data: {datos: informacion}
     });
   }
@@ -112,7 +124,7 @@ export class VentasUsuarioComponent implements OnInit{
 ///-------------------------
 ///-------------------------
   ngOnInit(): void {
-
+    this.nombreUsuario = this.servicioUsuario.getUsuario()?.user;
 
     // para las publicaciones
     this.categoriasServicio.obtenerPublicacionesId(this.servicioUsuario.getUsuario()?.id).subscribe(

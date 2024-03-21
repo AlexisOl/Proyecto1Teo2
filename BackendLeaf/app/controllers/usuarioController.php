@@ -41,4 +41,8 @@ class UsuarioController extends Controller
         return response()->json(['mensaje' => 'No existe']);
     }
     }
+
+
+    //funcion para obtener al usuario
+
 }

@@ -166,6 +166,15 @@
   </div>
 </div>
 
+@if (this.dineroInsuficiente) {
+ <div class="container">
+  <ngb-alert type="danger" [dismissible]="false">
+    <strong>Error</strong> Better check yourself, you're not looking too good.
+  </ngb-alert>
+ </div>
+
+}
+
 <hr />
 
 <div class="container">

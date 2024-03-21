@@ -18,6 +18,7 @@
               class="form-control mt-2"
               placeholder="Nombre de Usuario"
               name="nombreUsuario"
+              value="{{this.nombreUsuario}}"
               readonly
             />
           </div>
@@ -80,7 +81,8 @@
                     mat-raised-button
                     color="primary"
                     style="width: 60%; margin-right: 5px; height: 95%"
-                  >
+                    (click)="modalParaVistaEspecificaProducto(item)"
+                    >
                     Ver Elemento
                   </button>
                 </div>
@@ -142,13 +144,15 @@
                   </button>
 
                   <!--SOLO SI NO ESTA VENDIDA-->
-                  <button
-                    mat-raised-button
-                    color="warn"
+                  @if(item.tipo_estado=="En espera"){
+                    <button
+                    class="btn btn-danger"
                     style="width: 60%; margin-right: 5px; height: 95%"
                   >
                     Eliminar Venta
                   </button>
+                  }
+
                 </div>
               </div>
             </mat-card-content>

@@ -29,6 +29,9 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   idUsuario!:number|undefined
   infoUsuario:any
 
+  // error
+  dineroInsuficiente:boolean = false;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -104,10 +107,18 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
         .insertarFactura(generarFactura)
         .pipe(
           switchMap((factura: any) => {
-            return this.generarDetalleFactura(factura.insertedId);
+            if(factura) {
+              return this.generarDetalleFactura(factura.insertedId);
+
+            } else {
+              return this.dineroInsuficiente = true
+            }
+
           })
         )
-        .subscribe();
+        .subscribe(
+
+        );
     }
 
   }

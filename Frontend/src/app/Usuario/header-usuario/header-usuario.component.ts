@@ -6,6 +6,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { Router } from '@angular/router';
+import { VentasServicioService } from '../../services/ventas-servicio.service';
+import { ComprasServicioService } from '../../services/compras-servicio.service';
+import { usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-header-usuario',
@@ -18,8 +21,10 @@ export class HeaderUsuarioComponent implements OnInit {
 
   nombreUsuario:string|undefined = ''
   cantidadMonedas:number|undefined=0
+  usuario!:usuario
   constructor(private sesionServicio: SesionServicioService,
-              private rutas:Router){}
+              private rutas:Router,
+              private comprasServicio:ComprasServicioService){}
 
   //funciones para navegacion
 
@@ -44,8 +49,19 @@ export class HeaderUsuarioComponent implements OnInit {
   }
   ngOnInit(): void {
     this.nombreUsuario = this.sesionServicio.getUsuario()?.user;
-    this.cantidadMonedas =this.sesionServicio.getUsuario()?.cantidad_monedas;
-    console.log(this.cantidadMonedas, this.nombreUsuario);
+   // this.cantidadMonedas =this.sesionServicio.getUsuario()?.cantidad_monedas;
+    this.comprasServicio.obtenerInfoUsuarios(this.sesionServicio.getUsuario()?.id).subscribe(
+      (usuarios:usuario) =>{
+        this.usuario = usuarios
+      }
+    )
+
+
+    this.sesionServicio.cantidadMonedas$.subscribe((cantidad: number|undefined) => {
+      this.cantidadMonedas = cantidad;
+      console.log(cantidad, this.nombreUsuario, "actualizacion");
+
+    });
 
   }
 
