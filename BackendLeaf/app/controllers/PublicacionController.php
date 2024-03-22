@@ -195,7 +195,42 @@ class PublicacionController extends Controller
 
     }
 
-    //todo PARA LO DEL PRECIO TOTAL DE PUBLICACION
+    //todo PARA LO DE ACTULIZAR ESTADO
+    public function actualizarEstado(){
+        $id = app() ->request()->get('id');
+        //busqueda de elementos totales
+        $peticion2 = db()
+        -> query("SELECT COUNT(*) AS cantidad from articulosporPublicacion where identificador_publicacion =(select id from publicacion where id = (select id_publicacion from factura where id =(select id_factura from detalleFactura where id = {$id})));")
+        ->column();
+
+        //primero hacer busqueda de elementos con cero
+        // en base al ultimo valor de factura
+        $peticion = db()
+        -> query("SELECT COUNT(*) AS cantidadCero from articulosporPublicacion where identificador_publicacion =(select id from publicacion where id = (select id_publicacion from factura where id =(select id_factura from detalleFactura where id = {$id}))) and cantidadProducto=0;")
+        ->column();
+        // luego hacer actulizacion
+        //si es valido entonces actualizar solo a los en venta
+        if($peticion == $peticion2) {
+            $idVenta = db()
+            -> query("SELECT id from publicacion where id = (select id_publicacion from factura where id =(select id_factura from detalleFactura where id = {$id}));")
+            ->column();
+
+
+            $resultado = db()
+            ->update("publicacion")
+            ->params(["estado" => 3])
+            ->where("id", $idVenta)
+            ->execute();
+
+            return response()->json(["success" => true, "message" => "ahora si"]);
+
+        } else {
+            return response()->json(["error" => true, "message" => "aun no"]);
+
+        }
+
+    }
+
     /**
      * todo SELECT  SUM(d.precioParcial) FROM factura f JOIN detalleFactura d ON f.id = d.id_factura JOIN publicacion p ON f.id_publicacion = p.id JOIN producto pr ON d.id_producto = pr.id JOIN usuario u ON p.identificador_usuario = u.id where u.id =1 and p.id =5;
      */

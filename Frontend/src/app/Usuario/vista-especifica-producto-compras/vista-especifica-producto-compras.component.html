@@ -87,7 +87,8 @@
 
           <td>{{ item.precio }}</td>
           <td>{{ item.descripcion }}</td>
-          @if (this.idUsuario ) {
+          @if (this.idUsuario && item.cantidadProducto!=0) {
+
             <td>
               <button
                 class="btn btn-primary"
@@ -160,16 +161,22 @@
   <div class="row">
     <div class="col-md-8">
       <button class="btn btn-primary"
-      (click)="generarCompra()"
+      (click)="determinaCantidadValida()"
       >Aceptar Venta</button>
     </div>
   </div>
 </div>
-
+@if (this.prodcutosInsuficiente) {
+  <div class="container">
+    <ngb-alert type="danger" [dismissible]="false">
+      <strong>Error</strong> La cantidad de productos seleccionados sobrepasa la cantidad a vender, vuelva a intentarlo.
+    </ngb-alert>
+   </div>
+}
 @if (this.dineroInsuficiente) {
  <div class="container">
   <ngb-alert type="danger" [dismissible]="false">
-    <strong>Error</strong> Better check yourself, you're not looking too good.
+    <strong>Error</strong> La cantidad de dinero de la compra, sobrepasa la cantidad de dinero del usuario
   </ngb-alert>
  </div>
 

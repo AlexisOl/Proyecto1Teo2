@@ -12,6 +12,8 @@ class ArticulosPublicacionController extends Controller
 
         $publicacion = app()-> request()->get('asignacionProductos');
 
+
+
         // ejecucion de insersion
         // aqui peticion primeor de cuantas tiene
         // en base a eso aceptar automaticamente
@@ -61,6 +63,20 @@ class ArticulosPublicacionController extends Controller
             ->fetchAll();
 
         return response()->json($result ?? []);
+    }
+
+    //funcion para determinar la cantidad de elementos que cumplen
+    //con eliminar los datos
+    public function sePuedeEliminarDatos(){
+        $identificador_producto =  app() -> request() -> get('id_producto');;
+        $cantidadProducto =  app() -> request() -> get('cantidadProducto');;
+        $identificador_publicacion =  app() -> request() -> get('identificador_publicacion');;
+
+        $result = db()
+        ->query("SELECT * from articulosporPublicacion where cantidadProducto >={$cantidadProducto} and  identificador_producto = {$identificador_producto} and identificador_publicacion = {$identificador_publicacion};")
+        ->column();
+
+    return response()->json($result ?? []);
     }
 
 

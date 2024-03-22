@@ -54,6 +54,12 @@ app() -> get('/obtenerProductosPorPublicacion', 'ArticulosPublicacionController@
 
 app() -> get('/prueba', 'ProductoController@uploadImage');
 
+app() -> get('/cantidadProductosValida', 'ArticulosPublicacionController@sePuedeEliminarDatos');
+
+// cambio del estado
+app() -> get('/actualizarEstado', 'PublicacionController@actualizarEstado');
+
+
 //*ADMIN
 //funcion para que muestre las ventas
 app() -> get('/obtenerTodaPublicacionAdmin', 'PublicacionController@vistaPublicacionesAdmin');

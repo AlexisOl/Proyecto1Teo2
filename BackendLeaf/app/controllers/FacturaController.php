@@ -34,8 +34,20 @@ class FacturaController extends Controller
         if (!empty($resultados)) {
             $valorMonetario = $resultados[0]['cantidad_monedas'];
         }
+
+
         if ($resultados) {
             $nuevaCantidadMonedas = $valorMonetario - $factura['precioTotal'];
+
+            //actualizacion de monedas a quien vende
+            db()
+                ->query("UPDATE usuario
+                SET cantidad_monedas =(select cantidad_monedas from usuario
+                 where id = (select identificador_usuario from publicacion where id ={$factura['id_publicacion']}))+{$factura['precioTotal']}
+                 WHERE id = (select identificador_usuario from publicacion where id ={$factura['id_publicacion']});
+                    ")
+                ->execute();
+            //actualizacion de monedas a quien compra
             $peticion = db()
                 ->update("usuario")
                 ->params(["cantidad_monedas" =>  $nuevaCantidadMonedas])

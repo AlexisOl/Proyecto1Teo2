@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { asignacionProductos } from '../../models/asignacionProductos';
 import { factura } from '../../models/factura';
 import { detalleFactura } from '../../models/detalleFactura';
-import { switchMap } from 'rxjs';
+import { forkJoin, switchMap } from 'rxjs';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { usuario } from '../../models/usuario';
 
@@ -28,9 +28,11 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   precioTotal: number = 0;
   idUsuario!:number|undefined
   infoUsuario:any
+  cantidadValida!:number
 
   // error
   dineroInsuficiente:boolean = false;
+  prodcutosInsuficiente:boolean = false;
 
 
   constructor(
@@ -94,38 +96,73 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
     this.precioTotal += idItem.cantidadProducto * precio;
   }
 
-  //funcion para generar la compra
 
-  generarCompra() {
-    if(this.idUsuario){
-      const generarFactura: factura = new factura();
-      generarFactura.id_cliente = this.sesionServicio.getUsuario()?.id;
-      generarFactura.id_publicacion = this.data.datos[0].id;
-      generarFactura.precioTotal = this.precioTotal;
 
-      this.comprasServicio
-        .insertarFactura(generarFactura)
-        .pipe(
-          switchMap((factura: any) => {
-            if(factura) {
-              return this.generarDetalleFactura(factura.insertedId);
+    //aqui determinamos si es valida esa compra
+    determinaCantidadValida() {
+      let cantidadValida = 0;
 
-            } else {
-              return this.dineroInsuficiente = true
+      for (let index = 0; index < this.datosParaComprar.length; index++) {
+        const element = this.datosParaComprar[index];
+        this.ventasServicio.cantidadProductosValida(element.id, element.cantidadProducto, this.data.datos[0].id).subscribe(
+          (opcion: any) => {
+            console.log("opcion:", opcion);
+            if (opcion !== false) {
+              cantidadValida += 1;
             }
-
-          })
-        )
-        .subscribe(
-
+          },
+          (error: any) => {
+            console.error("Error:", error);
+          },
+          () => {
+            this.cantidadValida=cantidadValida
+            // Esta función se ejecutará cuando la suscripción se complete
+            console.log("Cantidad válida:", cantidadValida);
+            // Llama a otra función aquí pasando la cantidad válida si es necesario
+            this.generarCompra()
+          }
         );
+      }
     }
+
+
+
+  //funcion para generar la compra
+  generarCompra() {
+    this.prodcutosInsuficiente=false
+    if(this.cantidadValida === this.datosParaComprar.length) {
+      if(this.idUsuario){
+        const generarFactura: factura = new factura();
+        generarFactura.id_cliente = this.sesionServicio.getUsuario()?.id;
+        generarFactura.id_publicacion = this.data.datos[0].id;
+        generarFactura.precioTotal = this.precioTotal;
+
+        this.comprasServicio
+          .insertarFactura(generarFactura)
+          .pipe(
+            switchMap((factura: any) => {
+              if(factura) {
+                return this.generarDetalleFactura(factura.insertedId);
+
+              } else {
+                return this.dineroInsuficiente = true
+              }
+
+            })
+          )
+          .subscribe();
+      }
+    } else {
+      this.prodcutosInsuficiente=true
+    }
+
 
   }
 
   //funcion para generar el detalle de las facturas
 
   generarDetalleFactura(id_factura: number) {
+    let factura =0;
     const generardetalleFactura: detalleFactura = new detalleFactura();
     generardetalleFactura.id_factura = id_factura;
     return this.datosParaComprar.map((productos: any) => {
@@ -138,8 +175,23 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
       //productos.id_factura = id_factura;
       return this.comprasServicio
         .insertarDetalleFactura(generardetalleFactura)
-        .subscribe();
+        .subscribe((valores:any) => {
+          console.log(valores.insertedId, "esto es el final");
+          factura = valores.insertedId;
+          this.cambiarEstadoVentas(valores.insertedId);
+
+        },
+        //funcion final
+        () => {
+          this.cambiarEstadoVentas(factura);
+        });
     });
+  }
+
+  //funcion para la modificacion final
+  cambiarEstadoVentas(valor:number){
+    console.log('adios');
+    this.ventasServicio.actualizarEstado(valor).subscribe();
   }
 
   //* para usuarios no ingresados

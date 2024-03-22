@@ -92,4 +92,17 @@ export class VentasServicioService {
     return this.http.get<publicacion>(this.URL+"/obtenerTodasLasPublicacionesporId?id="+id)
   }
 
+  //funcion para determinar si es valida la compra con la cantidad de productos
+  public cantidadProductosValida(id_producto:number, cantidadProducto:number, identificador_publicacion:number):Observable<number>{
+    return this.http.get<any>(this.URL+"/cantidadProductosValida?cantidadProducto="+cantidadProducto+"&identificador_publicacion="+identificador_publicacion+"&id_producto="+id_producto)
+
+  }
+
+  // para ver si se cambia el estado
+  public actualizarEstado(id_facturaDetalle:number):Observable<number>{
+    return this.http.get<any>(this.URL+"/actualizarEstado?id="+id_facturaDetalle)
+
+  }
+
+
 }
