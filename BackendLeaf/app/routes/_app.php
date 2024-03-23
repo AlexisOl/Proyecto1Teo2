@@ -30,7 +30,7 @@ app()->get('/imagen', 'ProductoController@devolverImagen');
 
 // *para publicaciones ==== VENTAS
 // ingreso
-app() -> post('/ingresoPublicacion', 'PublicacionController@ingresoPublicacion');
+app() -> post('/ingresoPublicaciones', 'PublicacionController@ingresoPublicacion');
 // vista general de publicaciones por usuario
 app() -> get('/vistaPublicacion', 'PublicacionController@vistaPublicacionEstado');
 // obteners todas las publicaciones
@@ -63,7 +63,7 @@ app() -> get('/obtenerProductoId', 'ProductoController@obtenerProductoId');
 app() -> get('/obtenerInfoPorPublicacion', 'ArticulosPublicacionController@obtenerProductosIdPublicacion');
 app() -> get('/obtenerProductosPorPublicacion', 'ArticulosPublicacionController@prueba');
 
-app() -> get('/prueba', 'ProductoController@uploadImage');
+app() -> get('/nuevo', 'ProductoController@uploadImage');
 
 app() -> get('/cantidadProductosValida', 'ArticulosPublicacionController@sePuedeEliminarDatos');
 

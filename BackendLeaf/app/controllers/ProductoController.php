@@ -71,10 +71,7 @@ class ProductoController extends Controller
     //funcion para obtener algun producto en base a id
     public function uploadImage()
     {
-        FS::createFile("prueba/items.txt");
-        FS::writeFile("items.txt", "Hello");
-        FS::writeFile("items.png", "Hello");
-        // Crear un archivo
+       echo "ya da";
     }
 
 

@@ -11,19 +11,19 @@ class PublicacionController extends Controller
 {
     public function ingresoPublicacion()
     {
-        //generacion de la fecha actual
+        // Generación de la fecha actual
         $date = date('d-m-y');
         $estado = 0;
         $publicacion = app()->request()->get('publicacion');
-        //? ver si ya hay publciaciones suficiente
+
+        // Verificar si ya hay suficientes publicaciones
         $ejecucion = db()
-            ->select('publicacion')
-            ->query("SELECT COUNT(*) FROM publicacion WHERE (estado = 3 OR estado = 4 OR estado = 5) AND identificador_usuario =" . $publicacion['identificador_usuario'])
+            ->query("SELECT COUNT(*) FROM publicacion WHERE (estado = 3 OR estado = 4 OR estado = 5) AND identificador_usuario={$publicacion['identificador_usuario']}")
             ->column();
-        if ($ejecucion) {
-            // ejecucion de insersion
-            // aqui peticion primeor de cuantas tiene
-            // en base a eso aceptar automaticamente
+
+        // Verificar el resultado de la consulta
+        if ($ejecucion>=0) {
+            // Ejecución de la inserción
             $insertResult = db()
                 ->insert("publicacion")
                 ->params([
@@ -32,25 +32,27 @@ class PublicacionController extends Controller
                     "descripcion" => $publicacion['descripcion'],
                     "identificador_usuario" => $publicacion['identificador_usuario'],
                     "identificador_producto" => $publicacion['identificador_producto'],
-                    "estado" => $ejecucion>3?4:1,
+                    "estado" => $ejecucion > 3 ? 4 : 1,
                 ])
                 ->execute();
+
+            // Verificar el resultado de la inserción
             if ($insertResult) {
-                // Obtiene el ID generado por la base de datos
+                // Obtener el ID generado por la base de datos
                 $insertedId = db()->lastInsertId();
 
-                // Devuelve el ID generado como respuesta positiva
+                // Devolver el ID generado como respuesta positiva
                 return response()->json(["success" => true, "message" => "Publicación creada correctamente", "insertedId" => $insertedId]);
             } else {
-                // Si la inserción falla, devuelve un mensaje de error
+                // Si la inserción falla, devolver un mensaje de error
                 return response()->json(["success" => false, "message" => "Error al crear la publicación"]);
             }
+        } else {
+            // Si no hay suficientes publicaciones, devolver un mensaje de error
+            return response()->json(["success" => false, "message" => "No se pueden crear más publicaciones para este usuario"]);
         }
-
-        // en base al usuario se obtiene los productos ingresados
-
-
     }
+
 
     //metodo para la vista de publicaciones
     public function vistaPublicacion()

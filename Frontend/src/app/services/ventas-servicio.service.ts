@@ -46,7 +46,7 @@ public guardarImagen(archivo: File): Observable<any> {
 
   //funcion para el ingreso de publicaciones
   public ingresoPublicacion(publicacion:publicacion):Observable<publicacion> {
-    return this.http.post<publicacion>(this.URL+"/ingresoPublicacion",{publicacion})
+    return this.http.post<publicacion>(this.URL+"/ingresoPublicaciones",{publicacion})
   }
 
   //funcion  para los articulos por publicacion
