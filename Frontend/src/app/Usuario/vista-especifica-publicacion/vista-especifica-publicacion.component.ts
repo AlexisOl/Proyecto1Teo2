@@ -76,6 +76,34 @@ export class VistaEspecificaPublicacionComponent implements OnInit {
     });
   }
 
+  // para ver las imagenes
+  //funcion para obtener imagenes
+  obtenerImagen(): void {
+    console.log(this.datosProductosPublicacion, "ya es");
+
+    for (let index = 0; index < this.datosProductosPublicacion.length; index++) {
+      const element = this.datosProductosPublicacion[index].imagen;
+      let valor = element.split('.');
+      console.log(element,"para imagen");
+
+      this.ventasServicio.obtenerImagen(valor[0], valor[1]).subscribe(
+        (imagenBlob: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            this.datosProductosPublicacion[index].imagen = reader.result as string;
+          };
+          reader.readAsDataURL(imagenBlob);
+        },
+        (error) => {
+          console.error('Error al obtener la imagen:', error);
+        }
+      );
+    }
+
+
+  }
+
+
   ngOnInit(): void {
     console.log("a", this.data, this.data.datos.id);
 
@@ -83,6 +111,7 @@ export class VistaEspecificaPublicacionComponent implements OnInit {
       (elemento:asignacionProductos)=> {
         this.datosProductosPublicacion = elemento
         console.log(elemento);
+        this.obtenerImagen();
       }
     );
     // que genere los comentarios

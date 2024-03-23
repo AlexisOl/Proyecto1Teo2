@@ -78,7 +78,10 @@
           <td>{{ item.cantidadProducto }}</td>
           <td>{{ item.precio }}</td>
           <td>{{ item.descripcion }}</td>
-          <td>{{ item.imagen }}</td>
+          <td>
+            <img style="height: 100px; width: 100%;" [src]="item.imagen" alt="Sin Imagen">
+
+          </td>
         </tr>
 
         }

@@ -119,7 +119,12 @@
           <td>{{ item.nombre }}</td>
           <td>{{ item.cantidadProducto }}</td>
           <td>{{ item.precioProducto }}</td>
-          <td><button class="btn btn-danger">Eliminar</button></td>
+          <td>
+            <button class="btn btn-danger"
+            (click)="eliminar(item)"
+            >
+            Eliminar
+          </button></td>
         </tr>
 
         }

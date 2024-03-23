@@ -27,11 +27,17 @@
           name="precioProducto"
           [value]="this.data.datos.precio"
           readonly
-
         />
       </div>
-
     </div>
+    @if (imagenUrl) {
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Imagen Asociada
+        </label>
+          <img [src]="imagenUrl" alt="Sin imagen">
+      </div>
+    }
 
 
     <div class="row">
@@ -48,10 +54,8 @@
             [value]="this.data.datos.descripcion"
             name="descripcion"
             readonly
-
           ></textarea>
         </div>
-
       </div>
     </div>
   </div>
@@ -61,7 +65,6 @@
 <!--Para botonoes-->
 
 <div class="row">
-
   <div class="col-md-6">
     <button class="btn btn-warning" (click)="cerrar()">Cerrar</button>
   </div>

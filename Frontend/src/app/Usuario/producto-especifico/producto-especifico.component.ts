@@ -21,6 +21,7 @@ export class ProductoEspecificoComponent implements OnInit{
   descripcion: string = '';
   imagen: string = '';
   imagenTotal:any;
+  imagenUrl!: string;
 
   constructor( @Inject(MAT_DIALOG_DATA) public data: any,
   private referencia: MatDialogRef<ProductoEspecificoComponent>,
@@ -30,8 +31,30 @@ export class ProductoEspecificoComponent implements OnInit{
   cerrar() {
     this.referencia.close();
   }
+
+
+  obtenerImagen(): void {
+    let valor = this.data.datos.imagen.split('.');
+
+
+    this.categoriasServicio.obtenerImagen(valor[0], valor[1]).subscribe(
+      (imagenBlob: Blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.imagenUrl = reader.result as string;
+        };
+        reader.readAsDataURL(imagenBlob);
+      },
+      (error) => {
+        console.error('Error al obtener la imagen:', error);
+      }
+    );
+  }
+
+
   ngOnInit(): void {
     console.log("a", this.data.datos);
+    this.obtenerImagen()
 
   }
 }

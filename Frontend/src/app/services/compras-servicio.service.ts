@@ -6,6 +6,7 @@ import { publicacion } from '../models/publicacion';
 import { factura } from '../models/factura';
 import { detalleFactura } from '../models/detalleFactura';
 import { usuario } from '../models/usuario';
+import { producto } from '../models/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,11 @@ export class ComprasServicioService {
   public obtenerPublicacionesNombre(nombre:string):Observable<publicacion>{
     return this.http.get<publicacion>(this.URL+"/obtenerPublicacionesNombre?nombre="+nombre);
   }
+
+    //funcion para obtener imagenes por publicaciones
+    public obtenerImagenesPorPublicaciones(id:number):Observable<producto>{
+      return this.http.get<producto>(this.URL+"/obtenerImagenesPorPublicaciones?id="+id)
+    }
 
   //!(generar que sean multiples)funcion para obtener publicaciones por categorias
 

@@ -29,6 +29,19 @@ export class VentasServicioService {
   public obtenerProductosId(id: number|undefined):Observable<producto> {
     return this.http.get<producto>(this.URL+"/vistaProducto?id="+ id)
   }
+
+// función para guardar imágenes
+public guardarImagen(archivo: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('imagen', archivo);
+
+  return this.http.post<any>(`${this.URL}/guardarImagen`, formData);
+}
+
+
+ public obtenerImagen(nombreImagen: string, extension: string): Observable<Blob> {
+    return this.http.get(`${this.URL}/imagen?nombre=${nombreImagen}&extension=${extension}`, { responseType: 'blob' });
+  }
 //* para las publicaciones
 
   //funcion para el ingreso de publicaciones
@@ -64,6 +77,7 @@ export class VentasServicioService {
   public obtenerTodaInfoporPublicacion():Observable<asignacionProductos>{
     return this.http.get<asignacionProductos>(this.URL+"/obtenerInfoPorPublicacion")
   }
+
 
 
 

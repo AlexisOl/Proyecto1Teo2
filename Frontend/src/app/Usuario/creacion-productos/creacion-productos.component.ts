@@ -43,11 +43,13 @@ export class CreacionProductosComponent implements OnInit {
     const fileName: string = event.target.files[0].name;
     // Puedes hacer lo que necesites con fileName
 
-    console.log('Nombre del archivo seleccionado:' ,fileName, event.target.files[0].name);
+    console.log('Nombre del archivo seleccionado:' ,fileName, event.target.files[0]);
     // Asignar fileName a la propiedad imagen si lo necesitas
 
     this.imagen = fileName;
     this.imagenTotal = event.target.files[0]
+
+
   }
 
   crearProducto() {
@@ -61,6 +63,14 @@ export class CreacionProductosComponent implements OnInit {
     console.log(productoNuevo, this.descripcion);
     //ingreso del producto
     this.categoriasServicio.ingresoProducto(productoNuevo).subscribe();
+    this.categoriasServicio.guardarImagen(this.imagenTotal).subscribe(
+      () => {
+        console.log('Imagen guardada con éxito');
+      },
+      (error) => {
+        console.error('Error al guardar la imagen:', error);
+      }
+    );
   }
 
   cerrar() {

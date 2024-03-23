@@ -21,6 +21,12 @@ app() -> post('/ingresoProducto', 'ProductoController@ingresoProducto');
 // para la obtencion de los prodcutos registrados
 app() -> get('/vistaProducto', 'ProductoController@obtencionTotal');
 
+//funcion para guardar imagenes
+app() -> post('/guardarImagen', 'ProductoController@guardarImagen');
+
+// ver imagen
+
+app()->get('/imagen', 'ProductoController@devolverImagen');
 
 // *para publicaciones ==== VENTAS
 // ingreso
@@ -41,6 +47,11 @@ app() -> get('/obtenerTodasLasPublicacionesporId', 'PublicacionController@obtene
 
 // para las asignaciones de todos los productos por publicacion
 app() -> post('/asignacionProductos', 'ArticulosPublicacionController@ingresoArticulosPublicacion');
+
+
+// para ver los productos en las ventas y sus posteriores imagenes
+
+app() -> get('/obtenerImagenesPorPublicaciones', 'PublicacionController@obtenerImagenesPorPublicaciones');
 
 
 //*ventas especifico

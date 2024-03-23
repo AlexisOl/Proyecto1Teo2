@@ -29,6 +29,7 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   idUsuario!:number|undefined
   infoUsuario:any
   cantidadValida!:number
+  imagenUrl!: string;
 
   // error
   dineroInsuficiente:boolean = false;
@@ -210,20 +211,62 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
     )
   }
 
+
+
+  //funcion para obtener imagenes
+  obtenerImagen(): void {
+    console.log(this.datosProductosPublicacion, "ya es");
+
+    for (let index = 0; index < this.datosProductosPublicacion.length; index++) {
+      const element = this.datosProductosPublicacion[index].imagen;
+      let valor = element.split('.');
+      console.log(element,"para imagen");
+
+      this.ventasServicio.obtenerImagen(valor[0], valor[1]).subscribe(
+        (imagenBlob: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            this.datosProductosPublicacion[index].imagen = reader.result as string;
+          };
+          reader.readAsDataURL(imagenBlob);
+        },
+        (error) => {
+          console.error('Error al obtener la imagen:', error);
+        }
+      );
+    }
+
+
+  }
+
+
   ngOnInit(): void {
     //ver usuario
     this.idUsuario = this.sesionServicio.getUsuario()?.id;
+    //imagenes especificas
+    // this.comprasServicio.obtenerImagenesPorPublicaciones(this.data.datos[0].id)
+    // .subscribe((imagenes:any) => {
+    //   this.datosProductosPublicacion.imagenes =imagenes
+    //   //console.log(imagenes);
+
+    // }
+
+    // )
     //vista especifica
     this.ventasServicio
       .obtenerTodaInfoporPublicacionId(this.data.datos[0].id)
       .subscribe((elemento: asignacionProductos) => {
         this.datosProductosPublicacion = elemento;
-        console.log(elemento);
+        console.log(elemento,"ddd");
+        //despues del subscribe porque si me interesa que cargue al instante
+        this.obtenerImagen();
+
       });
     // ver bien porque le mande el all en el php por eso asi
     console.log(this.data.datos[0].identificador_usuario, '<', this.data);
     //para obtener comentarios
     this.obtenerComentarios();
     this.obtencionInfoUsuarioPublicacion();
+
   }
 }

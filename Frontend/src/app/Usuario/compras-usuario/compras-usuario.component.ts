@@ -11,10 +11,13 @@ import { VistaEspecificaProductoComprasComponent } from '../vista-especifica-pro
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SesionServicioService } from '../../services/sesion-servicio.service';
+import { producto } from '../../models/producto';
+import { CaruselPublicacioesComponent } from '../carusel-publicacioes/carusel-publicacioes.component';
 @Component({
   selector: 'app-compras-usuario',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, HeaderUsuarioComponent, MatPaginator, MatPaginatorModule, FormsModule],
+  imports: [CaruselPublicacioesComponent,CommonModule, MatCardModule, MatButtonModule, HeaderUsuarioComponent, MatPaginator, MatPaginatorModule, FormsModule],
   templateUrl: './compras-usuario.component.html',
   styleUrl: './compras-usuario.component.css'
 })
@@ -23,6 +26,8 @@ export class ComprasUsuarioComponent implements OnInit, AfterViewInit{
   todasPublicaciones:any;
   publicacionEspecifica:any
   busquedaPublicacion:string=''
+  idUsuario:number|undefined
+  productosAsociados:any
 
   // para las paginas
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
@@ -31,6 +36,7 @@ export class ComprasUsuarioComponent implements OnInit, AfterViewInit{
 
   constructor(private ventasServicio: VentasServicioService,
               public dialog: MatDialog,
+              private sesionServicio:SesionServicioService,
               private comprasServicio: ComprasServicioService){}
 
 
@@ -93,7 +99,9 @@ export class ComprasUsuarioComponent implements OnInit, AfterViewInit{
     );
   }
 
+
   ngOnInit(): void {
+    this.idUsuario = this.sesionServicio.getUsuario()?.id
     this.obtenerPublicaciones();
   }
 

@@ -27,7 +27,8 @@
 
         <div class="row">
           <div class="col-md-6">
-            <button mat-raised-button color="primary">
+            <button mat-raised-button color="primary"
+            (click)="openDialog()">
               Creacion de nueva publicacion
             </button>
           </div>
@@ -160,15 +161,6 @@
         </div>
         }
       </div>
-      <button mat-icon-button (click)="openDialog()">
-        <div>
-          <mat-icon
-            aria-hidden="false"
-            aria-label="Example home icon"
-            fontIcon="add"
-          ></mat-icon>
-        </div>
-      </button>
     </div>
   </div>
 </div>

@@ -44,6 +44,20 @@ export class VistaCompraVisitaComponent implements OnInit {
 
 
   }
+  //*busqueda
+  // funcion para poder busacr en base a producto
+  buscar(){
+    if(this.busquedaPublicacion!=''){
+      this.comprasServicio.obtenerPublicacionesNombre(this.busquedaPublicacion).subscribe(
+        (publicaciones: publicacion) => {
+          this.todasPublicaciones = publicaciones
+        }
+      );
+    } else{
+      this.obtenerPublicaciones();
+    }
+  }
+
 
   openModal(){
     this.dialog.open(VistaEspecificaProductoComprasComponent, {
@@ -52,15 +66,17 @@ export class VistaCompraVisitaComponent implements OnInit {
       data: {datos: this.publicacionEspecifica}
     });
   }
+  obtenerPublicaciones(){
+    this.ventasServicio.obtenerTodasPublicaciones().subscribe(
+      (publicaciones: publicacion) => {
+        this.todasPublicaciones = publicaciones
+        console.log(publicaciones);
 
+      }
+    )
+  }
 
   ngOnInit(): void {
-      this.ventasServicio.obtenerTodasPublicaciones().subscribe(
-        (publicaciones: publicacion) => {
-          this.todasPublicaciones = publicaciones
-          console.log(publicaciones);
-
-        }
-      )
+    this.obtenerPublicaciones();
   }
 }

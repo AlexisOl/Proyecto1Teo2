@@ -51,8 +51,11 @@
         <tr>
           <th scope="col">No.</th>
           <th scope="col">Nombre de Producto</th>
+          <th scope="col">Precio Parcial</th>
           <th scope="col">Cantidad de Productos</th>
-          <th scope="col">Precio general</th>
+          <th scope="col">Precio de Productos Unitarios</th>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Imagen</th>
           @if (this.idUsuario && this.idUsuario==2) {
             <th scope="col">Agregar</th>
           }
@@ -87,6 +90,9 @@
 
           <td>{{ item.precio }}</td>
           <td>{{ item.descripcion }}</td>
+          <td>
+            <img style="height: 100px; width: 100%;" [src]="item.imagen" alt="Sin Imagen">
+          </td>
           @if (this.idUsuario && item.cantidadProducto!=0) {
 
             <td>

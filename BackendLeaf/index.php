@@ -16,6 +16,20 @@
 | the root file for quickly hosting on shared hosting platforms.
 |
 */
+use Leaf\Http\Cors;
+
+// Permitir solicitudes desde cualquier origen
+header("Access-Control-Allow-Origin: *");
+// Permitir solicitudes con los métodos GET y POST
+header("Access-Control-Allow-Methods: GET, POST");
+// Permitir que el navegador incluya cookies en las solicitudes
+header("Access-Control-Allow-Credentials: true");
+// Establecer la caché máxima para la precomprobación CORS (en segundos)
+header("Access-Control-Max-Age: 86400");
+// Permitir ciertos encabezados en las solicitudes
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+// Aplicar las opciones CORS a todas las rutas de la aplicación
+
 
 $uri = urldecode(
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)

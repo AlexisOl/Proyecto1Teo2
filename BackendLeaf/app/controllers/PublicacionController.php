@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Publicacion;
+use Doctrine\DBAL\Query;
 use Leaf\DB;
 use Psy\Util\Json;
 
@@ -230,6 +231,20 @@ class PublicacionController extends Controller
         }
 
     }
+
+    public function obtenerImagenesPorPublicaciones(){
+        $id = app() ->request()->get('id');
+        $peticion = db()
+        -> query("SELECT * from producto
+        where id IN
+        (select identificador_producto
+        from articulosporPublicacion
+        where identificador_publicacion= {$id});")
+        ->fetchAll();
+        return response()->json($peticion ?? []);
+
+    }
+    //funcion para obtener cada uno de los productos;
 
     /**
      * todo SELECT  SUM(d.precioParcial) FROM factura f JOIN detalleFactura d ON f.id = d.id_factura JOIN publicacion p ON f.id_publicacion = p.id JOIN producto pr ON d.id_producto = pr.id JOIN usuario u ON p.identificador_usuario = u.id where u.id =1 and p.id =5;
