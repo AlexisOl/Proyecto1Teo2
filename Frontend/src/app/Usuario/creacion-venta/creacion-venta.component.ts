@@ -32,7 +32,6 @@ export class CreacionVentaComponent implements OnInit {
 
   //lista para guardar los demas productos
   listaProductos: asignacionProductos[] = []
-  valoresEliminados:any=[];
   cantidadProducto:any
   precioProducto:any
 
@@ -57,13 +56,6 @@ export class CreacionVentaComponent implements OnInit {
   //funcion para agragar multiples productos
   agregarProducto(){
 
-    const indiceSeleccionado = this.productosCliente.findIndex(
-      (      producto: { id: any; }) => producto.id === this.selectedValue.id
-    )
-
-    this.valoresEliminados.push(this.selectedValue);
-    this.productosCliente.splice(indiceSeleccionado, 1)
-    console.log(this.selectedValue);
 
     const productosNuevos: asignacionProductos = new asignacionProductos()
     productosNuevos.cantidadProducto = this.cantidadProducto;
@@ -74,23 +66,6 @@ export class CreacionVentaComponent implements OnInit {
     this.listaProductos.push(productosNuevos)
 
   }
-
-  //funcion para elimnar el producto y reincoporarlo
-  eliminar(valor:any){
-    const indiceSeleccionadoFinal =this.valoresEliminados.findIndex(
-      (producto: any) => producto.id === valor.identificador_producto
-
-    )
-
-    this.productosCliente.push(this.valoresEliminados[indiceSeleccionadoFinal]);
-    this.valoresEliminados.splice(indiceSeleccionadoFinal, 1)
-    //eliminar de lista de productos
-    const indiceSeleccionado = this.listaProductos.findIndex(
-      (producto: any) => producto.identificador_producto === valor.identificador_producto
-    )
-    this.listaProductos.splice(indiceSeleccionado, 1)
-  }
-
   //funcion para obtener el valor de ingreso
   ingreso() {
     const publicacionNueva: publicacion = new publicacion();
@@ -101,8 +76,8 @@ export class CreacionVentaComponent implements OnInit {
 
     this.publicacionServicio.ingresoPublicacion(publicacionNueva).pipe(
       switchMap((info: any) => {
+        console.log(info);
         this.idPublicacionCreada = info.insertedId;
-        console.log(info.insertedId);
         // Después de ingresar la publicación, procesamos la lista de productos
         return this.procesarListaProductos();
       })

@@ -27,6 +27,7 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   textoComentario: any;
   precioTotal: number = 0;
   idUsuario!:number|undefined
+  idRolUsuario!:number|undefined
   infoUsuario:any
   cantidadValida!:number
   imagenUrl!: string;
@@ -243,6 +244,8 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   ngOnInit(): void {
     //ver usuario
     this.idUsuario = this.sesionServicio.getUsuario()?.id;
+    this.idRolUsuario = this.sesionServicio.getUsuario()?.idRol;
+
     //imagenes especificas
     // this.comprasServicio.obtenerImagenesPorPublicaciones(this.data.datos[0].id)
     // .subscribe((imagenes:any) => {
@@ -263,7 +266,7 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
 
       });
     // ver bien porque le mande el all en el php por eso asi
-    console.log(this.data.datos[0].identificador_usuario, '<', this.data);
+    console.log(this.idRolUsuario, this.data.datos[0].identificador_usuario, '<', this.data);
     //para obtener comentarios
     this.obtenerComentarios();
     this.obtencionInfoUsuarioPublicacion();
