@@ -50,6 +50,17 @@ CREATE TABLE categoria(
 
 ALTER TABLE categoria 
   ADD UNIQUE key  `nombreunico` (`nombre`);
+  
+  
+  --! Actualizacion fase 2
+  --*tipoProducto
+  CREATE TABLE tipoProducto (
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre varchar(100) NOT NULL,
+    PRIMARY KEY(id)
+  );
+
+
 -- Creación de la tabla producto
 CREATE TABLE producto (
     id INT NOT NULL AUTO_INCREMENT,
@@ -59,9 +70,11 @@ CREATE TABLE producto (
     precio DECIMAL NOT NULL,
     identificador_usuario INT NOT NULL,
     identificador_categoria INT NOT NULL,
+    identificador_tipo_producto INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (identificador_categoria) REFERENCES categoria(id)
+    FOREIGN KEY (identificador_categoria) REFERENCES categoria(id),
+    FOREIGN KEY (identificador_tipo_producto) REFERENCES tipoProducto(id)
 );
 
 --* ESTADO
@@ -114,7 +127,7 @@ CREATE TABLE articulosporPublicacion (
     FOREIGN KEY (id_usuarioPregunta) REFERENCES usuario(id)
   );
 
-  --!PARA VENTAS
+  --*PARA VENTAS
 
   --*factura
 CREATE TABLE factura(
@@ -140,7 +153,22 @@ CREATE TABLE factura(
     FOREIGN KEY (id_producto) REFERENCES producto(id)
   );
 
-  --*compraRealizada
+
+--! actualizacion fase 2
+CREATE TABLE voluntariado(
+    id INT NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(300) NOT NULL,
+    fecha DATE NOT NULL,
+    descripcion VARCHAR(3000),
+    identificador_usuario INT(11) NOT NULL,
+    estado int(2) NOT NULL,
+    FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (identificador_producto) REFERENCES producto(id),
+    FOREIGN KEY (estado) REFERENCES estado(id)
+
+
+);
+
 
 ----------------------
 ----------------------
@@ -154,3 +182,5 @@ INSERT INTO usuario (user, password, idRol) values("juan123", "hola123", 1),("Us
 
 
 insert into estado (tipo) values ('En espera'), ('Cancelado'), ('Vendido'), ('En venta'), ('Reportado');
+
+insert into tipoProducto(nombre) values ('Ventas'), ('Voluntariado'), ('Trueque');
