@@ -26,8 +26,8 @@ export class VentasServicioService {
     return this.http.post<producto>(this.URL+"/ingresoProducto",{producto})
   }
   // funcion para obtener todos los productos solo en base al id
-  public obtenerProductosId(id: number|undefined):Observable<producto> {
-    return this.http.get<producto>(this.URL+"/vistaProducto?id="+ id)
+  public obtenerProductosId(id: number|undefined, idEstado: number):Observable<producto> {
+    return this.http.get<producto>(this.URL+"/vistaProducto?id="+ id+"&idEstado="+idEstado)
   }
 
 // función para guardar imágenes

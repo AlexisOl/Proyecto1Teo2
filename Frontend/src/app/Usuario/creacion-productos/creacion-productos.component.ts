@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { VentasServicioService } from '../../services/ventas-servicio.service';
@@ -33,6 +33,7 @@ export class CreacionProductosComponent implements OnInit {
   ];
   selectedValue: string = '';
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private referencia: MatDialogRef<CreacionProductosComponent>,
     private categoriasServicio: VentasServicioService,
     private servicioUsuario: SesionServicioService
@@ -60,6 +61,7 @@ export class CreacionProductosComponent implements OnInit {
     productoNuevo.imagen = this.imagen;
     productoNuevo.identificador_usuario = this.servicioUsuario.getUsuario()?.id;
     productoNuevo.identificador_categoria = Number(this.selectedValue);
+    productoNuevo.identificador_tipo_producto = this.data.datos
     console.log(productoNuevo, this.descripcion);
     //ingreso del producto
     this.categoriasServicio.ingresoProducto(productoNuevo).subscribe();
@@ -77,6 +79,8 @@ export class CreacionProductosComponent implements OnInit {
     this.referencia.close();
   }
   ngOnInit(): void {
+    console.log(this.data.datos);
+
     this.categoriasServicio
       .obtenerCategorias()
       .subscribe((valores: categorias) => {

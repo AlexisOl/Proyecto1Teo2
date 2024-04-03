@@ -38,10 +38,13 @@ class ProductoController extends Controller
         // en base al usuario se obtiene los productos ingresados
 
         $idUsuario =  request()->get('id');
+        $idEstado = app()->request()->get('idEstado');
+
         //consulta de la base de datos
         $result = db()
             ->select('producto')
             ->where('identificador_usuario', '=', $idUsuario)
+            ->where('identificador_tipo_producto', '=', $idEstado)
             ->all();
         return response()->json($result ?? []);
     }
@@ -61,6 +64,7 @@ class ProductoController extends Controller
                 "precio" => $producto['precio'],
                 "identificador_usuario" => $producto['identificador_usuario'],
                 "identificador_categoria" => $producto['identificador_categoria'],
+                "identificador_tipo_producto" => $producto['identificador_tipo_producto'],
             ])
             ->execute();
 
@@ -120,4 +124,8 @@ class ProductoController extends Controller
             ->all();
         return response()->json($result ?? []);
     }
+
+
+
+
 }

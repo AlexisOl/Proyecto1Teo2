@@ -115,4 +115,6 @@ app() -> get('/obtenerFacturas', 'FacturaController@obtenerIdFacturas');
 
 app() -> get('/obtenerFacturasDetalle', 'FacturaController@obtenerComprasRealizadasUsuarios');
 
+//** para los voluntariados */
+//! el de crear productos estara igual solo maneja un cambio de estado
 

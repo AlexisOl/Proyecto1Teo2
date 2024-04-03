@@ -53,7 +53,7 @@ ALTER TABLE categoria
   
   
   --! Actualizacion fase 2
-  --*tipoProducto
+  --*tipoProducto YA
   CREATE TABLE tipoProducto (
     id INT NOT NULL AUTO_INCREMENT,
     nombre varchar(100) NOT NULL,
@@ -61,7 +61,7 @@ ALTER TABLE categoria
   );
 
 
--- Creación de la tabla producto
+-- Creación de la tabla producto ACTUALIZADO
 CREATE TABLE producto (
     id INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(200) NOT NULL,
@@ -76,6 +76,8 @@ CREATE TABLE producto (
     FOREIGN KEY (identificador_categoria) REFERENCES categoria(id),
     FOREIGN KEY (identificador_tipo_producto) REFERENCES tipoProducto(id)
 );
+
+
 
 --* ESTADO
 -- Creación de la tabla publicacion
@@ -154,7 +156,7 @@ CREATE TABLE factura(
   );
 
 
---! actualizacion fase 2
+--! actualizacion fase 2 AUN NO INGRESAR 
 CREATE TABLE voluntariado(
     id INT NOT NULL AUTO_INCREMENT,
     titulo VARCHAR(300) NOT NULL,
@@ -163,12 +165,28 @@ CREATE TABLE voluntariado(
     identificador_usuario INT(11) NOT NULL,
     estado int(2) NOT NULL,
     FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (identificador_producto) REFERENCES producto(id),
     FOREIGN KEY (estado) REFERENCES estado(id)
+);
 
+CREATE TABLE articulosVoluntariado(
+ id INT NOT NULL AUTO_INCREMENT,
+    cantidadProducto int NOT NULL,
+    precioProducto decimal NOT NULL,
+    identificador_publicacion INT NOT NULL,
+    identificador_producto INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (identificador_publicacion) REFERENCES publicacion(id),
+    FOREIGN KEY (identificador_producto) REFERENCES producto(id)
 
 );
 
+CREATE TABLE ayudaVoluntariado(
+
+);
+
+CREATE TABLE comprobanteAyudaVoluntariado(
+
+);
 
 ----------------------
 ----------------------

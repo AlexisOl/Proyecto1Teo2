@@ -40,7 +40,15 @@ export class HeaderUsuarioComponent implements OnInit {
   }
 
   iraVoluntariado(){
+
+    this.rutas.navigate(['./generalUsuario/voluntariado'])
   }
+
+  iraFinanzas(){
+
+    this.rutas.navigate(['./generalUsuario/finanzas'])
+  }
+
   //funcion para cerrar la sesion
 
   cerrarSesion(){

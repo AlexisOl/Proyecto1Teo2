@@ -6,4 +6,5 @@ export class producto {
   imagen!: string
   identificador_categoria!:number
   identificador_usuario!:number|undefined
+  identificador_tipo_producto!:number
 }

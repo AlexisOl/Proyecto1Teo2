@@ -5,12 +5,16 @@ import { GeneralUsuarioComponent } from '../general-usuario/general-usuario.comp
 import { loginGuard } from '../../utils/login.guard';
 import { ComprasUsuarioComponent } from '../compras-usuario/compras-usuario.component';
 import { VentasUsuarioComponent } from '../ventas-usuario/ventas-usuario.component';
+import { SeccionVoluntariadoComponent } from '../seccion-voluntariado/seccion-voluntariado.component';
+import { FinanzasComponent } from '../finanzas/finanzas.component';
 
 //creacion de rutas en modulo
 const routes:Routes=[
   {path:'', component:GeneralUsuarioComponent},
   {path:'compras', component:ComprasUsuarioComponent},
-  {path:'ventas', component:VentasUsuarioComponent}
+  {path:'ventas', component:VentasUsuarioComponent},
+  {path:'voluntariado', component:SeccionVoluntariadoComponent},
+  {path:'finanzas', component:FinanzasComponent}
 ]
 
 @NgModule({

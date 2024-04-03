@@ -123,7 +123,7 @@ export class CreacionVentaComponent implements OnInit {
 
  ngOnInit(): void {
    //obtiene los productos por usuario
-   this.publicacionServicio.obtenerProductosId(this.sesion.getUsuario()?.id).subscribe(
+   this.publicacionServicio.obtenerProductosId(this.sesion.getUsuario()?.id,1).subscribe(
      (producto:producto) => {
        this.productosCliente = producto;
      }

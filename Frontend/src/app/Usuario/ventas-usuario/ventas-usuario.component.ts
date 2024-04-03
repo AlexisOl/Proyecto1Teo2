@@ -33,6 +33,7 @@ export class VentasUsuarioComponent implements OnInit{
   facturasDetalle:any[]=[]
   $indice: any;
   nombreUsuario!:string|undefined;
+  tipoEstadoProducto:number = 1
 
   constructor(public dialog: MatDialog,
     private categoriasServicio: VentasServicioService,
@@ -54,7 +55,9 @@ export class VentasUsuarioComponent implements OnInit{
   creacionProductosModal(){
     this.dialog.open(CreacionProductosComponent, {
       width:'80%',
-      height:"650px"
+      height:"650px",
+      data: { datos: this.tipoEstadoProducto },
+
     });
   }
 
@@ -139,7 +142,7 @@ export class VentasUsuarioComponent implements OnInit{
       }
     )
     // para los productos
-    this.categoriasServicio.obtenerProductosId(this.servicioUsuario.getUsuario()?.id).subscribe(
+    this.categoriasServicio.obtenerProductosId(this.servicioUsuario.getUsuario()?.id, this.tipoEstadoProducto).subscribe(
       (nuevosProd: producto | producto[]) => {
         if (Array.isArray(nuevosProd)) {
           this.productosIngresados = nuevosProd;
