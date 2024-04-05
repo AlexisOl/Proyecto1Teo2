@@ -20,6 +20,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { retribucion } from '../../models/retribucion';
+import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
+import { articulosVoluntariado } from '../../models/articulosVoluntariado';
+import { voluntariado } from '../../models/voluntariado';
 
 @Component({
   selector: 'app-creacion-voluntariado',
@@ -33,9 +37,10 @@ export class CreacionVoluntariadoComponent implements OnInit{
 //lista para los productos
 productosCliente:any;
 selectedValue: any;
+selectedRetribuccion!: number;
 
 //lista para guardar los demas productos
-listaProductos: asignacionProductos[] = []
+listaProductos: articulosVoluntariado[] = []
 valoresEliminados:any=[];
 cantidadProducto:any
 precioProducto:any
@@ -52,8 +57,16 @@ descripcion:string = ''
 idPublicacionCreada:number =0;
 
 
+//* para el voluntariado
+formaRetribucion:any =[];
+imagen:string = '';
+
+
+
+
 constructor(private referencia: MatDialogRef<CreacionVoluntariadoComponent>,
             private sesion:SesionServicioService,
+            private volutariadoServicio:VoluntariadoServicioService,
             private publicacionServicio: VentasServicioService){}
 
 
@@ -69,11 +82,13 @@ agregarProducto(){
   this.productosCliente.splice(indiceSeleccionado, 1)
   console.log(this.selectedValue);
 
-  const productosNuevos: asignacionProductos = new asignacionProductos()
+  const productosNuevos: articulosVoluntariado = new articulosVoluntariado()
   productosNuevos.cantidadProducto = this.cantidadProducto;
   productosNuevos.identificador_producto = this.selectedValue.id
   productosNuevos.nombre = this.selectedValue.nombre
   productosNuevos.precioProducto = this.selectedValue.precio*this.cantidadProducto;
+  productosNuevos.id_retribucion = this.selectedRetribuccion
+  console.log(productosNuevos);
 
   this.listaProductos.push(productosNuevos)
 
@@ -95,15 +110,31 @@ eliminar(valor:any){
   this.listaProductos.splice(indiceSeleccionado, 1)
 }
 
+
+
+//para la imagen]
+
+onFileSelected(event: any) {
+  // Obtener el nombre del archivo
+  const fileName: string = event.target.files[0].name;
+  // Puedes hacer lo que necesites con fileName
+
+  console.log('Nombre del archivo seleccionado:' ,fileName, event.target.files[0]);
+  // Asignar fileName a la propiedad imagen si lo necesitas
+
+  this.imagen = fileName;
+
+
+}
 //funcion para obtener el valor de ingreso
 ingreso() {
-  const publicacionNueva: publicacion = new publicacion();
-  publicacionNueva.titulo = this.nombre;
-  publicacionNueva.descripcion = this.descripcion;
-  publicacionNueva.identificador_usuario = this.idUsuario;
-  publicacionNueva.identificador_producto = this.selectedValue.id;
+  const voluntariadoNuevo: voluntariado = new voluntariado();
+  voluntariadoNuevo.titulo = this.nombre;
+  voluntariadoNuevo.descripcion = this.descripcion;
+  voluntariadoNuevo.identificador_usuario = this.idUsuario;
+  voluntariadoNuevo.imagen = this.imagen;
 
-  this.publicacionServicio.ingresoPublicacion(publicacionNueva).pipe(
+  this.volutariadoServicio.ingresoVoluntariado(voluntariadoNuevo).pipe(
     switchMap((info: any) => {
       this.idPublicacionCreada = info.insertedId;
       console.log(info.insertedId);
@@ -115,8 +146,8 @@ ingreso() {
 
 procesarListaProductos() {
   return this.listaProductos.map((elemento: any) => {
-    elemento.identificador_publicacion = this.idPublicacionCreada;
-    return this.publicacionServicio.ingresoArticuloPublicacion(elemento).subscribe();
+    elemento.identificador_voluntariado = this.idPublicacionCreada;
+    return this.volutariadoServicio.ingresoArticuloVoluntariado(elemento).subscribe();
   });
 }
 
@@ -127,6 +158,13 @@ cerrar(){
 
 
 ngOnInit(): void {
+
+  //obtienes las retribuciones
+  this.volutariadoServicio.obtenerRetribuciones().subscribe(
+    (retri:retribucion) => {
+      this.formaRetribucion = retri
+    }
+  )
   //obtiene los productos por usuario
   this.publicacionServicio.obtenerProductosId(this.sesion.getUsuario()?.id,2).subscribe(
     (producto:producto) => {

@@ -42,7 +42,48 @@ class UsuarioController extends Controller
     }
     }
 
+    //funcion para ingresar monedas
+public function ingresoMonedas(){
+    $monedas =request()->get('dinero');
+    $id =request()->get('id');
+    //obtener las moneads primero
+    $monedasOriginales = db()
+    -> query("select cantidad_monedas from usuario where id = {$id};")
+    ->column();
+    $monedaFinal = $monedasOriginales+$monedas;
+    if($monedaFinal>0) {
+        db()
+        ->update("usuario")
+        ->params(["cantidad_monedas" => "{$monedaFinal}"])
+        ->where("id", "{$id}")
+        ->execute();
+    } else{
+        return 'error';
+    }
 
-    //funcion para obtener al usuario
+}
+
+    //funcion para extaer las monedas
+    public function extaerMonedas(){
+        $monedas = request()->get('dinero');
+        $id =request()->get('id');
+
+        //obtener las moneads primero
+        $monedasOriginales =db()
+        -> query("select cantidad_monedas from usuario where id = {$id};")
+        ->column();
+
+        $monedaFinal = (int)$monedasOriginales-(int)$monedas;
+        if($monedaFinal>0) {
+            db()
+            ->update("usuario")
+            ->params(["cantidad_monedas" => "{$monedaFinal}"])
+            ->where("id", "{$id}")
+            ->execute();
+        } else{
+            return 'error';
+        }
+
+    }
 
 }

@@ -28,7 +28,7 @@ export class SeccionVoluntariadoGeneralComponent implements OnInit{
 
   ngOnInit(): void {
       this.chart = new Chart('canvas', {
-        type:'bar',
+        type:'pie',
         data:{
           labels: this.data.map(row => row.year),
           datasets: [

@@ -18,7 +18,7 @@
               class="form-control mt-2"
               placeholder="Nombre de Usuario"
               name="nombreUsuario"
-              value="{{this.nombreUsuario}}"
+              value="{{ this.nombreUsuario }}"
               readonly
             />
           </div>
@@ -27,8 +27,7 @@
 
         <div class="row">
           <div class="col-md-6">
-            <button mat-raised-button color="primary"
-            (click)="openDialog()">
+            <button mat-raised-button color="primary" (click)="openDialog()">
               Creacion de nueva publicacion
             </button>
           </div>
@@ -83,7 +82,7 @@
                     color="primary"
                     style="width: 60%; margin-right: 5px; height: 95%"
                     (click)="modalParaVistaEspecificaProducto(item)"
-                    >
+                  >
                     Ver Elemento
                   </button>
                 </div>
@@ -146,14 +145,13 @@
 
                   <!--SOLO SI NO ESTA VENDIDA-->
                   @if(item.tipo_estado=="En espera"){
-                    <button
+                  <button
                     class="btn btn-danger"
                     style="width: 60%; margin-right: 5px; height: 95%"
                   >
                     Eliminar Venta
                   </button>
                   }
-
                 </div>
               </div>
             </mat-card-content>
@@ -202,7 +200,7 @@
             <tbody>
               <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ detalle.id_factura }}</td>
+                <td>{{ detalle.cantidadComprado }}</td>
                 <td>{{ detalle.id_factura }}</td>
                 <td>{{ detalle.nombre_producto }}</td>
                 <td>{{ detalle.nombre_usuario }}</td>
@@ -212,9 +210,17 @@
               </tr>
             </tbody>
             @if ($index+1 === this.facturasDetalle[index].length) {
-              <p>Precio Total de la compra: {{this.obtenerTotal(index)}}</p>
-            }
-            }
+            <p>Precio Total de la compra: {{ this.obtenerTotal(index) }}</p>
+            <button
+            class="btn btn-warning"
+            (click)="generarGrafica(this.facturasDetalle[index], index)">
+              Ver grafica
+            </button>
+            <!-- para las graficas-->
+            <div class="container">
+              <canvas  id="canvas{{ index }}" width="100" height="50" ></canvas>
+            </div>
+            } }
           </table>
         </div>
       </mat-expansion-panel>

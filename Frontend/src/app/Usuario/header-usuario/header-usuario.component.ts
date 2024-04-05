@@ -44,6 +44,11 @@ export class HeaderUsuarioComponent implements OnInit {
     this.rutas.navigate(['./generalUsuario/voluntariado'])
   }
 
+  iraVoluntariadoVista(){
+
+    this.rutas.navigate(['./generalUsuario/vista_de_voluntariado'])
+  }
+
   iraFinanzas(){
 
     this.rutas.navigate(['./generalUsuario/finanzas'])

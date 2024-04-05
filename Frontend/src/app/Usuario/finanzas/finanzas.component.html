@@ -1,1 +1,116 @@
-<p>finanzas works!</p>
+<app-header-usuario />
+<div class="container">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Finanza</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          <label for="nombre" class="mt-5 d-flex justify-content-center">
+            Informacion General del Usuario
+          </label>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <!--tabla con la informacion general-->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Nombre de Usuario</th>
+              <th scope="col">Cantidad de Monedas</th>
+              <th scope="col">Divisa con moneda real</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ nombreUsuario }}</td>
+              <td>{{ cantidadMonedas }}</td>
+              <td>{{ divisa }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr />
+    </mat-card-content>
+  </mat-card>
+  <!--espacio para generar dinero-->
+  <div class="container">
+    <h1>Generacion de dinero virtual</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Cantidad de dinero para ingresar</label>
+          <input
+          type="number"
+          class="form-control mt-2"
+          placeholder="Cantidad de monedas a ingresar"
+          name="cantidadProductoVenta"
+          [value]="this.monedasEntrada"
+          [min]="1"
+          [(ngModel)]="this.monedasEntrada"
+          (input)="onCantidadInput()"
+        />
+      </div>
+      <div class="col-md-3">
+        <label>Cantidad de dinero en el cambio</label>
+        <input
+        type="number"
+        class="form-control mt-2"
+        placeholder="Cantidad de cambio"
+        name="cantidadProductoVenta"
+        [value]="monedaCambio"
+        readonly
+      />
+      </div>
+      <div class="col-md-3">
+
+        <button
+        mat-raised-button color="primary"
+        (click)="ingresoDinero()"
+        >Ingreso de monedas</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!--espacio para extraer dinero-->
+  <div class="container">
+    <h1>Extraccion de dinero virtual y divisa</h1>
+    <label>Cantidad de dinero a extraer</label>
+    <div class="row">
+      <div class="col-md-6">
+          <input
+          type="number"
+          class="form-control mt-2"
+          placeholder="Cantidad de monedas a extraer"
+          name="cantidadProductoVenta"
+          [value]="this.monedasSeleccionadas"
+          [min]="1"
+          max="{{this.cantidadMonedas}}"
+          [(ngModel)]="this.monedasSeleccionadas"
+          (input)="cantidadExtaerInput()"
+          />
+      </div>
+      <div class="col-md-3">
+        <label>Cantidad de dinero en el cambio</label>
+        <input
+        type="number"
+        class="form-control mt-2"
+        placeholder="Cantidad de cambio"
+        name="cantidadProductoVenta"
+        [value]="monedaCambioExtraccion"
+        readonly
+      />
+      </div>
+      <div class="col-md-3">
+        <button
+        mat-raised-button color="primary"
+        (click)="extraerDinero()"
+        >Extraccion de dinero</button>
+      </div>
+
+    </div>
+  </div>
+</div>

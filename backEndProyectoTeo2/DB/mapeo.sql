@@ -161,22 +161,33 @@ CREATE TABLE voluntariado(
     id INT NOT NULL AUTO_INCREMENT,
     titulo VARCHAR(300) NOT NULL,
     fecha DATE NOT NULL,
+    imagen varchar(3000),
     descripcion VARCHAR(3000),
     identificador_usuario INT(11) NOT NULL,
     estado int(2) NOT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
     FOREIGN KEY (estado) REFERENCES estado(id)
 );
 
+CREATE TABLE retribucion(
+    id INT NOT NULL AUTO_INCREMENT,
+    descripcion VARCHAR(300) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+
 CREATE TABLE articulosVoluntariado(
- id INT NOT NULL AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
     cantidadProducto int NOT NULL,
     precioProducto decimal NOT NULL,
-    identificador_publicacion INT NOT NULL,
+    identificador_voluntariado INT NOT NULL,
     identificador_producto INT NOT NULL,
+    id_retribucion INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (identificador_publicacion) REFERENCES publicacion(id),
-    FOREIGN KEY (identificador_producto) REFERENCES producto(id)
+    FOREIGN KEY (identificador_voluntariado) REFERENCES voluntariado(id),
+    FOREIGN KEY (identificador_producto) REFERENCES producto(id),
+    FOREIGN KEY (id_retribucion) REFERENCES retribucion(id)
 
 );
 
@@ -185,6 +196,14 @@ CREATE TABLE ayudaVoluntariado(
 );
 
 CREATE TABLE comprobanteAyudaVoluntariado(
+
+);
+
+CREATE TABLE cupones(
+
+);
+
+CREATE TABLE insignias(
 
 );
 
@@ -202,3 +221,6 @@ INSERT INTO usuario (user, password, idRol) values("juan123", "hola123", 1),("Us
 insert into estado (tipo) values ('En espera'), ('Cancelado'), ('Vendido'), ('En venta'), ('Reportado');
 
 insert into tipoProducto(nombre) values ('Ventas'), ('Voluntariado'), ('Trueque');
+
+
+insert into retribucion(descripcion) values ('cupones'), ('moneda');

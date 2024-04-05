@@ -116,5 +116,26 @@ app() -> get('/obtenerFacturas', 'FacturaController@obtenerIdFacturas');
 app() -> get('/obtenerFacturasDetalle', 'FacturaController@obtenerComprasRealizadasUsuarios');
 
 //** para los voluntariados */
+//? obtiene las retribuciones
+app() -> get('/obtenerRetribucion', 'RetribucionController@obtenerRetribucion');
+
+//? ingreso de voluntariado
+app() -> post('/ingresoVoluntariado', 'VoluntariadoController@ingresoVoluntariado');
+
+//? ingreso de productos por voluntariado
+app() -> post('/ingresoArticuloVoluntariado', 'ArticulosVoluntariadoController@ingresoArticulosVoluntariado');
+//? para ver los voluntariados de usuario creados
+
+app() -> get('/vistaVoluntariadoEstado', 'VoluntariadoController@vistaVoluntariadoEstado');
+
+
+
 //! el de crear productos estara igual solo maneja un cambio de estado
+
+//* finanzas
+//ingreso monedas
+app() -> post('/ingresoMonedas', 'usuarioController@ingresoMonedas');
+//extraccion de monedas
+app() -> post('/extaerMonedas', 'usuarioController@extaerMonedas');
+
 

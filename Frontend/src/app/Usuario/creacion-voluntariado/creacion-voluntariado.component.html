@@ -1,11 +1,11 @@
 <div class="container">
-  <h1>Ingreso de informacion de la publicacion</h1>
+  <h1>Ingreso de informacion del voluntariado</h1>
   <form class="form-container" #f="ngForm">
     <div #ingresoCliente>
       <div class="row">
         <div class="col-md-4">
           <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Nombre del Titulo de publicacion
+            Nombre del Titulo del voluntariado
           </label>
           <input
             type="text"
@@ -46,6 +46,18 @@
             ></textarea>
           </div>
         </div>
+        <div class="col-md-6">
+          <label for="nombre" class="mt-5 d-flex justify-content-center">
+            Imagen
+          </label>
+          <input
+            type="file"
+            class="form-control mt-2"
+            placeholder="Nombre del titulo"
+            name="nombreUsuario"
+            (change)="onFileSelected($event)"
+          />
+        </div>
       </div>
     </div>
   </form>
@@ -55,7 +67,7 @@
 
 <!--VER TABLA DE PRODUCTOS ASOCIADOS-->
 <div class="container">
-  <h1>Ingreso de productos para la publicacion</h1>
+  <h1>Ingreso de productos para el voluntariado</h1>
   <div class="row">
     <div class="col-md-4">
       <label for="nombre" class="mt-5 d-flex justify-content-center"
@@ -81,6 +93,14 @@
         name="cantidadProducto"
         [(ngModel)]="cantidadProducto"
       />
+      <mat-form-field>
+        <mat-label>Seleccione forma</mat-label>
+        <mat-select [(ngModel)]="selectedRetribuccion" name="retribucion">
+          @for (producto of formaRetribucion; track $index) {
+          <mat-option [value]="producto.id">{{ producto.descripcion }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <div class="col-md-4 mt-5 d-flex">
@@ -108,6 +128,7 @@
           <th scope="col">Nombre de Producto</th>
           <th scope="col">Cantidad de Productos</th>
           <th scope="col">Precio general</th>
+          <th scope="col">Forma de retribucion</th>
           <th scope="col">Eliminar</th>
         </tr>
       </thead>
@@ -119,6 +140,10 @@
           <td>{{ item.nombre }}</td>
           <td>{{ item.cantidadProducto }}</td>
           <td>{{ item.precioProducto }}</td>
+          <td>
+
+          </td>
+
           <td>
             <button class="btn btn-danger"
             (click)="eliminar(item)"

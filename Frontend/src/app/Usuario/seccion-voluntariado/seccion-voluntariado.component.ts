@@ -12,6 +12,8 @@ import { CreacionVentaComponent } from '../creacion-venta/creacion-venta.compone
 import { CreacionProductosComponent } from '../creacion-productos/creacion-productos.component';
 import { producto } from '../../models/producto';
 import { CreacionVoluntariadoComponent } from '../creacion-voluntariado/creacion-voluntariado.component';
+import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
+import { voluntariado } from '../../models/voluntariado';
 
 @Component({
   selector: 'app-seccion-voluntariado',
@@ -32,11 +34,13 @@ export class SeccionVoluntariadoComponent implements OnInit {
   tipoEstadoProducto: number = 2;
   productosIngresados:producto[]=[];
   productosValores:any;
+  publicacionesIngresadas:any
 
   constructor(
     public dialog: MatDialog,
     private categoriasServicio: VentasServicioService,
-    private servicioUsuario: SesionServicioService
+    private servicioUsuario: SesionServicioService,
+    private voluntariadoServicio:VoluntariadoServicioService
   ) {}
 
   //CREACION--------------------------------
@@ -58,6 +62,20 @@ export class SeccionVoluntariadoComponent implements OnInit {
   }
   ngOnInit(): void {
     this.nombreUsuario = this.servicioUsuario.getUsuario()?.user;
+
+
+    // para las ventas
+        // para las publicaciones
+        this.voluntariadoServicio.vistaVoluntariadoEstado(this.servicioUsuario.getUsuario()?.id).subscribe(
+          (nuevasPublicaciones:voluntariado) => {
+            if (nuevasPublicaciones){
+              this.publicacionesIngresadas=(nuevasPublicaciones)
+            } else {
+              this.publicacionesIngresadas = []
+            }
+
+          }
+        )
 
     // para los productos
     this.categoriasServicio

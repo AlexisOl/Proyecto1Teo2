@@ -16,10 +16,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { switchMap } from 'rxjs';
 import { usuario } from '../../models/usuario';
 import { ProductoEspecificoComponent } from '../producto-especifico/producto-especifico.component';
+import { Chart } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 @Component({
   selector: 'app-ventas-usuario',
   standalone: true,
-  imports: [MatExpansionModule,HeaderUsuarioComponent, MatIconModule, MatCardModule, FormsModule, MatButtonModule],
+  imports: [BaseChartDirective, MatExpansionModule,HeaderUsuarioComponent, MatIconModule, MatCardModule, FormsModule, MatButtonModule],
   templateUrl: './ventas-usuario.component.html',
   styleUrl: './ventas-usuario.component.css'
 })
@@ -34,6 +36,8 @@ export class VentasUsuarioComponent implements OnInit{
   $indice: any;
   nombreUsuario!:string|undefined;
   tipoEstadoProducto:number = 1
+  // grafica
+  chart:any
 
   constructor(public dialog: MatDialog,
     private categoriasServicio: VentasServicioService,
@@ -98,21 +102,49 @@ export class VentasUsuarioComponent implements OnInit{
 
   ventasDetallesIndividuales(){
     return this.todasLasFacturas.map((valores:any)=>{
-      console.log(valores.id);
+      console.log(valores);
 
       //ahora si retorna todo
+//contador+=1
       return this.categoriasServicio.obtenerInformacionVentasRealizadas(this.servicioUsuario.getUsuario()?.id,valores.id).subscribe(
         (valores:any) =>{
           console.log(valores);
           this.facturasDetalle.push(valores)
 
-          console.log(this.facturasDetalle[0],"///");
+         // contador+=2
+         // this.generarGrafica(valores, contador)
+          console.log(valores,"///");
 
         }
       )
-
     })
+
   }
+
+
+  generarGraficas() {
+    this.facturasDetalle.forEach((detalle: any, index: number) => {
+      this.generarGrafica(detalle, index);
+    });
+  }
+
+  generarGrafica(datos: any, index: number) {
+    if (this.chart) {
+      this.chart.destroy(); // Destruir la instancia anterior del gráfico
+    }
+
+    this.chart = new Chart('canvas' + index, {
+      type: 'pie',
+      data: {
+        labels: datos.map((row: { nombre_producto: any; }) => row.nombre_producto),
+        datasets: [{
+          label: 'Precio Parcial',
+          data: datos.map((row: { precioParcial: any; }) => row.precioParcial)
+        }]
+      }
+    });
+  }
+
 
   obtenerTotal(valor:number){
     let element =0
@@ -121,7 +153,6 @@ export class VentasUsuarioComponent implements OnInit{
     }
     return element;
   }
-
 
 
 ///-------------------------
