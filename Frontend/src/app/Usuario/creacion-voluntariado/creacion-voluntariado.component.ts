@@ -24,6 +24,7 @@ import { retribucion } from '../../models/retribucion';
 import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
 import { articulosVoluntariado } from '../../models/articulosVoluntariado';
 import { voluntariado } from '../../models/voluntariado';
+import { insignias } from '../../models/insignias';
 
 @Component({
   selector: 'app-creacion-voluntariado',
@@ -60,7 +61,7 @@ idPublicacionCreada:number =0;
 //* para el voluntariado
 formaRetribucion:any =[];
 imagen:string = '';
-
+insignia:string= '';
 
 
 
@@ -138,6 +139,11 @@ ingreso() {
     switchMap((info: any) => {
       this.idPublicacionCreada = info.insertedId;
       console.log(info.insertedId);
+      //creacion de insingiaas
+      const nuevaInsignia: insignias = new insignias();
+      nuevaInsignia.nombre = this.insignia
+      nuevaInsignia.id_voluntariado = info.insertedId
+      this.crearInsignia(nuevaInsignia);
       // Después de ingresar la publicación, procesamos la lista de productos
       return this.procesarListaProductos();
     })
@@ -149,6 +155,12 @@ procesarListaProductos() {
     elemento.identificador_voluntariado = this.idPublicacionCreada;
     return this.volutariadoServicio.ingresoArticuloVoluntariado(elemento).subscribe();
   });
+}
+
+
+// para crear las insignias
+crearInsignia(insignia:insignias){
+  this.volutariadoServicio.crearInsignia(insignia).subscribe();
 }
 
 //modal para el cierre

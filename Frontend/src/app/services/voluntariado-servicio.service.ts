@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { retribucion } from '../models/retribucion';
 import { voluntariado } from '../models/voluntariado';
 import { articulosVoluntariado } from '../models/articulosVoluntariado';
+import { insignias } from '../models/insignias';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,25 @@ export class VoluntariadoServicioService {
 
   public vistaVoluntariadoEstado(id:number|undefined):Observable<voluntariado>{
     return this.http.get<voluntariado>(this.URL+"/vistaVoluntariadoEstado?id="+id);
+  }
+  //* productos especificos
+  public obtenerProductosVoluntariado(id:number):Observable<articulosVoluntariado>{
+    return this.http.get<articulosVoluntariado>(this.URL+"/obtenerProductosIdVoluntariado?id="+id);
+
+  }
+
+  //* insignias
+  // crear insignias
+
+  public crearInsignia(insignia:insignias):Observable<insignias>{
+    return this.http.post<insignias>(this.URL+"/crearInsignia",{insignia})
+  }
+
+  //obtener insignias
+  public obtenerInsignia(id:number):Observable<insignias>{
+
+    return this.http.get<insignias>(this.URL+"/obtenerInsignia?id="+id)
+
+
   }
 }

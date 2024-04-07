@@ -14,6 +14,10 @@ import { producto } from '../../models/producto';
 import { CreacionVoluntariadoComponent } from '../creacion-voluntariado/creacion-voluntariado.component';
 import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
 import { voluntariado } from '../../models/voluntariado';
+import { publicacion } from '../../models/publicacion';
+import { ProductoEspecificoComponent } from '../producto-especifico/producto-especifico.component';
+import { VistaEspecificaPublicacionComponent } from '../vista-especifica-publicacion/vista-especifica-publicacion.component';
+import { VistaVoluntariadosComponent } from '../vista-voluntariados/vista-voluntariados.component';
 
 @Component({
   selector: 'app-seccion-voluntariado',
@@ -60,6 +64,27 @@ export class SeccionVoluntariadoComponent implements OnInit {
       data: { datos: this.tipoEstadoProducto },
     });
   }
+
+    //* este modal es para ver las publicaciones de forma
+  //* asi que le mando la info de la publicacion como tal para que desgloce mas
+  modalParaVistaEspecifica(informacion: voluntariado){
+    this.dialog.open(VistaVoluntariadosComponent, {
+      width:'80%',
+      height:"650px",
+      data: {datos: informacion}
+    });
+  }
+  //* este modal es para ver los productos de forma
+  //* asi que le mando la info de la publicacion como tal para que desgloce mas
+  modalParaVistaEspecificaProducto(informacion: producto){
+    this.dialog.open(ProductoEspecificoComponent, {
+      width:'80%',
+      height:"350px",
+      data: {datos: informacion}
+    });
+  }
+
+
   ngOnInit(): void {
     this.nombreUsuario = this.servicioUsuario.getUsuario()?.user;
 

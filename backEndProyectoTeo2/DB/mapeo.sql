@@ -191,21 +191,57 @@ CREATE TABLE articulosVoluntariado(
 
 );
 
-CREATE TABLE ayudaVoluntariado(
 
+--* para ingreso de voluntariados 
+CREATE TABLE ayudaVoluntariado(
+  id int NOT NULL AUTO_INCREMENT,
+  id_cliente int not null,
+  id_voluntariado int not null, 
+  fecha date not null,
+  PRIMARY KEY(id),
+  FOREIGN KEY (id_cliente) REFERENCES usuario(id),
+  FOREIGN KEY (id_voluntariado) REFERENCES voluntariado(id)
 );
 
 CREATE TABLE comprobanteAyudaVoluntariado(
-
+  id int not NULL AUTO_INCREMENT,
+  id_articulo_Voluntariado int not null,
+  id_ayuda_Voluntariado int not null,
+  precio decimal not null,
+  cantidad int not null,  
+  PRIMARY KEY(id),
+  FOREIGN KEY (id_articulo_Voluntariado) REFERENCES articulosVoluntariado(id),
+  FOREIGN KEY (id_ayuda_Voluntariado) REFERENCES ayudaVoluntariado(id),
 );
 
+
+--* generacion de cupones 
 CREATE TABLE cupones(
 
 );
 
+
+--* insignias 
 CREATE TABLE insignias(
+      id INT NOT NULL AUTO_INCREMENT,
+      nombre varchar(1500) not null,
+      id_voluntariado int not null,
+      PRIMARY KEY(id),
+      FOREIGN KEY (id_voluntariado) REFERENCES voluntariado(id)
+);
+
+
+CREATE TABLE asignacionInsignia(
+      id INT NOT NULL AUTO_INCREMENT,
+      id_usuario int not null,
+      id_insignia int not null,
+      cantidadVeces int,
+      PRIMARY KEY(id),
+      FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+      FOREIGN KEY (id_insignia) REFERENCES insignias(id)
 
 );
+
 
 ----------------------
 ----------------------

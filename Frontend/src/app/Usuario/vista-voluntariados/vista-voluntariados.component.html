@@ -1,1 +1,127 @@
-<app-header-usuario />
+
+<h1 class="justify-content-center">Vista Especifica de Venta</h1>
+
+<div #ingresoCliente>
+  <div class="row">
+    <div class="col-md-3">
+      <label
+        for="nombre"
+        class="mt-5 d-flex justify-content-center"
+      >
+        Titulo de Publicacion
+      </label>
+      <input
+        type="text"
+        class="form-control mt-2"
+        placeholder="nombre archivo"
+        name="ProductoBodega"
+        [value]="this.data.datos.titulo"
+        readonly
+      />
+    </div>
+    <div class="col-md-3">
+      <label
+        for="nombre"
+        class="mt-5 d-flex justify-content-center"
+      >
+        Estado de publicacion
+      </label>
+      <input
+      type="text"
+      class="form-control mt-2"
+      placeholder="Extension Elemento"
+      name="extension"
+      [value]="this.data.datos.tipo_estado"
+      readonly
+    />
+    </div>
+    <div class="col-md-3">
+      <label
+        for="nombre"
+        class="mt-5 d-flex justify-content-center"
+      >
+        Fecha de publicacion
+      </label>
+      <input
+      type="text"
+      class="form-control mt-2"
+      placeholder="Extension Elemento"
+      name="extension"
+      [value]="this.data.datos.fecha"
+      readonly
+    />
+    </div>
+    <div class="col-md-3">
+      <label
+        for="nombre"
+        class="mt-5 d-flex justify-content-center"
+      >
+        Nombre de insignia
+      </label>
+      <input
+      type="text"
+      class="form-control mt-2"
+      placeholder="Extension Elemento"
+      name="extension"
+      [value]="this.insigniaVoluntariado.nombre"
+      readonly
+    />
+    </div>
+  </div>
+</div>
+<hr>
+<div class="container">
+  <div class="row">
+    <h1>Tabla de Productos a vender</h1>
+    <!--tabla con la informacion general-->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Nombre de Producto</th>
+          <th scope="col">Cantidad de Productos</th>
+          <th scope="col">Precio general</th>
+          <th scope="col">retribucion</th>
+          <th scope="col">imagen</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of this.productosVoluntariado; track $index) {
+
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.cantidadProducto }}</td>
+            <td>{{ item.precioProducto }}</td>
+            <td>{{ item.cambio }}</td>
+            <td>
+              <img style="height: 100px; width: 100%;" [src]="item.imagen" alt="Sin Imagen">
+
+            </td>
+          </tr>
+
+          }
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--Para la comunicacion-->
+<hr>
+<div class="container">
+  <h1>Comunicacion</h1>
+
+  <div class="row">
+    <h1>Usuarios con Mensajes</h1>
+    <!--vista de personas con mensajes-->
+
+  </div>
+</div>
+<!--Para botonoes-->
+
+<hr/>
+<div class="row">
+  <div class="col-md-6">
+    <button  class="btn btn-warning">Cerrar</button>
+  </div>
+</div>
+

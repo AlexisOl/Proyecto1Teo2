@@ -127,6 +127,17 @@ app() -> post('/ingresoArticuloVoluntariado', 'ArticulosVoluntariadoController@i
 //? para ver los voluntariados de usuario creados
 
 app() -> get('/vistaVoluntariadoEstado', 'VoluntariadoController@vistaVoluntariadoEstado');
+//? crea insignias
+
+app() -> post('/crearInsignia', 'InsigniasController@crearInsingia');
+
+//? consulta a todos los datos de voluntariado (articulos)
+app() -> get('/obtenerProductosIdVoluntariado', 'ArticulosVoluntariadoController@obtenerProductosIdVoluntariado');
+
+// para obtener insignias
+app() -> get('/obtenerInsignia', 'InsigniasController@obtenerInsignia');
+
+
 
 
 
