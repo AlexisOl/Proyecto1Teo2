@@ -10,10 +10,12 @@ import { ComprasServicioService } from '../../services/compras-servicio.service'
 import { factura } from '../../models/factura';
 import { switchMap } from 'rxjs';
 import { usuario } from '../../models/usuario';
+import { Chart } from 'chart.js/auto';
+import { BaseChartDirective } from 'ng2-charts';
 @Component({
   selector: 'app-general-usuario',
   standalone: true,
-  imports: [MatExpansionModule, HeaderUsuarioComponent, MatCardModule, FormsModule, MatButtonModule],
+  imports: [MatExpansionModule, HeaderUsuarioComponent, MatCardModule, FormsModule, MatButtonModule, BaseChartDirective],
   templateUrl: './general-usuario.component.html',
   styleUrl: './general-usuario.component.css'
 })
@@ -25,6 +27,8 @@ export class GeneralUsuarioComponent implements OnInit{
   panelAbierto:boolean = false
   todasLasFacturas:any
   facturasDetalle:any=[]
+  chart:any
+  facturas:any
 
   constructor(private sesionServicio: SesionServicioService,
               private comprarServicio: ComprasServicioService){}
@@ -59,6 +63,32 @@ export class GeneralUsuarioComponent implements OnInit{
     })
   }
 
+  //funcion para generar grafico
+  generarGrafico() {
+    this.comprarServicio.obtenerIdFacturasTotal(this.sesionServicio.getUsuario()?.id).subscribe(
+      (facturas: factura) => {
+        this.facturas =facturas
+        console.log(this.facturas);
+        this.formaGrafica()
+      }
+    );
+  }
+  formaGrafica(){
+    if (this.chart) {
+      this.chart.destroy(); // Destruir la instancia anterior del gráfico
+    }
+
+    this.chart = new Chart('forma', {
+      type: 'line',
+      data: {
+        labels: this.facturas.map((row: { id: any; }) => "Factura no."+row.id),
+        datasets: [{
+          label: 'Precio Total',
+          data: this.facturas.map((row: { precioTotal: any; }) => row.precioTotal)
+        }]
+      }
+    });
+  }
 
   obtenerTotal(valor:number){
     let element =0
@@ -67,6 +97,8 @@ export class GeneralUsuarioComponent implements OnInit{
     }
     return element;
   }
+
+  //funcion pra generar grafica
 
   ngOnInit(): void {
     this.nombreUsuario = this.sesionServicio.getUsuario()?.user;
@@ -84,5 +116,6 @@ export class GeneralUsuarioComponent implements OnInit{
       console.log(
        this.sesionServicio.getUsuario()?.password);
         this.obtenerLasFacturas();
+        this.generarGrafico();
   }
 }

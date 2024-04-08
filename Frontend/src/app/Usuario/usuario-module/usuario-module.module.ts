@@ -8,13 +8,14 @@ import { VentasUsuarioComponent } from '../ventas-usuario/ventas-usuario.compone
 import { SeccionVoluntariadoComponent } from '../seccion-voluntariado/seccion-voluntariado.component';
 import { FinanzasComponent } from '../finanzas/finanzas.component';
 import { VistaVoluntariadosComponent } from '../vista-voluntariados/vista-voluntariados.component';
+import { VistaEspecificaVoluntariadoComponent } from '../vista-especifica-voluntariado/vista-especifica-voluntariado.component';
 
 //creacion de rutas en modulo
 const routes:Routes=[
   {path:'', component:GeneralUsuarioComponent},
   {path:'compras', component:ComprasUsuarioComponent},
   {path:'ventas', component:VentasUsuarioComponent},
-  {path:'vista_de_voluntariado', component:VistaVoluntariadosComponent},
+  {path:'vista_de_voluntariado', component:VistaEspecificaVoluntariadoComponent},
   {path:'voluntariado', component:SeccionVoluntariadoComponent},
   {path:'finanzas', component:FinanzasComponent}
 ]

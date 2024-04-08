@@ -111,7 +111,10 @@ app() -> post('/ingresoFactura', 'FacturaController@ingresoFactura');
 //ingreso detallado
 app() -> post('/ingresoDetalleFactura', 'DetalleFacturaController@ingresoDetallado');
 
+//obtiene factiras solo id
 app() -> get('/obtenerFacturas', 'FacturaController@obtenerIdFacturas');
+//obtiene facturas todas
+app() -> get('/obtenerIdFacturasTotal', 'FacturaController@obtenerIdFacturasTotal');
 
 app() -> get('/obtenerFacturasDetalle', 'FacturaController@obtenerComprasRealizadasUsuarios');
 
@@ -136,6 +139,22 @@ app() -> get('/obtenerProductosIdVoluntariado', 'ArticulosVoluntariadoController
 
 // para obtener insignias
 app() -> get('/obtenerInsignia', 'InsigniasController@obtenerInsignia');
+
+//? para todos los voluntariaods
+app() -> get('/vistaTotalVoluntariado', 'VoluntariadoController@vistaTotalVoluntariado');
+
+//? para el especifico del voluntariado TODOS LOS DATOS
+app() -> get('/vistaVoluntariadoEspecifico', 'VoluntariadoController@vistaVoluntariadoEspecifico');
+//? solo el voluntariado especifico en base al id
+app() -> get('/vistaVoluntariadoInfo', 'VoluntariadoController@vistaVoluntariadoInfo');
+
+
+//? ingreso del comprobante ayuda
+app() -> post('/ingresoConstanciaAyudaVoluntariado', 'AyudaVoluntariadoController@ingresoConstanciaAyudaVoluntariado');
+//?ingreso de detallado comprobante ayuda
+app() -> post('/ingresoDetalleConstanciaAyudaVoluntariado', 'ComprobanteAyudaVoluntariadoController@ingresoDetalleConstanciaAyudaVoluntariado');
+
+
 
 
 

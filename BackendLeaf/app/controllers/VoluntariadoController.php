@@ -62,6 +62,44 @@ class VoluntariadoController extends Controller
             // Envío de datos o vacío para evitar problemas
             return response()->json($result ?? []);
     }
-    //funcion para acpetar los voluntariados
+
+    public function vistaVoluntariadoInfo(){
+        $idUsuario = request()->get('id');
+        // Consulta de la base de datos con un join
+        $result = db()
+            ->query("SELECT v.*, e.tipo AS tipo_estado
+            FROM voluntariado v
+            INNER JOIN estado e ON v.estado = e.id
+            WHERE v.id =" . $idUsuario)
+            ->all();
+        // Envío de datos o vacío para evitar problemas
+        return response()->json($result ?? []);
+
+    }
+    public function vistaVoluntariadoEspecifico(){
+        $idUsuario = request()->get('id');
+        // Consulta de la base de datos con un join
+        $result = db()
+            ->query("SELECT av.*, p.nombre, p.precio, re.descripcion as cambio
+                from articulosVoluntariado av
+                join producto p ON p.id = av.identificador_producto
+                join retribucion re ON re.id = av.id_retribucion
+                where identificador_voluntariado = {$idUsuario};")
+            ->all();
+        // Envío de datos o vacío para evitar problemas
+        return response()->json($result ?? []);
+}
+        //esto para la pagina principal de voluntariado
+    // excepto cancelado o en espera
+    public function vistaTotalVoluntariado()
+    {
+        $respuesta = db()
+            ->select('voluntariado')
+            ->where('estado', 3)
+            ->orWhere('estado', 4)
+            ->orWhere('estado', 5)
+            ->all();
+        return response()->json($respuesta ?? []);
+    }
 
 }

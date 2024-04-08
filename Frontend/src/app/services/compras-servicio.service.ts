@@ -46,6 +46,12 @@ export class ComprasServicioService {
     return this.http.get<factura>(this.URL+"/obtenerFacturas?id="+id)
   }
 
+  //funcion para obtener facturas totales
+  public obtenerIdFacturasTotal(id:number|undefined):Observable<factura> {
+    return this.http.get<factura>(this.URL+"/obtenerIdFacturasTotal?id="+id)
+  }
+
+
   //funcion para obtener el detalle de cada factura
   public obtenerFacturasIdDetalle(id:number|undefined, idFactura:number):Observable<factura> {
     return this.http.get<factura>(this.URL+"/obtenerFacturasDetalle?id="+id+"&id_factura="+idFactura)

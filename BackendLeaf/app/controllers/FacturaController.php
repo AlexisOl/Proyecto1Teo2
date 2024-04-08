@@ -80,7 +80,17 @@ class FacturaController extends Controller
     {
         $id = app()->request()->get('id');
         $peticion = db()
-            ->query('select distinct id from factura where id_cliente =' . $id)
+            ->query('SELECT distinct id from factura where id_cliente =' . $id)
+            ->fetchAll();
+        return response()->json($peticion ?? []);
+    }
+
+    //funcion para obtener todas las facturas de usuario
+    public function obtenerIdFacturasTotal()
+    {
+        $id = app()->request()->get('id');
+        $peticion = db()
+            ->query('SELECT * from factura where id_cliente =' . $id)
             ->fetchAll();
         return response()->json($peticion ?? []);
     }

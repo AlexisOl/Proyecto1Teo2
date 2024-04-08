@@ -16,7 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { switchMap } from 'rxjs';
 import { usuario } from '../../models/usuario';
 import { ProductoEspecificoComponent } from '../producto-especifico/producto-especifico.component';
-import { Chart } from 'chart.js';
+import { Chart } from 'chart.js/auto';
 import { BaseChartDirective } from 'ng2-charts';
 @Component({
   selector: 'app-ventas-usuario',
