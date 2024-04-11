@@ -94,4 +94,13 @@ export class VoluntariadoServicioService {
 
 
   }
+  //obtener insignias de forma especifica voluntariado
+
+  
+  public obtenerInsigniaEspecifica(id:number|undefined):Observable<insignias>{
+
+    return this.http.get<insignias>(this.URL+"/obtenerInsigniaEspecifica?id="+id)
+
+
+  }
 }

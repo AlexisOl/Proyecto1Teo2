@@ -41,7 +41,14 @@ class ArticulosVoluntariadoController extends Controller
     public function obtenerProductosIdVoluntariado(){
         $producto_publicacion = app() -> request() -> get('id');
         $result = db()
-        ->query("select av.*, p.nombre, re.descripcion as cambio  from articulosVoluntariado av join producto p ON p.id = av.identificador_producto join retribucion re ON re.id = av.id_retribucion where identificador_voluntariado = {$producto_publicacion};")
+        ->query("SELECT 
+        av.*, p.nombre,p.imagen, re.descripcion as cambio
+        from articulosVoluntariado av 
+        join producto p 
+        ON p.id = av.identificador_producto 
+        join retribucion re 
+        ON re.id = av.id_retribucion 
+        where identificador_voluntariado = {$producto_publicacion};")
         ->all();
         return response()->json($result ?? []);
 

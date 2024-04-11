@@ -80,7 +80,7 @@ class VoluntariadoController extends Controller
         $idUsuario = request()->get('id');
         // Consulta de la base de datos con un join
         $result = db()
-            ->query("SELECT av.*, p.nombre, p.precio, re.descripcion as cambio
+            ->query("SELECT av.*, p.nombre,p.imagen, p.precio, re.descripcion as cambio
                 from articulosVoluntariado av
                 join producto p ON p.id = av.identificador_producto
                 join retribucion re ON re.id = av.id_retribucion
@@ -100,6 +100,50 @@ class VoluntariadoController extends Controller
             ->orWhere('estado', 5)
             ->all();
         return response()->json($respuesta ?? []);
+    }
+   //funcion para la vista de toda publicacion para ADMIN
+    //tiene varios join de usaurios y estado
+    public function vistaVoluntariadoAdmin()
+    {
+        $result = db()
+            ->query("SELECT v.*,e.tipo 
+            as tipo_estado, u.user 
+            as nombre_usuario 
+            from voluntariado v 
+            JOIN estado e 
+            ON v.estado = e.id 
+            join usuario u 
+            on u.id = identificador_usuario;")
+            ->all();
+
+        return response()->json($result ?? []);
+    }
+    //fucnion para aceptar la venta
+    public function aceptarVoluntariado()
+    {
+        $idVenta = request()->get('id');
+
+        $resultado = db()
+            ->update("voluntariado")
+            ->params(["estado" => 4])
+            ->where("id", $idVenta)
+            ->execute();
+
+        return response()->json($resultado ?? []);
+    }
+    //funcion para rechazar la venta
+
+    public function rechazarVoluntariado()
+    {
+        $idVenta = request()->get('id');
+
+        $resultado = db()
+            ->update("voluntariado")
+            ->params(["estado" => 2])
+            ->where("id", $idVenta)
+            ->execute();
+
+        return response()->json($resultado ?? []);
     }
 
 }

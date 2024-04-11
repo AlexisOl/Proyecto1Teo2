@@ -47,4 +47,16 @@ class InsigniasController extends Controller
         return response()->json($result ?? []);
     }
 
+
+    public function obtenerInsigniaEspecifica(){
+        $id = app()-> request()->get('id');
+        $result = db()
+        ->query("SELECT v.*, i.nombre 
+        from voluntariado v 
+        join insignias i 
+        on i.id_voluntariado=v.id 
+        where v.id ={$id};")
+        ->all();
+        return response()->json($result ?? []);
+    }
 }

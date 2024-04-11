@@ -30,6 +30,10 @@ export class HeaderAdminComponent  implements OnInit {
     this.rutas.navigate(['./generalAdmin/publicacion'])
   }
 
+  iraVoluntariado(){
+    this.rutas.navigate(['./generalAdmin/voluntariado'])
+  }
+
   iraUsuarios(){
     this.rutas.navigate(['./generalAdmin/usuarios'])
   }

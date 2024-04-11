@@ -139,6 +139,10 @@ app() -> get('/obtenerProductosIdVoluntariado', 'ArticulosVoluntariadoController
 
 // para obtener insignias
 app() -> get('/obtenerInsignia', 'InsigniasController@obtenerInsignia');
+app() -> get('/obtenerInsigniaEspecifica', 'InsigniasController@obtenerInsigniaEspecifica');
+app() -> get('/vistaVoluntariadoAdmin', 'VoluntariadoController@vistaVoluntariadoAdmin');
+app() -> get('/aceptarVoluntariado', 'VoluntariadoController@aceptarVoluntariado');
+app() -> get('/rechazarVoluntariado', 'VoluntariadoController@rechazarVoluntariado');
 
 //? para todos los voluntariaods
 app() -> get('/vistaTotalVoluntariado', 'VoluntariadoController@vistaTotalVoluntariado');

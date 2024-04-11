@@ -14,11 +14,20 @@ class ComprobanteAyudaVoluntariadoController extends Controller
     {
         $comprobanteAyudaVoluntariado = app()->request()->get('comprobanteAyudaVoluntariado');
         $id = app()->request()->get('id');
+        
+        //aqui generamos lo de quitar datos 
+        db()
+        ->query("UPDATE articulosVoluntariado 
+        SET cantidadProducto  = (select  cantidadProducto-{$comprobanteAyudaVoluntariado['cantidad']}) 
+        where id ={$comprobanteAyudaVoluntariado['id_articulo_Voluntariado']};")
+    ->execute();
+
         // aqui generamos un select para su ingreso 
         $peticionRetribucion = db()
         ->query("SELECT id_retribucion 
         from articulosVoluntariado where id = {$comprobanteAyudaVoluntariado['id_articulo_Voluntariado']};")
         ->column();
+        
         // aqui creo el cupon
         if($peticionRetribucion == 2) {
             $monedasOriginales = db()

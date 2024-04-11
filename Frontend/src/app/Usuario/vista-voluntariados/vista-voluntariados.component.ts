@@ -29,12 +29,41 @@ private sesionServicio: SesionServicioService,
 private voluntariadoServicio:VoluntariadoServicioService){}
 
 
+  // para ver las imagenes
+  //funcion para obtener imagenes
+  obtenerImagen(): void {
+    console.log(this.productosVoluntariado, "ya es");
+
+    for (let index = 0; index < this.productosVoluntariado.length; index++) {
+      const element = this.productosVoluntariado[index].imagen;
+      let valor = element.split('.');
+      console.log(element,"para imagen");
+
+      this.ventasServicio.obtenerImagen(valor[0], valor[1]).subscribe(
+        (imagenBlob: Blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            this.productosVoluntariado[index].imagen = reader.result as string;
+          };
+          reader.readAsDataURL(imagenBlob);
+        },
+        (error) => {
+          console.error('Error al obtener la imagen:', error);
+        }
+      );
+    }
+
+
+  }
+
   ngOnInit(): void {
 
     // para insiginias
-    this.voluntariadoServicio.obtenerInsignia(this.data.datos.id).subscribe(
+    this.voluntariadoServicio.obtenerInsigniaEspecifica(this.data.datos.id).subscribe(
       (tipo:any) => {
-        this.insigniaVoluntariado = tipo[0];
+        console.log(tipo, "tipo", this.data.datos.id);
+        
+        this.insigniaVoluntariado = tipo.nombre;
 
       }
     )
@@ -43,7 +72,7 @@ private voluntariadoServicio:VoluntariadoServicioService){}
     this.voluntariadoServicio.obtenerProductosVoluntariado(this.data.datos.id).subscribe(
       (articulos: articulosVoluntariado) => {
         this.productosVoluntariado = articulos
-        console.log(articulos);
+        this.obtenerImagen();
 
       }
     )
