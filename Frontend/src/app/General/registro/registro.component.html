@@ -1,1 +1,92 @@
-<p>registro works!</p>
+<app-header></app-header>
+
+<!--INGRESO DE LOGIN-->
+<h1>Registro para nuevos usuarios</h1>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav-content>
+      <div class="col-md-6 offset-md-3">
+        <div class="content mat-elevation-z8 justify-content-center">
+          <form class="form-container" #f = "ngForm">
+            <div class="loginForm">
+              <div class="mt-2">
+                <!--ingreso elementos-->
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Nombre de Usuario
+                </label>
+                <input
+                type="text"
+                class="form-control mt-2"
+                placeholder="Nombre de Empeleado"
+                name="Usuario"
+                [(ngModel)]='nombre'
+
+                required
+                />
+              </div>
+              <div class="mt-2">
+                <!--ingreso elementos-->
+                <label for="password" class="mt-5 d-flex justify-content-center">
+                  Contrasenia de Usuario
+                </label>
+                <input
+                type="password"
+                class="form-control mt-2"
+                placeholder="Contrasenia de Empeleado"
+                name="password"
+                [(ngModel)]="password"
+                  required
+                />
+              </div>
+              <div class="mt-2">
+                <!--ingreso elementos-->
+                <label for="password" class="mt-5 d-flex justify-content-center">
+                  Reigreso de la Contrasenia de Usuario
+                </label>
+                <input
+                type="password"
+                class="form-control mt-2"
+                placeholder="Contrasenia de Empeleado"
+                name="password"
+
+                [(ngModel)]="repetir"
+                  required
+                />
+              </div>
+              <div class="mt-2">
+                <!--ingreso elementos-->
+                <label for="Contacto" class="mt-5 d-flex justify-content-center">
+                  Contacto
+                </label>
+                <input
+                type="text"
+                class="form-control mt-2"
+                placeholder="Contacto"
+                name="password"
+
+                [(ngModel)]="contacto"
+                  required
+                />
+              </div>
+              <!--ingresos malos-->
+              <!--password-->
+              @if (this.malaContrasenia) {
+                <div class="container">
+                  <ngb-alert type="danger" [dismissible]="false">
+                    <strong>Error</strong> La Contrasenia ingresada no coincide
+                  </ngb-alert>
+                 </div>
+              }
+              <div class="col-md-12 d-flex mt-6 justify-content-center">
+                <button  class="btn btn-primary"
+                (click)="this.registroUsuarios()"
+                >Ingreso</button>
+              </div>
+            </div>
+          </form>
+  
+          <!--generacion de boton-->
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

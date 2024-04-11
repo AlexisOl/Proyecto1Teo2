@@ -86,4 +86,32 @@ public function ingresoMonedas(){
 
     }
 
+    //registro de los usuarios 
+    public function registroUsuario(){
+        $usuario = request()->get('usuario');
+    
+        //peticion para ver si ya hay valores de nombre 
+        // repetidos 
+    
+        $peticion = db()
+        ->query("SELECT COUNT(*) FROM usuario WHERE user = '{$usuario['user']}';")
+        ->column();
+    
+        if($peticion == 0) {
+            db()
+            ->insert("usuario")
+            ->params([
+                "user" => $usuario['user'],
+                "password" => $usuario['password'],
+                "idRol" => $usuario['idRol'],
+                "contacto" => $usuario['contacto'],
+                "cantidad_monedas" => $usuario['cantidad_monedas'],
+            ])
+            ->execute();
+            return response()->json(["success" => true, "message" => "Usuario creado correctamente"]);
+        } else {
+            return response()->json(["success" => false, "message" => "El usuario ya existe"]);
+        }
+    }
+    
 }

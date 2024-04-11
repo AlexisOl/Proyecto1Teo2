@@ -25,6 +25,10 @@ export class LoginVistaComponent implements OnInit{
               private sesion:SesionServicioService){}
 
 
+  //funcion para registrarse
+  registrate(){
+    this.rutas.navigate(['/registro'])
+  }
 
   //funcion con la cual intentamos logearnos
   intentarIngresar(){

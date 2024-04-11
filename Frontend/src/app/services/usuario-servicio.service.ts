@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,9 @@ export class UsuarioServicioService {
   }
   extaerMonedas(id:number|undefined, dinero:number):Observable<number>{
     return this.http.post<number>(this.URL + "/extaerMonedas", {id,  dinero });
+  }
+  registroUsuario(usuario:usuario):Observable<usuario> {
+    return this.http.post<usuario>(this.URL+"/registroUsuario", {usuario})
   }
 
 }

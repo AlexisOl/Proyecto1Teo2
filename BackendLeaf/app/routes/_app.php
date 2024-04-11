@@ -169,3 +169,6 @@ app() -> post('/ingresoMonedas', 'usuarioController@ingresoMonedas');
 app() -> post('/extaerMonedas', 'usuarioController@extaerMonedas');
 
 
+//* para los usuario
+app() -> post('/registroUsuario', 'usuarioController@registroUsuario');
+
