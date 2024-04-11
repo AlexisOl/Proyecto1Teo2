@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
 import { voluntariado } from '../../models/voluntariado';
 import { VistaVoluntariadoVisitaComponent } from '../vista-voluntariado-visita/vista-voluntariado-visita.component';
+import { VistaVoluntariadousuarioCompraComponent } from '../../Usuario/vista-voluntariadousuario-compra/vista-voluntariadousuario-compra.component';
 @Component({
   selector: 'app-seccion-voluntariado-general',
   standalone: true,
@@ -41,9 +42,9 @@ export class SeccionVoluntariadoGeneralComponent implements OnInit{
   modalParaVistaEspecifica(informacion: number){
     console.log(informacion+"id");
 
-    this.voluntariadoServicio.vistaVoluntariadoEstado(informacion).subscribe(
+    this.voluntariadoServicio.voluntariadoEspecifico(informacion).subscribe(
       (info:voluntariado)=> {
-        console.log(info);
+        console.log(info,'info');
         this.publicacionEspecifica=info
         this.openModal();
       }
@@ -54,7 +55,7 @@ export class SeccionVoluntariadoGeneralComponent implements OnInit{
   }
 
   openModal(){
-    this.dialog.open(VistaVoluntariadoVisitaComponent, {
+    this.dialog.open(VistaVoluntariadousuarioCompraComponent, {
       width:'80%',
       height:"650px",
       data: {datos: this.publicacionEspecifica}

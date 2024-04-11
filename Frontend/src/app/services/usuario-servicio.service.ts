@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { usuario } from '../models/usuario';
+import { cupones } from '../models/cupones';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,11 @@ export class UsuarioServicioService {
   }
   registroUsuario(usuario:usuario):Observable<usuario> {
     return this.http.post<usuario>(this.URL+"/registroUsuario", {usuario})
+  }
+
+  //funcion para obtener los cupones por usuario
+  obtenerCupones(id:number|undefined):Observable<cupones>{
+    return this.http.get<cupones>(this.URL+"/obtenerCupones?id="+id)
   }
 
 }

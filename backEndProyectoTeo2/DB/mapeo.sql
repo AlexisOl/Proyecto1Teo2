@@ -217,8 +217,20 @@ CREATE TABLE comprobanteAyudaVoluntariado(
 
 --* generacion de cupones 
 CREATE TABLE cupones(
-
+  id int not null AUTO_INCREMENT,
+  porcentaje decimal not null,
+  id_usuario int not null,
+  id_voluntariado int not null,
+  PRIMARY key(id),
+  FOREIGN key(id_usuario) REFERENCES usuario(id),
+  FOREIGN key(id_voluntariado) REFERENCES voluntariado(id),
 );
+--** generacion de uso de cupones
+
+CREATE TABLE utilizacionCupon(
+  
+);
+
 
 
 --* insignias 

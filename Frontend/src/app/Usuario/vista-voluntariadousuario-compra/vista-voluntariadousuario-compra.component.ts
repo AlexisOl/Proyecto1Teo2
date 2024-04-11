@@ -168,7 +168,7 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
       console.log(productos);
       //productos.id_factura = id_factura;
       return this.voluntariadoServicio
-        .ingresoDetalleConstanciaAyudaVoluntariado(generardetalleConstancia)
+        .ingresoDetalleConstanciaAyudaVoluntariado( this.sesionServicio.getUsuario()?.id, generardetalleConstancia)
         .subscribe((valores:any) => {
           console.log(valores.insertedId, "esto es el final");
           factura = valores.insertedId;
@@ -231,7 +231,7 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
 
 
     // ver bien porque le mande el all en el php por eso asi
-    console.log( '<', this.data);
+    this.obtencionInfoUsuarioPublicacion();
 
   }
 }

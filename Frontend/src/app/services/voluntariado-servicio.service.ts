@@ -69,8 +69,8 @@ export class VoluntariadoServicioService {
   }
 
   //* para detalle de comprobante
-  public ingresoDetalleConstanciaAyudaVoluntariado(comprobanteAyudaVoluntariado:comprobanteAyudaVoluntariado):Observable<comprobanteAyudaVoluntariado> {
-    return this.http.post<comprobanteAyudaVoluntariado>(this.URL+"/ingresoDetalleConstanciaAyudaVoluntariado", {comprobanteAyudaVoluntariado})
+  public ingresoDetalleConstanciaAyudaVoluntariado(id:number|undefined, comprobanteAyudaVoluntariado:comprobanteAyudaVoluntariado):Observable<comprobanteAyudaVoluntariado> {
+    return this.http.post<comprobanteAyudaVoluntariado>(this.URL+"/ingresoDetalleConstanciaAyudaVoluntariado", {comprobanteAyudaVoluntariado, id})
   }
 
 
@@ -88,7 +88,7 @@ export class VoluntariadoServicioService {
   }
 
   //obtener insignias
-  public obtenerInsignia(id:number):Observable<insignias>{
+  public obtenerInsignia(id:number|undefined):Observable<insignias>{
 
     return this.http.get<insignias>(this.URL+"/obtenerInsignia?id="+id)
 

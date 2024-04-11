@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { usuario } from '../../models/usuario';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-login-vista',
   standalone: true,
-  imports: [HeaderComponent, MatSidenavModule, FormsModule],
+  imports: [HeaderComponent, MatSidenavModule, FormsModule, NgbAlert],
   templateUrl: './login-vista.component.html',
   styleUrl: './login-vista.component.css'
 })
@@ -19,6 +20,7 @@ export class LoginVistaComponent implements OnInit{
   elemntos:any
   // valor de eleccion
   eleccion:number =0
+  noCoincide:boolean = false
 
   constructor(private servicioLogin:LoginServicioService,
               private rutas: Router,
@@ -43,10 +45,12 @@ export class LoginVistaComponent implements OnInit{
 
             this.redireccion(usuario)
           } else {
-            console.log('no coinciden los valores de ingreso');
+            this.noCoincide=true
           }
         } else {
           console.log('no ingreso nada');
+          this.noCoincide=true
+
         }
       }
     );

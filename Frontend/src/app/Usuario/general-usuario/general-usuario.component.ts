@@ -12,6 +12,10 @@ import { switchMap } from 'rxjs';
 import { usuario } from '../../models/usuario';
 import { Chart } from 'chart.js/auto';
 import { BaseChartDirective } from 'ng2-charts';
+import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
+import { insignias } from '../../models/insignias';
+import { UsuarioServicioService } from '../../services/usuario-servicio.service';
+import { cupones } from '../../models/cupones';
 @Component({
   selector: 'app-general-usuario',
   standalone: true,
@@ -29,9 +33,13 @@ export class GeneralUsuarioComponent implements OnInit{
   facturasDetalle:any=[]
   chart:any
   facturas:any
+  insginias:any
+  cupones:any
 
   constructor(private sesionServicio: SesionServicioService,
-              private comprarServicio: ComprasServicioService){}
+              private comprarServicio: ComprasServicioService,
+              private voluntariadoServicio:VoluntariadoServicioService,
+            private usuarioServicio:UsuarioServicioService){}
 
 
 
@@ -98,6 +106,17 @@ export class GeneralUsuarioComponent implements OnInit{
     return element;
   }
 
+
+  obtenerCupones(id:number|undefined){
+    this.usuarioServicio.obtenerCupones(id).subscribe(
+      (cupon:cupones) => {
+        console.log(cupon, "a");
+        
+        this.cupones = cupon
+      }
+    );
+  }
+
   //funcion pra generar grafica
 
   ngOnInit(): void {
@@ -117,5 +136,15 @@ export class GeneralUsuarioComponent implements OnInit{
        this.sesionServicio.getUsuario()?.password);
         this.obtenerLasFacturas();
         this.generarGrafico();
-  }
+  
+        //funcion para obtener insignias
+        this.voluntariadoServicio.obtenerInsignia(this.sesionServicio.getUsuario()?.id).subscribe(
+          (elementos:insignias) => {
+            this.insginias = elementos
+          }
+        )
+        //funcion para obtener cupones
+        this.obtenerCupones(this.sesionServicio.getUsuario()?.id)
+  
+      }
 }

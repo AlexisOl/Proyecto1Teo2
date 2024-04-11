@@ -38,8 +38,11 @@ class InsigniasController extends Controller
     public function obtenerInsignia(){
         $id = app()-> request()->get('id');
         $result = db()
-        ->select('insignias')
-        ->where('id_voluntariado', '=', $id)
+        ->query("SELECT ai.*, i.nombre, v.titulo 
+        from asignacionInsignia ai 
+        join insignias i on i.id = ai.id_insignia 
+        join voluntariado v on v.id = i.id_voluntariado 
+        where ai.id_usuario = {$id};")
         ->all();
         return response()->json($result ?? []);
     }

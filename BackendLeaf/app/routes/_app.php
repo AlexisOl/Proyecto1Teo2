@@ -171,4 +171,7 @@ app() -> post('/extaerMonedas', 'usuarioController@extaerMonedas');
 
 //* para los usuario
 app() -> post('/registroUsuario', 'usuarioController@registroUsuario');
+app() -> post('/peticionPorcentaje', 'ComprobanteAyudaVoluntariadoController@peticionPorcentaje');
 
+//? para los cupones
+app() -> get('/obtenerCupones', 'CuponesController@obtenerCupones');

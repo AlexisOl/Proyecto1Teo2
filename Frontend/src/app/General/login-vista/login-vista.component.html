@@ -40,6 +40,13 @@
                 required
               />
             </div>
+            @if (this.noCoincide) {
+              <div class="container">
+                <ngb-alert type="danger" [dismissible]="false">
+                  <strong>Error</strong> El nombre de usuario y Contrasenia estan mal
+                </ngb-alert>
+               </div>
+            }
             <div class="col-md-12 d-flex mt-6 justify-content-center">
               <button  class="btn btn-primary" (click)="intentarIngresar()">Ingreso</button>
               <button  class="btn btn-primary" (click)="registrate()">Registrate</button>
