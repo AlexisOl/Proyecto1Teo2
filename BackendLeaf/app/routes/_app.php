@@ -146,6 +146,13 @@ app() -> get('/rechazarVoluntariado', 'VoluntariadoController@rechazarVoluntaria
 
 //? para todos los voluntariaods
 app() -> get('/vistaTotalVoluntariado', 'VoluntariadoController@vistaTotalVoluntariado');
+/// para los trueques totales 
+
+app() -> get('/vistaTotalTrueque', 'VoluntariadoController@vistaTotalTrueque');
+
+app() -> get('/obtenerTipoVoluntariado', 'TipoVoluntariadoController@obtenerTipoVoluntariado');
+
+
 
 //? para el especifico del voluntariado TODOS LOS DATOS
 app() -> get('/vistaVoluntariadoEspecifico', 'VoluntariadoController@vistaVoluntariadoEspecifico');

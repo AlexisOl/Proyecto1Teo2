@@ -25,6 +25,7 @@ import { VistaVoluntariadousuarioCompraComponent } from '../../Usuario/vista-vol
 export class SeccionVoluntariadoGeneralComponent implements OnInit{
   // elementos de uso
   todosVoluntariados:any;
+  todosTrueques:any;
   busquedaPublicacion!:string
   publicacionEspecifica:any
 
@@ -71,8 +72,17 @@ export class SeccionVoluntariadoGeneralComponent implements OnInit{
     )
   }
 
+
+  obtenerTrueques(){
+    this.voluntariadoServicio.obtenerTodoslosTruques().subscribe(
+      (voluntariado: voluntariado) => {
+        this.todosTrueques = voluntariado;
+      }
+    );
+  }
+
   ngOnInit(): void {
     this.obtenerPublicaciones();
-
+    this.obtenerTrueques();
   }
 }

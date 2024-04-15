@@ -32,6 +32,7 @@ class VoluntariadoController extends Controller
                     "descripcion" => $voluntariado['descripcion'],
                     "identificador_usuario" => $voluntariado['identificador_usuario'],
                     "estado" => $ejecucion > 3 ? 4 : 1,
+                    "tipo"=>  $voluntariado['tipo']
                 ])
                 ->execute();
 
@@ -49,15 +50,17 @@ class VoluntariadoController extends Controller
     }
 
 
-    //funcion para obtener todos los voluntariados
+    //funcion para obtener todos los voluntariados y por tipo
     public function vistaVoluntariadoEstado(){
             $idUsuario = request()->get('id');
+            $tipo = request()->get('tipo');
             // Consulta de la base de datos con un join
             $result = db()
                 ->query("SELECT v.*, e.tipo AS tipo_estado
                              FROM voluntariado v
                              INNER JOIN estado e ON v.estado = e.id
-                             WHERE v.identificador_usuario = " . $idUsuario)
+                             WHERE v.identificador_usuario =  {$idUsuario}
+                             AND v.tipo = {$tipo}")
                 ->all();
             // Envío de datos o vacío para evitar problemas
             return response()->json($result ?? []);
@@ -94,10 +97,20 @@ class VoluntariadoController extends Controller
     public function vistaTotalVoluntariado()
     {
         $respuesta = db()
-            ->select('voluntariado')
-            ->where('estado', 3)
-            ->orWhere('estado', 4)
-            ->orWhere('estado', 5)
+        ->query("SELECT v.*,e.tipo 
+        from voluntariado v 
+        join estado e  on e.id = v.estado 
+        where v.estado = 3 or v.estado = 4 or v.estado = 5 ;")
+            ->all();
+        return response()->json($respuesta ?? []);
+    }
+
+    public function vistaTotalTrueque(){
+        $respuesta = db()
+        ->query("SELECT v.*,e.tipo 
+        from voluntariado v 
+        join estado e  on e.id = v.estado 
+        where (v.estado = 3 or v.estado = 4 or v.estado = 5 )and v.tipo = 2 ;")
             ->all();
         return response()->json($respuesta ?? []);
     }

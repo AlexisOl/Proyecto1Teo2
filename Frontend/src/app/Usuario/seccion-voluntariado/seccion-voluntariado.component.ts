@@ -37,8 +37,11 @@ export class SeccionVoluntariadoComponent implements OnInit {
   nombreUsuario: string | undefined;
   tipoEstadoProducto: number = 2;
   productosIngresados:producto[]=[];
+  productosTruque:any
   productosValores:any;
   publicacionesIngresadas:any
+  truequesIngresados:any
+  panelAbierto:boolean = false
 
   constructor(
     public dialog: MatDialog,
@@ -89,9 +92,9 @@ export class SeccionVoluntariadoComponent implements OnInit {
     this.nombreUsuario = this.servicioUsuario.getUsuario()?.user;
 
 
-    // para las ventas
+    // para las voluntariados
         // para las publicaciones
-        this.voluntariadoServicio.vistaVoluntariadoEstado(this.servicioUsuario.getUsuario()?.id).subscribe(
+        this.voluntariadoServicio.vistaVoluntariadoEstado(this.servicioUsuario.getUsuario()?.id, 1).subscribe(
           (nuevasPublicaciones:voluntariado) => {
             if (nuevasPublicaciones){
               this.publicacionesIngresadas=(nuevasPublicaciones)
@@ -101,7 +104,32 @@ export class SeccionVoluntariadoComponent implements OnInit {
 
           }
         )
+              // para las trueques
+              this.voluntariadoServicio.vistaVoluntariadoEstado(this.servicioUsuario.getUsuario()?.id, 2).subscribe(
+                (nuevasPublicaciones:voluntariado) => {
+                  if (nuevasPublicaciones){
+                    this.truequesIngresados=(nuevasPublicaciones)
+                  } else {
+                    this.truequesIngresados = []
+                  }
+      
+                }
+              )
 
+
+      //para productos de truque 
+          // para los productos
+    this.categoriasServicio
+    .obtenerProductosId(this.servicioUsuario.getUsuario()?.id, 3)
+    .subscribe((nuevosProd: producto | producto[]) => {
+      if (Array.isArray(nuevosProd)) {
+        this.productosTruque = nuevosProd;
+      } else {
+        this.productosTruque = [nuevosProd]; // Convierte el objeto único a un array
+      }
+
+      console.log(nuevosProd, typeof nuevosProd);
+    });
     // para los productos
     this.categoriasServicio
       .obtenerProductosId(this.servicioUsuario.getUsuario()?.id, this.tipoEstadoProducto)

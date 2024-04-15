@@ -124,7 +124,7 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
         generarConstanciaVoluntariado.id_cliente = this.sesionServicio.getUsuario()?.id;
         generarConstanciaVoluntariado.id_voluntariado = this.data.datos[0].id;
         //ingreso
-        this.voluntariadoServicio.ingresoConstanciaAyudaVoluntariado(generarConstanciaVoluntariado)
+        this.voluntariadoServicio.ingresoConstanciaAyudaVoluntariado(generarConstanciaVoluntariado, this.data.datos[0].tipo)
         .pipe(
           switchMap(
             (constancia:any) => {
@@ -165,12 +165,9 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
       generardetalleConstancia.precio =
       productos.cantidadProducto * productos.precio;
 
-      console.log(productos);
-      //productos.id_factura = id_factura;
       return this.voluntariadoServicio
         .ingresoDetalleConstanciaAyudaVoluntariado( this.sesionServicio.getUsuario()?.id, generardetalleConstancia)
         .subscribe((valores:any) => {
-          console.log(valores.insertedId, "esto es el final");
           factura = valores.insertedId;
          // this.cambiarEstadoVentas(valores.insertedId);
 
@@ -235,6 +232,8 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log(this.data.datos[0].tipo, "para ver");
+    
     //ver usuario
     this.idUsuario = this.sesionServicio.getUsuario()?.id;
     this.idRolUsuario = this.sesionServicio.getUsuario()?.idRol;

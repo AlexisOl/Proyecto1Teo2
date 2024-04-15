@@ -1,55 +1,92 @@
 <app-header></app-header>
 
-
-
 <!--INGRESO DE LOGIN-->
 <h1>Inicio de Sesion</h1>
 <mat-sidenav-container class="example-container">
   <mat-sidenav-content>
     <div class="col-md-6 offset-md-3">
       <div class="content mat-elevation-z8 justify-content-center">
-        <form class="form-container" #f = "ngForm">
+        <form class="form-container" #f="ngForm">
           <div class="loginForm">
             <div class="mt-2">
-              <!--ingreso elementos-->
-              <label for="nombre" class="mt-5 d-flex justify-content-center">
-                Nombre de Usuario
-              </label>
-              <input
-              type="text"
-              class="form-control mt-2"
-              placeholder="Nombre de Empeleado"
-              name="Usuario"
-              [(ngModel)]='nombre'
-
-                required
-              />
+              <mat-form-field
+                appearance="outline"
+                class="form-field full-width"
+              >
+                <!--ingreso elementos-->
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Nombre de Usuario
+                </label>
+                <input
+                  matInput
+                  type="text"
+                  class="form-control mt-2"
+                  placeholder="Nombre de Empeleado"
+                  name="nombre"
+                  [(ngModel)]="nombre"
+                  required
+                />
+                <mat-error *ngIf="f.submitted && f.controls['nombre'].errors"
+                  >Nombre de Usuario requerido</mat-error
+                >
+              </mat-form-field>
             </div>
+
             <div class="mt-2">
-              <!--ingreso elementos-->
-              <label for="password" class="mt-5 d-flex justify-content-center">
-                Contrasenia de Usuario
-              </label>
-              <input
-              type="password"
-              class="form-control mt-2"
-              placeholder="Contrasenia de Empeleado"
-              name="password"
-              [(ngModel)]="password"
-
-                required
-              />
+              <mat-form-field
+                appearance="outline"
+                class="form-field full-width"
+              >
+                <!--ingreso elementos-->
+                <label
+                  for="password"
+                  class="mt-5 d-flex justify-content-center"
+                >
+                  Contrasenia de Usuario
+                </label>
+                <input
+                  matInput
+                  type="password"
+                  class="form-control mt-2"
+                  placeholder="Contrasenia de Empeleado"
+                  name="password"
+                  [(ngModel)]="password"
+                  required
+                />
+                <mat-error *ngIf="f.submitted && f.controls['password'].errors"
+                  >Contrasenia necesaria</mat-error
+                >
+              </mat-form-field>
             </div>
+
             @if (this.noCoincide) {
-              <div class="container">
-                <ngb-alert type="danger" [dismissible]="false">
-                  <strong>Error</strong> El nombre de usuario y Contrasenia estan mal
-                </ngb-alert>
-               </div>
+            <div class="container">
+              <ngb-alert type="danger" [dismissible]="false">
+                <strong>Error</strong> El nombre de usuario y Contrasenia estan
+                mal
+              </ngb-alert>
+            </div>
             }
-            <div class="col-md-12 d-flex mt-6 justify-content-center">
-              <button  class="btn btn-primary" (click)="intentarIngresar()">Ingreso</button>
-              <button  class="btn btn-primary" (click)="registrate()">Registrate</button>
+            <div class="col-md-12 mt-6 justify-content-center">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mr-5">
+                    <button
+                      class="btn btn-primary"
+                      (click)="intentarIngresar()"
+                    >
+                      Ingreso
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="ml-5">
+                    <button class="btn btn-primary" (click)="registrate()">
+                      Registrate
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </form>
@@ -60,8 +97,6 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-
-
 @for (item of elemntos; track $index) {
-  <h1>{{item.nombre}}</h1>
+<h1>{{ item.nombre }}</h1>
 }

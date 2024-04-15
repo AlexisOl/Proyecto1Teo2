@@ -51,13 +51,17 @@
         <tr>
           <th scope="col">No.</th>
           <th scope="col">Nombre de Producto</th>
+          @if(this.data.datos[0].tipo == 1){
           <th scope="col">Precio Parcial</th>
+          }
           <th scope="col">Cantidad de Productos</th>
-          <th scope="col">Precio de Productos Unitarios</th>
+          @if(this.data.datos[0].tipo == 1){
+            <th scope="col">Precio de Productos Unitarios</th>
+          } 
           <th scope="col">Cambio</th>
           <th scope="col">Imagen</th>
           @if (this.idUsuario && this.idRolUsuario==2) {
-            <th scope="col">Agregar</th>
+          <th scope="col">Agregar</th>
           }
         </tr>
       </thead>
@@ -67,44 +71,51 @@
         <tr>
           <td>{{ $index + 1 }}</td>
           <td>{{ item.nombre }}</td>
+          @if(this.data.datos[0].tipo == 1){
+
           <td>{{ item.precioProducto }}</td>
-          @if (this.idUsuario) {
-            @if (item.cantidadProducto==0) {
-              <td>vendido</td>
-              }@else {
-              <input
-                type="number"
-                class="form-control mt-2"
-                placeholder="Cantidad de Producto a Vender"
-                name="cantidadProductoVenta"
-                [value]="item.cantidadProducto"
-                [min]="1"
-                [max]="item.cantidadProducto"
-                [(ngModel)]="item.cantidadProducto"
-              />
-              }
-          } @else {
+          }
+          @if (this.idUsuario) { @if (item.cantidadProducto==0) {
+          <td>vendido</td>
+          }@else {
+          <input
+            type="number"
+            class="form-control mt-2"
+            placeholder="Cantidad de Producto a Vender"
+            name="cantidadProductoVenta"
+            [value]="item.cantidadProducto"
+            [min]="1"
+            [max]="item.cantidadProducto"
+            [(ngModel)]="item.cantidadProducto"
+            [readonly]="this.data.datos[0].tipo == 1 ? false:true"
+          />
+          } } @else {
           <td>{{ item.cantidadProducto }}</td>
 
           }
-
-          <td>{{ item.precio }}</td>
+          @if(this.data.datos[0].tipo == 1){
+            <td>{{ item.precio }}</td>
+          }
           <td>{{ item.cambio }}</td>
           <td>
-            <img style="height: 100px; width: 100%;" [src]="item.imagen" alt="Sin Imagen">
+            <img
+              style="height: 100px; width: 100%"
+              [src]="item.imagen"
+              alt="Sin Imagen"
+            />
           </td>
-          @if (this.idUsuario && item.cantidadProducto!=0 && this.idRolUsuario==1) {
+          @if (this.idUsuario && item.cantidadProducto!=0 &&
+          this.idRolUsuario==1) {
 
-            <td>
-              <button
-                class="btn btn-primary"
-                (click)="eliminar(item, item.id, item.precio)"
-              >
-                Agregar
-              </button>
-            </td>
+          <td>
+            <button
+              class="btn btn-primary"
+              (click)="eliminar(item, item.id, item.precio)"
+            >
+              Agregar
+            </button>
+          </td>
           }
-
         </tr>
 
         }
@@ -112,8 +123,9 @@
     </table>
   </div>
 </div>
+@if (this.idUsuario && this.idRolUsuario==1) { @if(this.data.datos[0].tipo
+==1){
 <!--PARA VER SI ESTA INGRESADO-->
-@if (this.idUsuario && this.idRolUsuario==1) {
 <!--Para el resumen de valores-->
 <div class="container">
   <div class="row">
@@ -151,20 +163,69 @@
     </table>
   </div>
 </div>
+
+} @else{
+<!--Para el resumen de valores-->
 <div class="container">
   <div class="row">
-    <div class="col-md-8">
-      <button class="btn btn-primary"
-      (click)="generarVoluntariado()"
-      >Aceptar Venta</button>
-    </div>
-    <div class="col-md-4">
-      <button class="btn btn-danger"
-      >Reportar Venta</button>
-    </div>
+    <h1>Tabla de Resumen de Trueques</h1>
+    <!--tabla con la informacion general-->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Nombre de Articulo</th>
+          <th scope="col">Cantidad a Comprar</th>
+          <th scope="col">Eliminar Seleccion</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of datosParaComprar; track $index) {
+
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.cantidadProducto }}</td>
+          <td>
+            <button
+              class="btn btn-danger"
+              (click)="agregar(item.id, item, item.precio)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </div>
 
+
+} } @else{
+<div class="container">
+  <ngb-alert [dismissible]="false">
+    <strong>Informacion</strong>
+    Para poder interactuar y comprar productos debe ingresar al sistema, sino
+    comuniquese al contacto:
+    {{ infoUsuario ? infoUsuario.contacto : "sin contacto" }}
+  </ngb-alert>
+</div>
+}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <button class="btn btn-primary" (click)="generarVoluntariado()">
+        Aceptar Venta
+      </button>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-danger">Reportar Venta</button>
+    </div>
+  </div>
+</div>
 
 <hr />
 
@@ -215,31 +276,16 @@
     </div>
     <div class="row">
       <div class="col-md-4">
-        <button class="btn btn-success" >
-          Enviar Comentario
-        </button>
+        <button class="btn btn-success">Enviar Comentario</button>
       </div>
     </div>
   </div>
 </div>
-} @else{
-  <div class="container">
-    <ngb-alert [dismissible]="false">
-      <strong>Informacion</strong>
-      Para poder interactuar y comprar productos debe ingresar al sistema, sino comuniquese al contacto: {{infoUsuario?infoUsuario.contacto:'sin contacto'}}
-    </ngb-alert>
-  </div>
-
-
-}
-
 <!--Para botonoes-->
 
 <hr />
 <div class="row">
-
   <div class="col-md-6">
     <button class="btn btn-warning" (click)="cerrar()">Cerrar</button>
   </div>
 </div>
-

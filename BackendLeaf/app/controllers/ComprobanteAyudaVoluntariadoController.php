@@ -43,7 +43,7 @@ class ComprobanteAyudaVoluntariadoController extends Controller
             } else{
                 return 'error';
             }
-        } else {
+        } else if($peticionRetribucion == 1) {
             //genera un cupon
             //busqueda de cantidad inicial 
             $porcentajePeticion = db()

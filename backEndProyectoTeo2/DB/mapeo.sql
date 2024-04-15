@@ -156,6 +156,12 @@ CREATE TABLE factura(
   );
 
 
+--! esto es de la fase 3
+CREATE TABLE tipoVoluntariado(
+  id int not null AUTO_INCREMENT,
+  tipo varchar(100) NOT NULL,
+  PRIMARY key(id)
+);
 --! actualizacion fase 2 AUN NO INGRESAR 
 CREATE TABLE voluntariado(
     id INT NOT NULL AUTO_INCREMENT,
@@ -165,9 +171,11 @@ CREATE TABLE voluntariado(
     descripcion VARCHAR(3000),
     identificador_usuario INT(11) NOT NULL,
     estado int(2) NOT NULL,
+    tipo int(2) not null,
     PRIMARY KEY (id),
     FOREIGN KEY (identificador_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (estado) REFERENCES estado(id)
+    FOREIGN KEY (estado) REFERENCES estado(id),
+    FOREIGN KEY (tipo) REFERENCES tipoVoluntariado(id)
 );
 
 CREATE TABLE retribucion(
@@ -211,7 +219,7 @@ CREATE TABLE comprobanteAyudaVoluntariado(
   cantidad int not null,  
   PRIMARY KEY(id),
   FOREIGN KEY (id_articulo_Voluntariado) REFERENCES articulosVoluntariado(id),
-  FOREIGN KEY (id_ayuda_Voluntariado) REFERENCES ayudaVoluntariado(id),
+  FOREIGN KEY (id_ayuda_Voluntariado) REFERENCES ayudaVoluntariado(id)
 );
 
 
@@ -223,12 +231,19 @@ CREATE TABLE cupones(
   id_voluntariado int not null,
   PRIMARY key(id),
   FOREIGN key(id_usuario) REFERENCES usuario(id),
-  FOREIGN key(id_voluntariado) REFERENCES voluntariado(id),
+  FOREIGN key(id_voluntariado) REFERENCES voluntariado(id)
 );
 --** generacion de uso de cupones
 
 CREATE TABLE utilizacionCupon(
-  
+  id int not null AUTO_INCREMENT,
+  id_cupon int not null,
+  id_factura  int not null,
+  fecha Date int not null,
+  cantidad  decimal(10,10) not null,
+  PRIMARY key(id), 
+  FOREIGN key(id_cupon) REFERENCES cupones(id),
+  FOREIGN key(id_factura) REFERENCES factura(id)
 );
 
 
@@ -271,4 +286,6 @@ insert into estado (tipo) values ('En espera'), ('Cancelado'), ('Vendido'), ('En
 insert into tipoProducto(nombre) values ('Ventas'), ('Voluntariado'), ('Trueque');
 
 
-insert into retribucion(descripcion) values ('cupones'), ('moneda');
+, ('moneda'), ('cambio');
+
+insert into tipoVoluntariado(tipo) values ('Voluntariado'), ('Trueque');

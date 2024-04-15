@@ -5,4 +5,5 @@ export class articulosVoluntariado {
   identificador_voluntariado!: number
   identificador_producto!: number
   id_retribucion!:number
+  nombreRetribucion!:string
 }

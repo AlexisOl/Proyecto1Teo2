@@ -28,6 +28,19 @@
             [(ngModel)]="nombreUsuario"
           />
         </div>
+        <div class="col-md-4">
+          <label for="nombre" class="mt-5 d-flex justify-content-center"
+            >Seleccion de Producto</label
+          >
+          <mat-form-field>
+            <mat-label>Seleccione Producto</mat-label>
+            <mat-select [(ngModel)]="selectedTipo" name="Tipo voluntariado" (selectionChange)="this.tipo()">
+              @for (producto of tipoVoluntariado; track producto.id) {
+              <mat-option [value]="producto">{{ producto.tipo }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-6">
@@ -64,118 +77,214 @@
 </div>
 
 <hr />
-<!--Para las insignais-->
-<div class="container">
-  <h1>Ingreso de insignia para el voluntariado</h1>
-  <div class="row">
-    <div class="col-md-12">
-      <label for="nombre" class="mt-5 d-flex justify-content-center"
-        >nombre de la insignia</label
-      >
-      <input
-        type="text"
-        class="form-control mt-2"
-        placeholder="Seleccione el producto"
-        name="cantidadProducto"
-        [(ngModel)]="insignia"
-      />
+<!--si tiene algo seleccionado -->
+@if(this.valorSeleccionado) {
+<!--determina que es en base a si es trueque o voluntariado-->
+@if(this.valorSeleccionado==1) {
+  <!--Para las insignais-->
+  <div class="container">
+    <h1>Ingreso de insignia para el voluntariado</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="nombre" class="mt-5 d-flex justify-content-center"
+          >nombre de la insignia</label
+        >
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Seleccione el producto"
+          name="cantidadProducto"
+          [(ngModel)]="insignia"
+        />
+      </div>
+  
     </div>
-
   </div>
-</div>
-<!--VER TABLA DE PRODUCTOS ASOCIADOS-->
-<div class="container">
-  <h1>Ingreso de productos para el voluntariado</h1>
-  <div class="row">
-    <div class="col-md-4">
-      <label for="nombre" class="mt-5 d-flex justify-content-center"
-        >Seleccion de Producto</label
-      >
-      <mat-form-field>
-        <mat-label>Seleccione Producto</mat-label>
-        <mat-select [(ngModel)]="selectedValue" name="food">
-          @for (producto of productosCliente; track producto.id) {
-          <mat-option [value]="producto">{{ producto.nombre }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <label for="nombre" class="mt-5 d-flex justify-content-center"
-        >Cantidad de Producto</label
-      >
-      <input
-        type="number"
-        class="form-control mt-2"
-        placeholder="Seleccione el producto"
-        name="cantidadProducto"
-        [(ngModel)]="cantidadProducto"
-      />
-      <mat-form-field>
-        <mat-label>Seleccione forma</mat-label>
-        <mat-select [(ngModel)]="selectedRetribuccion" name="retribucion">
-          @for (producto of formaRetribucion; track $index) {
-          <mat-option [value]="producto.id">{{ producto.descripcion }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <div class="col-md-4 mt-5 d-flex">
-      <label for="nombre" class="mt-5 d-flex justify-content-center"
-        >Agregar de Producto</label
-      >
-      <button mat-icon-button (click)="agregarProducto()">
-        <div>
-          <mat-icon
-            aria-hidden="false"
-            aria-label="Example home icon"
-            fontIcon="add"
-          ></mat-icon>
+  <!--VER TABLA DE PRODUCTOS ASOCIADOS-->
+  <div class="container">
+    <h1>Ingreso de productos para el voluntariado</h1>
+    @if(this.productosCliente.length != 0) {
+      <div class="row">
+        <div class="col-md-4">
+          <label for="nombre" class="mt-5 d-flex justify-content-center"
+            >Seleccion de Producto</label
+          >
+          
+            <mat-form-field>
+              <mat-label>Seleccione Producto</mat-label>
+              <mat-select [(ngModel)]="selectedValue" name="food">
+                @for (producto of productosCliente; track producto.id) {
+                <mat-option [value]="producto">{{ producto.nombre }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          
+    
         </div>
-      </button>
+        <div class="col-md-4">
+          <label for="nombre" class="mt-5 d-flex justify-content-center"
+            >Cantidad de Producto</label
+          >
+          <input
+            type="number"
+            class="form-control mt-2"
+            placeholder="Seleccione el producto"
+            name="cantidadProducto"
+            [(ngModel)]="cantidadProducto"
+          />
+          <mat-form-field>
+            <mat-label>Seleccione forma</mat-label>
+            <mat-select [(ngModel)]="selectedRetribuccion" name="retribucion">
+              @for (producto of formaRetribucion; track $index) {
+                @if(producto.id !==3) {
+              <mat-option [value]="producto">{{ producto.descripcion }}</mat-option>
+                }
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+    
+        <div class="col-md-4 mt-5 d-flex">
+          <label for="nombre" class="mt-5 d-flex justify-content-center"
+            >Agregar de Producto</label
+          >
+          <button mat-icon-button (click)="agregarProducto()">
+            <div>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="add"
+              ></mat-icon>
+            </div>
+          </button>
+        </div>
+      </div>
+    }
+  
+    <div class="row">
+      <h1>Tabla de Productos a vender</h1>
+      <!--tabla con la informacion general-->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Nombre de Producto</th>
+            <th scope="col">Cantidad de Productos</th>
+            <th scope="col">Precio general</th>
+            <th scope="col">Forma de retribucion</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of listaProductos; track $index) {
+  
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.cantidadProducto }}</td>
+            <td>{{ item.precioProducto }}</td>
+            <td>
+              {{ item.nombreRetribucion }}
+            </td>
+  
+            <td>
+              <button class="btn btn-danger"
+              (click)="eliminar(item)"
+              >
+              Eliminar
+            </button></td>
+          </tr>
+  
+          }
+        </tbody>
+      </table>
     </div>
+  
   </div>
-  <div class="row">
-    <h1>Tabla de Productos a vender</h1>
-    <!--tabla con la informacion general-->
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">No.</th>
-          <th scope="col">Nombre de Producto</th>
-          <th scope="col">Cantidad de Productos</th>
-          <th scope="col">Precio general</th>
-          <th scope="col">Forma de retribucion</th>
-          <th scope="col">Eliminar</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of listaProductos; track $index) {
+  } @else {
+    <div class="container">
+      <h1>Ingreso de productos para el voluntariado</h1>
+    @if( this.productosCliente != 0) {
+      <div class="row">
+        <div class="col-md-4">
+          <label for="nombre" class="mt-5 d-flex justify-content-center"
+            >Seleccion de Producto</label
+          >
+          <mat-form-field>
+            <mat-label>Seleccione Producto</mat-label>
+            <mat-select [(ngModel)]="selectedValue" name="food">
+              @for (producto of productosCliente; track producto.id) {
+                  <mat-option [value]="producto">{{ producto.nombre }}</mat-option>
+              
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <label for="nombre" class="mt-5 d-flex justify-content-center"
+            >Cantidad de Producto</label
+          >
+          <input
+            type="number"
+            class="form-control mt-2"
+            placeholder="Seleccione el producto"
+            name="cantidadProducto"
+            [(ngModel)]="cantidadProducto"
+          />
+        </div>
+    
+        <div class="col-md-4 mt-5 d-flex">
+          <label for="nombre" class="mt-5 d-flex justify-content-center"
+            >Agregar de Producto</label
+          >
+          <button mat-icon-button (click)="agregarProducto()">
+            <div>
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="add"
+              ></mat-icon>
+            </div>
+          </button>
+        </div>
+      </div>
+    }
+  
+      <div class="row">
+        <h1>Tabla de Productos a vender</h1>
+        <!--tabla con la informacion general-->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">No.</th>
+              <th scope="col">Nombre de Producto</th>
+              <th scope="col">Cantidad de Productos</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of listaProductos; track $index) {
+    
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.cantidadProducto }}</td>
+              <td>
+                <button class="btn btn-danger"
+                (click)="eliminar(item)"
+                >
+                Eliminar
+              </button></td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+  
+}
 
-        <tr>
-          <td>{{ $index + 1 }}</td>
-          <td>{{ item.nombre }}</td>
-          <td>{{ item.cantidadProducto }}</td>
-          <td>{{ item.precioProducto }}</td>
-          <td>
-
-          </td>
-
-          <td>
-            <button class="btn btn-danger"
-            (click)="eliminar(item)"
-            >
-            Eliminar
-          </button></td>
-        </tr>
-
-        }
-      </tbody>
-    </table>
-  </div>
-
-</div>
 <hr>
 <div class="container">
     <!--ingreso de los botones del modal-->

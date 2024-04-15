@@ -9,6 +9,8 @@ import { VentasServicioService } from '../../services/ventas-servicio.service';
 import { categorias } from '../../models/categorias';
 import { producto } from '../../models/producto';
 import { SesionServicioService } from '../../services/sesion-servicio.service';
+import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
+import { tipoVoluntariado } from '../../models/tipoVoluntariado';
 @Component({
   selector: 'app-creacion-productos',
   standalone: true,
@@ -32,11 +34,15 @@ export class CreacionProductosComponent implements OnInit {
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
   selectedValue: string = '';
+  selectedValueTipoVoluntariado!:any
+  seleccion!:number
+  tipoVoluntariado:any
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private referencia: MatDialogRef<CreacionProductosComponent>,
     private categoriasServicio: VentasServicioService,
-    private servicioUsuario: SesionServicioService
+    private servicioUsuario: SesionServicioService,
+    private voluntariadoServicio:VoluntariadoServicioService
   ) {}
 
   onFileSelected(event: any) {
@@ -52,16 +58,25 @@ export class CreacionProductosComponent implements OnInit {
 
 
   }
-
+  //para la seleccion del tipo de voluntariado
+  tipo(){
+    this.seleccion = this.selectedValueTipoVoluntariado.id
+  }
   crearProducto() {
     const productoNuevo: producto = new producto();
+      //si es un truque 
+    if(this.seleccion ==2) {
+      productoNuevo.precio =0
+      productoNuevo.identificador_tipo_producto = 3
+    } else{
+      productoNuevo.precio = this.precio;
+    productoNuevo.identificador_tipo_producto = this.data.datos
+    }
     productoNuevo.nombre = this.nombre;
-    productoNuevo.precio = this.precio;
     productoNuevo.descripcion = this.descripcion;
     productoNuevo.imagen = this.imagen;
     productoNuevo.identificador_usuario = this.servicioUsuario.getUsuario()?.id;
     productoNuevo.identificador_categoria = Number(this.selectedValue);
-    productoNuevo.identificador_tipo_producto = this.data.datos
     console.log(productoNuevo, this.descripcion);
     //ingreso del producto
     this.categoriasServicio.ingresoProducto(productoNuevo).subscribe();
@@ -79,7 +94,13 @@ export class CreacionProductosComponent implements OnInit {
     this.referencia.close();
   }
   ngOnInit(): void {
+
     console.log(this.data.datos);
+    this.voluntariadoServicio.obtenerTipoVoluntariado().subscribe(
+      (tipo:tipoVoluntariado) => {
+        this.tipoVoluntariado = tipo
+      }  
+    );
 
     this.categoriasServicio
       .obtenerCategorias()

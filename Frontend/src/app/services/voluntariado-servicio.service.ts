@@ -8,6 +8,7 @@ import { articulosVoluntariado } from '../models/articulosVoluntariado';
 import { insignias } from '../models/insignias';
 import { ayudaVoluntariado } from '../models/ayudaVoluntariado';
 import { comprobanteAyudaVoluntariado } from '../models/comprobanteAyudaVoluntariado';
+import { tipoVoluntariado } from '../models/tipoVoluntariado';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class VoluntariadoServicioService {
 
   constructor(private http: HttpClient) { }
 
-
+  public obtenerTipoVoluntariado():Observable<tipoVoluntariado>{
+    return this.http.get<tipoVoluntariado>(this.URL+"/obtenerTipoVoluntariado")
+  }
   public obtenerProductoEstado(id:number):Observable<producto>{
     return this.http.get<producto>(this.URL+"/ingresoPublicaciones?id="+id);
   }
@@ -39,14 +42,18 @@ export class VoluntariadoServicioService {
   }
   // para ver los voluntariados
 
-  public vistaVoluntariadoEstado(id:number|undefined):Observable<voluntariado>{
-    return this.http.get<voluntariado>(this.URL+"/vistaVoluntariadoEstado?id="+id);
+  public vistaVoluntariadoEstado(id:number|undefined, tipo:number):Observable<voluntariado>{
+    return this.http.get<voluntariado>(this.URL+"/vistaVoluntariadoEstado?id="+id+"&tipo="+tipo);
   }
 
   //funcion para la obtencion global de voluntariados
 
   public obtenerTodosvoluntariados():Observable<voluntariado> {
     return this.http.get<voluntariado>(this.URL+"/vistaTotalVoluntariado")
+  }
+  public obtenerTodoslosTruques():Observable<voluntariado> {
+    return this.http.get<voluntariado>(this.URL+"/vistaTotalTrueque")
+
   }
 
   public voluntariadoEspecifico(id:number):Observable<voluntariado>{
@@ -64,8 +71,8 @@ export class VoluntariadoServicioService {
 
   //*voluntariado cliente
   //*ingreso de ayuda de volubtariado constancia
-  public ingresoConstanciaAyudaVoluntariado(ayudaVoluntariado:ayudaVoluntariado):Observable<ayudaVoluntariado> {
-    return this.http.post<ayudaVoluntariado>(this.URL+"/ingresoConstanciaAyudaVoluntariado", {ayudaVoluntariado})
+  public ingresoConstanciaAyudaVoluntariado(ayudaVoluntariado:ayudaVoluntariado, tipo:number):Observable<ayudaVoluntariado> {
+    return this.http.post<ayudaVoluntariado>(this.URL+"/ingresoConstanciaAyudaVoluntariado", {ayudaVoluntariado, tipo})
   }
 
   //* para detalle de comprobante

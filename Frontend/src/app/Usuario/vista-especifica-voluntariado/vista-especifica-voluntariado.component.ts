@@ -25,6 +25,7 @@ import { VistaVoluntariadousuarioCompraComponent } from '../vista-voluntariadous
 export class VistaEspecificaVoluntariadoComponent implements OnInit{
     // elementos de uso
     todosVoluntariados:any;
+    todosTrueques:any;
     voluntariadoEspecifico:any
     busquedaVoluntariado:string=''
     idUsuario:number|undefined
@@ -50,9 +51,15 @@ export class VistaEspecificaVoluntariadoComponent implements OnInit{
         this.openModal();
       }
     )
-
-
-
+  }
+  modalParaVistaTruque(informacion:any) {
+    this.voluntariadoServicio.voluntariadoEspecifico(informacion.id).subscribe(
+      (info:voluntariado)=> {
+        console.log(info, "datos", informacion);
+        this.voluntariadoEspecifico=info
+        this.openModal();
+      }
+    )
   }
 
   openModal(){
@@ -72,11 +79,21 @@ export class VistaEspecificaVoluntariadoComponent implements OnInit{
       );
     }
 
+    //funcion para obtener truques 
+
+    obtenerTrueques(){
+      this.voluntariadoServicio.obtenerTodoslosTruques().subscribe(
+        (voluntariado: voluntariado) => {
+          this.todosTrueques = voluntariado;
+        }
+      );
+    }
 
 
     ngOnInit(): void {
       this.idUsuario = this.sesionServicio.getUsuario()?.id
       this.obtenerVoluntariados();
+      this.obtenerTrueques();
   }
 
 }

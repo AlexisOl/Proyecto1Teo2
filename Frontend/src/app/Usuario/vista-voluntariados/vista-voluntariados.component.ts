@@ -61,9 +61,11 @@ private voluntariadoServicio:VoluntariadoServicioService){}
     // para insiginias
     this.voluntariadoServicio.obtenerInsigniaEspecifica(this.data.datos.id).subscribe(
       (tipo:any) => {
-        console.log(tipo, "tipo", this.data.datos.id);
+        console.log(tipo, "tipo", this.data.datos);
         
-        this.insigniaVoluntariado = tipo.nombre;
+        this.insigniaVoluntariado = tipo[0].nombre;
+        console.log(this.insigniaVoluntariado);
+        
 
       }
     )

@@ -3,14 +3,16 @@ import { HeaderComponent } from '../header/header.component';
 import { LoginServicioService } from '../../services/login-servicio.service';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { usuario } from '../../models/usuario';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login-vista',
   standalone: true,
-  imports: [HeaderComponent, MatSidenavModule, FormsModule, NgbAlert],
+  imports: [HeaderComponent, MatSidenavModule, FormsModule, NgbAlert, CommonModule, MatInputModule],
   templateUrl: './login-vista.component.html',
   styleUrl: './login-vista.component.css'
 })

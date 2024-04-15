@@ -25,6 +25,7 @@ import { VoluntariadoServicioService } from '../../services/voluntariado-servici
 import { articulosVoluntariado } from '../../models/articulosVoluntariado';
 import { voluntariado } from '../../models/voluntariado';
 import { insignias } from '../../models/insignias';
+import { tipoVoluntariado } from '../../models/tipoVoluntariado';
 
 @Component({
   selector: 'app-creacion-voluntariado',
@@ -38,7 +39,8 @@ export class CreacionVoluntariadoComponent implements OnInit{
 //lista para los productos
 productosCliente:any;
 selectedValue: any;
-selectedRetribuccion!: number;
+selectedTipo: any;
+selectedRetribuccion: any;
 
 //lista para guardar los demas productos
 listaProductos: articulosVoluntariado[] = []
@@ -62,6 +64,8 @@ idPublicacionCreada:number =0;
 formaRetribucion:any =[];
 imagen:string = '';
 insignia:string= '';
+tipoVoluntariado!:any
+valorSeleccionado!:number
 
 
 
@@ -88,7 +92,12 @@ agregarProducto(){
   productosNuevos.identificador_producto = this.selectedValue.id
   productosNuevos.nombre = this.selectedValue.nombre
   productosNuevos.precioProducto = this.selectedValue.precio*this.cantidadProducto;
-  productosNuevos.id_retribucion = this.selectedRetribuccion
+  if(this.valorSeleccionado == 1) {
+    productosNuevos.id_retribucion = this.selectedRetribuccion.id
+  } else {
+    productosNuevos.id_retribucion = 3
+  }
+  productosNuevos.nombreRetribucion = this.selectedRetribuccion.descripcion
   console.log(productosNuevos);
 
   this.listaProductos.push(productosNuevos)
@@ -127,6 +136,13 @@ onFileSelected(event: any) {
 
 
 }
+// mira el tipo de elemento seleccionado 
+tipo(){
+  this.valorSeleccionado = this.selectedTipo.id
+  this.productosCliente=[]
+  this.listaProductos=[]
+  this.ontieneProductos(this.valorSeleccionado+1)
+}
 //funcion para obtener el valor de ingreso
 ingreso() {
   const voluntariadoNuevo: voluntariado = new voluntariado();
@@ -134,16 +150,19 @@ ingreso() {
   voluntariadoNuevo.descripcion = this.descripcion;
   voluntariadoNuevo.identificador_usuario = this.idUsuario;
   voluntariadoNuevo.imagen = this.imagen;
+  voluntariadoNuevo.tipo = this.valorSeleccionado
 
   this.volutariadoServicio.ingresoVoluntariado(voluntariadoNuevo).pipe(
     switchMap((info: any) => {
       this.idPublicacionCreada = info.insertedId;
       console.log(info.insertedId);
-      //creacion de insingiaas
-      const nuevaInsignia: insignias = new insignias();
-      nuevaInsignia.nombre = this.insignia
-      nuevaInsignia.id_voluntariado = info.insertedId
-      this.crearInsignia(nuevaInsignia);
+      if(voluntariadoNuevo.tipo == 1) {
+        //creacion de insingiaas solo si es voluntariado
+        const nuevaInsignia: insignias = new insignias();
+        nuevaInsignia.nombre = this.insignia
+        nuevaInsignia.id_voluntariado = info.insertedId
+        this.crearInsignia(nuevaInsignia);
+      }
       // Después de ingresar la publicación, procesamos la lista de productos
       return this.procesarListaProductos();
     })
@@ -168,9 +187,24 @@ cerrar(){
   this.referencia.close();
 }
 
+ontieneProductos(tipo:number){
+    //obtiene productos de truque
+    this.publicacionServicio.obtenerProductosId(this.sesion.getUsuario()?.id,tipo).subscribe(
+      (producto:producto) => {
+        this.productosCliente = producto;
+      }
+    )
+}
 
 ngOnInit(): void {
 
+  // para los tipos de voluntariado
+
+  this.volutariadoServicio.obtenerTipoVoluntariado().subscribe(
+    (tipos:tipoVoluntariado) => {
+      this.tipoVoluntariado = tipos
+    }
+  );
   //obtienes las retribuciones
   this.volutariadoServicio.obtenerRetribuciones().subscribe(
     (retri:retribucion) => {
@@ -183,6 +217,7 @@ ngOnInit(): void {
       this.productosCliente = producto;
     }
   )
+
     this.nombreUsuario =this.sesion.getUsuario()?.user
     this.idUsuario =this.sesion.getUsuario()?.id
 }
