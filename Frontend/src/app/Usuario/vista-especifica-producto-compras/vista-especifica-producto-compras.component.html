@@ -57,7 +57,7 @@
           <th scope="col">Descripcion</th>
           <th scope="col">Imagen</th>
           @if (this.idUsuario && this.idRolUsuario==2) {
-            <th scope="col">Agregar</th>
+          <th scope="col">Agregar</th>
           }
         </tr>
       </thead>
@@ -68,22 +68,20 @@
           <td>{{ $index + 1 }}</td>
           <td>{{ item.nombre }}</td>
           <td>{{ item.precioProducto }}</td>
-          @if (this.idUsuario) {
-            @if (item.cantidadProducto==0) {
-              <td>vendido</td>
-              }@else {
-              <input
-                type="number"
-                class="form-control mt-2"
-                placeholder="Cantidad de Producto a Vender"
-                name="cantidadProductoVenta"
-                [value]="item.cantidadProducto"
-                [min]="1"
-                [max]="item.cantidadProducto"
-                [(ngModel)]="item.cantidadProducto"
-              />
-              }
-          } @else {
+          @if (this.idUsuario) { @if (item.cantidadProducto==0) {
+          <td>vendido</td>
+          }@else {
+          <input
+            type="number"
+            class="form-control mt-2"
+            placeholder="Cantidad de Producto a Vender"
+            name="cantidadProductoVenta"
+            [value]="item.cantidadProducto"
+            [min]="1"
+            [max]="item.cantidadProducto"
+            [(ngModel)]="item.cantidadProducto"
+          />
+          } } @else {
           <td>{{ item.cantidadProducto }}</td>
 
           }
@@ -91,20 +89,24 @@
           <td>{{ item.precio }}</td>
           <td>{{ item.descripcion }}</td>
           <td>
-            <img style="height: 100px; width: 100%;" [src]="item.imagen" alt="Sin Imagen">
+            <img
+              style="height: 100px; width: 100%"
+              [src]="item.imagen"
+              alt="Sin Imagen"
+            />
           </td>
-          @if (this.idUsuario && item.cantidadProducto!=0 && this.idRolUsuario==1) {
+          @if (this.idUsuario && item.cantidadProducto!=0 &&
+          this.idRolUsuario==1) {
 
-            <td>
-              <button
-                class="btn btn-primary"
-                (click)="eliminar(item, item.id, item.precio)"
-              >
-                Agregar
-              </button>
-            </td>
+          <td>
+            <button
+              class="btn btn-primary"
+              (click)="eliminar(item, item.id, item.precio)"
+            >
+              Agregar
+            </button>
+          </td>
           }
-
         </tr>
 
         }
@@ -126,6 +128,9 @@
           <th scope="col">Nombre de Articulo</th>
           <th scope="col">Cantidad a Comprar</th>
           <th scope="col">Precio</th>
+          <th scope="col">Seleccion de Cupon a utilizar</th>
+          <th scope="col">Cupon a utilizar</th>
+          <th scope="col">Precio Descontado</th>
           <th scope="col">Eliminar Seleccion</th>
         </tr>
       </thead>
@@ -137,10 +142,37 @@
           <td>{{ item.nombre }}</td>
           <td>{{ item.cantidadProducto }}</td>
           <td>{{ item.precio * item.cantidadProducto }}</td>
+
+          @if(item.cupon && item.cupon != null){
+          <td>ya seleccionado</td>
+          <td>cupon: {{ item.cupon.titulo }}-{{ item.cupon.porcentaje }}</td>
+          <td>{{ item.descuento }}</td>
+          } @else {
+          <td>
+            <mat-form-field>
+              <mat-label>Seleccione Producto</mat-label>
+              <mat-select
+                [(ngModel)]="selectedValues[$index]"
+                name="food"
+                (selectionChange)="this.tipo(selectedValues[$index], $index)"
+              >
+                @for (producto of cupones; track producto.id) {
+                <mat-option [value]="producto">{{
+                  producto.porcentaje + " - " + producto.titulo
+                }}</mat-option>
+
+                }
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td>sin cupon</td>
+          <td>Sin descuento</td>
+
+          }
           <td>
             <button
               class="btn btn-danger"
-              (click)="agregar(item.id, item, item.precio)"
+              (click)="agregar(item.id, item, item.precio, item.cupon)"
             >
               Eliminar
             </button>
@@ -166,29 +198,29 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <button class="btn btn-primary"
-      (click)="determinaCantidadValida()"
-      >Aceptar Venta</button>
+      <button class="btn btn-primary" (click)="determinaCantidadValida()">
+        Aceptar Venta
+      </button>
     </div>
     <div class="col-md-4">
-      <button class="btn btn-danger"
-      >Reportar Venta</button>
+      <button class="btn btn-danger">Reportar Venta</button>
     </div>
   </div>
 </div>
 @if (this.prodcutosInsuficiente) {
-  <div class="container">
-    <ngb-alert type="danger" [dismissible]="false">
-      <strong>Error</strong> La cantidad de productos seleccionados sobrepasa la cantidad a vender, vuelva a intentarlo.
-    </ngb-alert>
-   </div>
-}
-@if (this.dineroInsuficiente) {
- <div class="container">
+<div class="container">
   <ngb-alert type="danger" [dismissible]="false">
-    <strong>Error</strong> La cantidad de dinero de la compra, sobrepasa la cantidad de dinero del usuario
+    <strong>Error</strong> La cantidad de productos seleccionados sobrepasa la
+    cantidad a vender, vuelva a intentarlo.
   </ngb-alert>
- </div>
+</div>
+} @if (this.dineroInsuficiente) {
+<div class="container">
+  <ngb-alert type="danger" [dismissible]="false">
+    <strong>Error</strong> La cantidad de dinero de la compra, sobrepasa la
+    cantidad de dinero del usuario
+  </ngb-alert>
+</div>
 
 }
 
@@ -249,13 +281,14 @@
   </div>
 </div>
 } @else{
-  <div class="container">
-    <ngb-alert [dismissible]="false">
-      <strong>Informacion</strong>
-      Para poder interactuar y comprar productos debe ingresar al sistema, sino comuniquese al contacto: {{infoUsuario?infoUsuario.contacto:'sin contacto'}}
-    </ngb-alert>
-  </div>
-
+<div class="container">
+  <ngb-alert [dismissible]="false">
+    <strong>Informacion</strong>
+    Para poder interactuar y comprar productos debe ingresar al sistema, sino
+    comuniquese al contacto:
+    {{ infoUsuario ? infoUsuario.contacto : "sin contacto" }}
+  </ngb-alert>
+</div>
 
 }
 
@@ -263,7 +296,6 @@
 
 <hr />
 <div class="row">
-
   <div class="col-md-6">
     <button class="btn btn-warning" (click)="cerrar()">Cerrar</button>
   </div>
