@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { UsuarioServicioService } from '../../services/usuario-servicio.service';
 import { cupones } from '../../models/cupones';
+import { utilizacionCupon } from '../../models/utilizacionCupon';
 
 @Component({
   selector: 'app-vista-especifica-producto-compras',
@@ -207,17 +208,31 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   generarDetalleFactura(id_factura: number) {
     let factura = 0;
     const generardetalleFactura: detalleFactura = new detalleFactura();
+    var utilizacionCupones: any /**ver como cambiar tipado null | cupon */ =
+      new utilizacionCupon();
     generardetalleFactura.id_factura = id_factura;
+    utilizacionCupones.id_factura = id_factura;
     return this.datosParaComprar.map((productos: any) => {
+      // para el detalle
       generardetalleFactura.id_producto = productos.id;
       generardetalleFactura.cantidadComprado = productos.cantidadProducto;
       generardetalleFactura.precioParcial =
         productos.cantidadProducto * productos.precio;
 
+      //para los cupones
+      if (productos.cupon && productos.cupon !== null) {
+        utilizacionCupones.id_cupon = productos.cupon.id;
+        utilizacionCupones.cantidad =
+          productos.cupon.porcentaje *
+          productos.cantidadProducto *
+          productos.precio;
+      } else {
+        utilizacionCupones = null;
+      }
       console.log(productos);
       //productos.id_factura = id_factura;
       return this.comprasServicio
-        .insertarDetalleFactura(generardetalleFactura)
+        .insertarDetalleFactura(generardetalleFactura, utilizacionCupones)
         .subscribe(
           (valores: any) => {
             console.log(valores.insertedId, 'esto es el final');
@@ -282,11 +297,13 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   }
 
   obtenerCupones(id: number | undefined) {
-    this.usuarioServicio.obtenerCupones(id).subscribe((cupon: cupones) => {
-      console.log(cupon, 'imprime');
+    this.usuarioServicio
+      .obtenerCuponesSoloParaUsar(id)
+      .subscribe((cupon: cupones) => {
+        console.log(cupon, 'imprime');
 
-      this.cupones = cupon;
-    });
+        this.cupones = cupon;
+      });
   }
   ngOnInit(): void {
     //ver usuario

@@ -222,16 +222,23 @@ CREATE TABLE comprobanteAyudaVoluntariado(
   FOREIGN KEY (id_ayuda_Voluntariado) REFERENCES ayudaVoluntariado(id)
 );
 
-
+--* estado de cupones 
+CREATE TABLE estadoCupones(
+    id INT NOT NULL AUTO_INCREMENT,
+    estado VARCHAR(300) NOT NULL,
+    PRIMARY KEY (id)
+);
 --* generacion de cupones 
 CREATE TABLE cupones(
   id int not null AUTO_INCREMENT,
   porcentaje decimal not null,
   id_usuario int not null,
   id_voluntariado int not null,
+  id_estado int not null,
   PRIMARY key(id),
   FOREIGN key(id_usuario) REFERENCES usuario(id),
   FOREIGN key(id_voluntariado) REFERENCES voluntariado(id)
+  FOREIGN key(id_estado) REFERENCES estadoCupones(id)
 );
 --** generacion de uso de cupones
 
@@ -289,3 +296,6 @@ insert into tipoProducto(nombre) values ('Ventas'), ('Voluntariado'), ('Trueque'
 , ('moneda'), ('cambio');
 
 insert into tipoVoluntariado(tipo) values ('Voluntariado'), ('Trueque');
+
+
+insert into estadoCupones (estado) values ('Sin usar'), ('Utilizado');

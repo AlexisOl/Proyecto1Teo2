@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use Leaf\DB;
 use Psy\Util\Json;
+use \Datetime;
+use \DateTimeZone;
 
 class DetalleFacturaController extends Controller
 {
@@ -12,8 +14,11 @@ class DetalleFacturaController extends Controller
     //funcion para iongreso detallados de las compras
     public function ingresoDetallado()
     {
+        $now = new DateTime('', new DateTimeZone('America/Mexico_City'));
+        $date = $now->format('y-m-d');
+        
         $detalleFactura = app()->request()->get('detalleFactura');
-
+        $utilizacionCupon = app()->request()->get('utilizacionCupon');
 
         //aqui como ya me acepto hago el update para quitar los producto
         db()
@@ -28,7 +33,37 @@ class DetalleFacturaController extends Controller
 
 
 
+        //  aqui generaria en caso se use el cupon
+        if($utilizacionCupon && $utilizacionCupon != NULL) {
+        $insertResult = db()
+            ->insert("utilizacionCupon")
+            ->params([
+                "id_cupon" => $utilizacionCupon['id_cupon'],
+                "id_factura" => $utilizacionCupon['id_factura'],
+                "fecha" => $date,
+                "cantidad" => $utilizacionCupon['cantidad'],
+            ])
+            ->execute();
+        // cambio del estado del cupon
+        $cambioEstadoCupon=db()
+        ->query("UPDATE cupones SET id_estado = 2 
+            where id = {$utilizacionCupon['id_cupon']}")
+        ->execute();
 
+        //posteriormente ingreso de dinero
+        $idUsuario = db()
+        ->query("SELECT id_usuario 
+        from cupones where 
+        id = {$utilizacionCupon['id_cupon']};")
+        ->column();
+
+        $ingresoDinero = db()
+        ->query("UPDATE usuario set cantidad_monedas 
+        = (SELECT (select cantidad_monedas from usuario where 
+        id = {$idUsuario}) 
+        + {$utilizacionCupon['cantidad']}) where id = {$idUsuario};")
+        ->execute();
+        }
         // Realizar la consulta
         $insertResult = db()
             ->insert("detalleFactura")

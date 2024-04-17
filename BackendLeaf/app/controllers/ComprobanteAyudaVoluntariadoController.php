@@ -67,7 +67,8 @@ class ComprobanteAyudaVoluntariadoController extends Controller
             "porcentaje" => $porcentajePeticion,
             "id_usuario" => $id,
             "id_voluntariado" => $peticionIdVoluntariado,
-        ])
+            "id_estado" => 1
+            ])
         ->execute(); 
     }
 

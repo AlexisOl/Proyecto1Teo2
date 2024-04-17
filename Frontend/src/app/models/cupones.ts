@@ -1,7 +1,8 @@
 export class cupones {
-    porcentaje!:number
-    id_usuario!:number
-    id_voluntariado!:number
-    fecha!:Date
-    estado!:string
+  porcentaje!: number;
+  id_usuario!: number;
+  id_voluntariado!: number;
+  fecha!: Date;
+  estado!: string;
+  id_estado!: number;
 }

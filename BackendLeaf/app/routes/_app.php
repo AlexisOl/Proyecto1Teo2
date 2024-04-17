@@ -186,3 +186,6 @@ app() -> post('/peticionPorcentaje', 'ComprobanteAyudaVoluntariadoController@pet
 
 //? para los cupones
 app() -> get('/obtenerCupones', 'CuponesController@obtenerCupones');
+
+app() -> get('/obtenerCuponesSoloParaUsar', 'CuponesController@obtenerCuponesSoloParaUsar');
+
