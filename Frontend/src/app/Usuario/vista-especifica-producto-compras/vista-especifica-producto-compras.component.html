@@ -203,7 +203,12 @@
       </button>
     </div>
     <div class="col-md-4">
-      <button class="btn btn-danger">Reportar Venta</button>
+      <button
+        class="btn btn-danger"
+        (click)="reporteVenta(this.data.datos[0].id)"
+      >
+        Reportar Venta
+      </button>
     </div>
   </div>
 </div>

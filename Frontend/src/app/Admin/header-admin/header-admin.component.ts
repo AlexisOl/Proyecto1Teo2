@@ -10,38 +10,52 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 @Component({
   selector: 'app-header-admin',
   standalone: true,
-  imports: [MatButtonModule, MatSliderModule, MatToolbarModule, MatIconModule, MatMenuModule],
+  imports: [
+    MatButtonModule,
+    MatSliderModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatMenuModule,
+  ],
   templateUrl: './header-admin.component.html',
-  styleUrl: './header-admin.component.css'
+  styleUrl: './header-admin.component.css',
 })
-export class HeaderAdminComponent  implements OnInit {
-
-
-  nombreUsuario:string|undefined = ''
-  constructor(private sesionServicio: SesionServicioService,
-              private rutas:Router){}
+export class HeaderAdminComponent implements OnInit {
+  nombreUsuario: string | undefined = '';
+  constructor(
+    private sesionServicio: SesionServicioService,
+    private rutas: Router
+  ) {}
 
   //funciones para navegacion
 
-  iraInicio(){
-    this.rutas.navigate(['./generalAdmin'])
+  iraInicio() {
+    this.rutas.navigate(['./generalAdmin']);
   }
-  iraPublicaciones(){
-    this.rutas.navigate(['./generalAdmin/publicacion'])
-  }
-
-  iraVoluntariado(){
-    this.rutas.navigate(['./generalAdmin/voluntariado'])
+  iraPublicaciones() {
+    this.rutas.navigate(['./generalAdmin/publicacion']);
   }
 
-  iraUsuarios(){
-    this.rutas.navigate(['./generalAdmin/usuarios'])
+  iraVoluntariado() {
+    this.rutas.navigate(['./generalAdmin/voluntariado']);
+  }
+
+  repotado() {
+    this.rutas.navigate(['./generalAdmin/repotado']);
+  }
+
+  cancelado() {
+    this.rutas.navigate(['./generalAdmin/cancelado']);
+  }
+
+  reportes() {
+    this.rutas.navigate(['./generalAdmin/reportes']);
   }
   //funcion para cerrar la sesion
 
-  cerrarSesion(){
-    this.sesionServicio.eliminarUsuario()
-    this.rutas.navigate(['./inicio'])
+  cerrarSesion() {
+    this.sesionServicio.eliminarUsuario();
+    this.rutas.navigate(['./inicio']);
   }
   ngOnInit(): void {
     this.nombreUsuario = this.sesionServicio.getUsuario()?.user;

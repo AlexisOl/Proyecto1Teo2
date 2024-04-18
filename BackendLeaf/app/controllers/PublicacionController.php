@@ -246,7 +246,63 @@ class PublicacionController extends Controller
         return response()->json($peticion ?? []);
 
     }
-    //funcion para obtener cada uno de los productos;
+
+    public function reportarVenta(){
+        $id = app() ->request()->get('id');
+        $peticion = db()
+        ->query("UPDATE publicacion set estado = 5
+        WHERE id = {$id};")
+        ->execute();
+
+        if($peticion){
+            return response()->json(["success" => true, "message" => "ahora si"]);
+        } else {
+            return response()->json(["error" => true, "message" => "aun no"]);
+
+        }
+    }
+
+
+        public function dardeBajaVenta(){
+        $id = app() ->request()->get('id');
+        $peticion = db()
+        ->query("UPDATE publicacion set estado = 6
+        WHERE id = {$id};")
+        ->execute();
+
+        if($peticion){
+            return response()->json(["success" => true, "message" => "ahora si"]);
+        } else {
+            return response()->json(["error" => true, "message" => "aun no"]);
+
+        }
+    }
+    //funcion para obtener cada una de las ventas reportadas;
+
+
+    public function ventasReportadas(){
+        $respuesta = db()
+        ->query("SELECT p.*, e.tipo AS tipo_estado, u.user AS nombre_usuario
+        FROM publicacion p
+        JOIN estado e ON p.estado = e.id
+        JOIN usuario u ON p.identificador_usuario = u.id
+        where p.estado = 5;")
+        ->all();
+        return response()->json($respuesta ?? []);
+    }
+
+
+
+    public function ventasCanceladas(){
+        $respuesta = db()
+        ->query("SELECT p.*, e.tipo AS tipo_estado, u.user AS nombre_usuario
+        FROM publicacion p
+        JOIN estado e ON p.estado = e.id
+        JOIN usuario u ON p.identificador_usuario = u.id
+        where p.estado = 6;")
+        ->all();
+        return response()->json($respuesta ?? []);
+    }
 
     /**
      * todo SELECT  SUM(d.precioParcial) FROM factura f JOIN detalleFactura d ON f.id = d.id_factura JOIN publicacion p ON f.id_publicacion = p.id JOIN producto pr ON d.id_producto = pr.id JOIN usuario u ON p.identificador_usuario = u.id where u.id =1 and p.id =5;

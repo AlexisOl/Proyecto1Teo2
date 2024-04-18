@@ -79,6 +79,25 @@ app() -> get('/aceptarVenta', 'PublicacionController@aceptarVenta');
 //funcion para rechazar ventas
 app() -> get('/rechazarVenta', 'PublicacionController@rechazarVenta');
 
+// para reporte de voluntariados
+
+app() -> get('/voluntariadosReportados', 'VoluntariadoController@voluntariadosReportados');
+
+
+// para obtener las ventas reportadas 
+app() -> get('/ventasReportadas', 'PublicacionController@ventasReportadas');
+
+
+// para dar de baja el voluntariado
+app() -> post('/dardeBajaVoluntariado', 'VoluntariadoController@dardeBajaVoluntariado');
+// para dar de baja a una venta
+
+app() -> post('/dardeBajaVenta', 'PublicacionController@dardeBajaVenta');
+
+//** para ver los elementos dados de baja */
+app() -> get('/ventasCanceladas', 'PublicacionController@ventasCanceladas');
+app() -> get('/voluntariadosCancelados', 'VoluntariadoController@voluntariadosCancelados');
+
 
 //**COMPRAS
 
@@ -100,6 +119,12 @@ app() -> get('/obtenerPublicacionesNombre', 'PublicacionController@vistaTotalPub
 //! COMRPAS no logeados
 app() -> get('/obtenerInfoUsuarios', 'usuarioController@obtenerInformacionId');
 
+
+// para reportar ventas
+app() -> post('/reportarVenta', 'PublicacionController@reportarVenta');
+
+// para dar de baja la publicacion 
+app() -> post('/dardeBajaVenta', 'PublicacionController@dardeBajaVenta');
 
 
 
@@ -130,6 +155,11 @@ app() -> post('/ingresoArticuloVoluntariado', 'ArticulosVoluntariadoController@i
 //? para ver los voluntariados de usuario creados
 
 app() -> get('/vistaVoluntariadoEstado', 'VoluntariadoController@vistaVoluntariadoEstado');
+
+// para reportar voluntariado
+app() -> post('/reportarVoluntariado', 'VoluntariadoController@reportarVoluntariado');
+
+
 //? crea insignias
 
 app() -> post('/crearInsignia', 'InsigniasController@crearInsingia');

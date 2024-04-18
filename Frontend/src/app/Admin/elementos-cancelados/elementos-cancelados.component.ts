@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderAdminComponent } from '../header-admin/header-admin.component';
-import { AdminServicioService } from '../../services/admin-servicio.service';
-import { publicacion } from '../../models/publicacion';
-import { VentasServicioService } from '../../services/ventas-servicio.service';
 import { MatDialog } from '@angular/material/dialog';
 import { VistaEspecificaProductoComprasComponent } from '../../Usuario/vista-especifica-producto-compras/vista-especifica-producto-compras.component';
-import { ComprasServicioService } from '../../services/compras-servicio.service';
-import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
+import { publicacion } from '../../models/publicacion';
 import { voluntariado } from '../../models/voluntariado';
+import { AdminServicioService } from '../../services/admin-servicio.service';
+import { ComprasServicioService } from '../../services/compras-servicio.service';
+import { VentasServicioService } from '../../services/ventas-servicio.service';
+import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
+import { HeaderAdminComponent } from '../header-admin/header-admin.component';
 import { VistaVoluntariadousuarioCompraComponent } from '../../Usuario/vista-voluntariadousuario-compra/vista-voluntariadousuario-compra.component';
 
 @Component({
-  selector: 'app-publicaciones-elimindas',
+  selector: 'app-elementos-cancelados',
   standalone: true,
-  templateUrl: './publicaciones-elimindas.component.html',
-  styleUrl: './publicaciones-elimindas.component.css',
+  templateUrl: './elementos-cancelados.component.html',
+  styleUrl: './elementos-cancelados.component.css',
   imports: [HeaderAdminComponent],
 })
-export class PublicacionesElimindasComponent implements OnInit {
+export class ElementosCanceladosComponent implements OnInit {
   listaPublicaciones: any;
   listaVoluntariados: any;
   publicacionEspecifica: any;
@@ -75,30 +75,13 @@ export class PublicacionesElimindasComponent implements OnInit {
     });
   }
 
-  //funcion para aceptar o rechazar las publicaciones
-  aceptar(id: number) {
-    this.adminServicio.aceptarVenta(id).subscribe();
-  }
-
-  aceptarVoluntariado(id: number) {
-    this.adminServicio.aceptarVoluntariado(id).subscribe();
-  }
-
-  rechazarVenta(id: number) {
-    this.adminServicio.dardeBajaVenta(id).subscribe();
-  }
-
-  rechazarVoluntariado(id: number) {
-    this.adminServicio.dardeBajaVoluntariado(id).subscribe();
-  }
-
   ngOnInit(): void {
-    this.adminServicio.ventasReportadas().subscribe((ventas: publicacion) => {
+    this.adminServicio.ventasCancelados().subscribe((ventas: publicacion) => {
       this.listaPublicaciones = ventas;
     });
 
     this.adminServicio
-      .voluntariadosReportados()
+      .voluntariadosCancelados()
       .subscribe((voluntariados: voluntariado) => {
         this.listaVoluntariados = voluntariados;
       });

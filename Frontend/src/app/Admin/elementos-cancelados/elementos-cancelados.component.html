@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-    <h1>Tabla de Elementos Reportados</h1>
+    <h1>Tabla de Elementos dado de baja</h1>
     <h2>Ventas</h2>
     <!--tabla con la informacion general-->
     <table class="table table-striped">
@@ -14,7 +14,6 @@
           <th scope="col">fecha</th>
           <th scope="col">Estado</th>
           <th scope="col">Vista Publicacion</th>
-          <th scope="col">Opcion</th>
         </tr>
       </thead>
       <tbody>
@@ -33,29 +32,6 @@
             >
               Ver publicacion
             </button>
-          </td>
-          <td>
-            <div class="container">
-              <div class="row">
-                @if (item.estado==5) {
-                <div class="col-md-4">
-                  <button class="btn btn-success" (click)="aceptar(item.id)">
-                    Aprobar publicacion
-                  </button>
-                </div>
-                <div class="col-md-4">
-                  <button
-                    class="btn btn-danger"
-                    (click)="rechazarVenta(item.id)"
-                  >
-                    Dar de baja publicacion
-                  </button>
-                </div>
-                } @else {
-                <h1>Estado generado</h1>
-                }
-              </div>
-            </div>
           </td>
         </tr>
 
@@ -78,7 +54,6 @@
           <th scope="col">fecha</th>
           <th scope="col">Estado</th>
           <th scope="col">Vista Publicacion</th>
-          <th scope="col">Opcion</th>
         </tr>
       </thead>
       <tbody>
@@ -97,32 +72,6 @@
             >
               Ver voluntariado
             </button>
-          </td>
-          <td>
-            <div class="container">
-              <div class="row">
-                @if (item.estado==5) {
-                <div class="col-md-4">
-                  <button
-                    class="btn btn-success"
-                    (click)="aceptarVoluntariado(item.id)"
-                  >
-                    Aprobar Voluntariado
-                  </button>
-                </div>
-                <div class="col-md-4">
-                  <button
-                    class="btn btn-danger"
-                    (click)="rechazarVoluntariado(item.id)"
-                  >
-                    Dar de baja Voluntariado
-                  </button>
-                </div>
-                } @else {
-                <h1>Estado generado</h1>
-                }
-              </div>
-            </div>
           </td>
         </tr>
 

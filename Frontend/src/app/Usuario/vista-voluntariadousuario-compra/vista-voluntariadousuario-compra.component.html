@@ -56,8 +56,8 @@
           }
           <th scope="col">Cantidad de Productos</th>
           @if(this.data.datos[0].tipo == 1){
-            <th scope="col">Precio de Productos Unitarios</th>
-          } 
+          <th scope="col">Precio de Productos Unitarios</th>
+          }
           <th scope="col">Cambio</th>
           <th scope="col">Imagen</th>
           @if (this.idUsuario && this.idRolUsuario==2) {
@@ -74,8 +74,7 @@
           @if(this.data.datos[0].tipo == 1){
 
           <td>{{ item.precioProducto }}</td>
-          }
-          @if (this.idUsuario) { @if (item.cantidadProducto==0) {
+          } @if (this.idUsuario) { @if (item.cantidadProducto==0) {
           <td>vendido</td>
           }@else {
           <input
@@ -87,14 +86,13 @@
             [min]="1"
             [max]="item.cantidadProducto"
             [(ngModel)]="item.cantidadProducto"
-            [readonly]="this.data.datos[0].tipo == 1 ? false:true"
+            [readonly]="this.data.datos[0].tipo == 1 ? false : true"
           />
           } } @else {
           <td>{{ item.cantidadProducto }}</td>
 
-          }
-          @if(this.data.datos[0].tipo == 1){
-            <td>{{ item.precio }}</td>
+          } @if(this.data.datos[0].tipo == 1){
+          <td>{{ item.precio }}</td>
           }
           <td>{{ item.cambio }}</td>
           <td>
@@ -123,8 +121,7 @@
     </table>
   </div>
 </div>
-@if (this.idUsuario && this.idRolUsuario==1) { @if(this.data.datos[0].tipo
-==1){
+@if (this.idUsuario && this.idRolUsuario==1) { @if(this.data.datos[0].tipo ==1){
 <!--PARA VER SI ESTA INGRESADO-->
 <!--Para el resumen de valores-->
 <div class="container">
@@ -201,7 +198,6 @@
   </div>
 </div>
 
-
 } } @else{
 <div class="container">
   <ngb-alert [dismissible]="false">
@@ -213,7 +209,6 @@
 </div>
 }
 
-
 <div class="container">
   <div class="row">
     <div class="col-md-8">
@@ -222,7 +217,12 @@
       </button>
     </div>
     <div class="col-md-4">
-      <button class="btn btn-danger">Reportar Venta</button>
+      <button
+        class="btn btn-danger"
+        (click)="reporteVoluntariado(this.data.datos[0].id)"
+      >
+        Reportar Venta
+      </button>
     </div>
   </div>
 </div>

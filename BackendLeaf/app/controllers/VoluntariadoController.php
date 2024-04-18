@@ -144,7 +144,7 @@ class VoluntariadoController extends Controller
 
         return response()->json($resultado ?? []);
     }
-    //funcion para rechazar la venta
+    //funcion para rechazar el voluntariado
 
     public function rechazarVoluntariado()
     {
@@ -157,6 +157,73 @@ class VoluntariadoController extends Controller
             ->execute();
 
         return response()->json($resultado ?? []);
+    }
+
+// funcion para reportar los voluntariados
+        public function reportarVoluntariado(){
+        $id = app() ->request()->get('id');
+        $peticion = db()
+        ->query("UPDATE voluntariado set estado = 5
+        WHERE id = {$id};")
+        ->execute();
+
+        if($peticion){
+            return response()->json(["success" => true, "message" => "ahora si"]);
+        } else {
+            return response()->json(["error" => true, "message" => "aun no"]);
+
+        }
+    }
+
+
+    // genera el darle de baja a un voluntariado
+        public function dardeBajaVoluntariado(){
+        $id = app() ->request()->get('id');
+        $peticion = db()
+        ->query("UPDATE voluntariado set estado = 6
+        WHERE id = {$id};")
+        ->execute();
+
+        if($peticion){
+            return response()->json(["success" => true, "message" => "ahora si"]);
+        } else {
+            return response()->json(["error" => true, "message" => "aun no"]);
+
+        }
+    }
+
+
+    // funcion para ver los voluntariados reportados
+    public function voluntariadosReportados(){
+        $respuesta = db()
+        ->query("SELECT v.*, e.tipo 
+        AS tipo_estado, u.user 
+        AS nombre_usuario, t.tipo 
+        AS tipo_voluntariado         
+        FROM voluntariado v         
+        JOIN estado e ON v.estado = e.id         
+        JOIN usuario u ON v.identificador_usuario = u.id 
+        join tipoVoluntariado t on t.id = v.tipo  
+        where v.estado = 5;")
+        ->all();
+        return response()->json($respuesta ?? []);
+    }
+
+
+        // funcion para ver los voluntariados reportados
+    public function voluntariadosCancelados(){
+        $respuesta = db()
+        ->query("SELECT v.*, e.tipo 
+        AS tipo_estado, u.user 
+        AS nombre_usuario, t.tipo 
+        AS tipo_voluntariado         
+        FROM voluntariado v         
+        JOIN estado e ON v.estado = e.id         
+        JOIN usuario u ON v.identificador_usuario = u.id 
+        join tipoVoluntariado t on t.id = v.tipo  
+        where v.estado = 6;")
+        ->all();
+        return response()->json($respuesta ?? []);
     }
 
 }

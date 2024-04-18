@@ -8,6 +8,7 @@ import { detalleFactura } from '../models/detalleFactura';
 import { usuario } from '../models/usuario';
 import { producto } from '../models/producto';
 import { utilizacionCupon } from '../models/utilizacionCupon';
+import { voluntariado } from '../models/voluntariado';
 
 @Injectable({
   providedIn: 'root',
@@ -102,5 +103,10 @@ export class ComprasServicioService {
   //* compras no logeados
   public obtenerInfoUsuarios(id: number | undefined): Observable<usuario> {
     return this.http.get<usuario>(this.URL + '/obtenerInfoUsuarios?id=' + id);
+  }
+
+  //* generacion de compras
+  public reportarVenta(id: number): Observable<publicacion> {
+    return this.http.post<publicacion>(this.URL + '/reportarVenta', { id });
   }
 }

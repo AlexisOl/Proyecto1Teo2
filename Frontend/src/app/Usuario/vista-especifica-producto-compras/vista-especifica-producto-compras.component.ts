@@ -305,6 +305,11 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
         this.cupones = cupon;
       });
   }
+
+  //funcion para reportar la venta
+  reporteVenta(id: number) {
+    this.comprasServicio.reportarVenta(id).subscribe();
+  }
   ngOnInit(): void {
     //ver usuario
     this.idUsuario = this.sesionServicio.getUsuario()?.id;
