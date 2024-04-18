@@ -72,6 +72,9 @@ app() -> get('/actualizarEstado', 'PublicacionController@actualizarEstado');
 
 
 //*ADMIN
+//funcion para que genere nuevas categorias
+app() -> post('/generarNuevasCategorias', 'CategoriaController@generarNuevasCategorias');
+
 //funcion para que muestre las ventas
 app() -> get('/obtenerTodaPublicacionAdmin', 'PublicacionController@vistaPublicacionesAdmin');
 //funcion para aceptar las ventas
@@ -158,6 +161,15 @@ app() -> get('/vistaVoluntariadoEstado', 'VoluntariadoController@vistaVoluntaria
 
 // para reportar voluntariado
 app() -> post('/reportarVoluntariado', 'VoluntariadoController@reportarVoluntariado');
+
+
+//* para los comentarios de voluntariados
+app() -> post('/envioComentarioVoluntariado', 'ComentariosVoluntariadoController@envioComentarioVoluntariado');
+// para ver los comentarios en cliente
+app() -> get('/verConversacionClienteVoluntariado', 'ComentariosVoluntariadoController@verConversacionClienteVoluntariado');
+// comentarios voluntariados por id de vendedor duenio
+app() -> get('/verComentariosPorIdVoluntariado', 'ComentariosVoluntariadoController@verComentariosPorIdVoluntariado');
+
 
 
 //? crea insignias

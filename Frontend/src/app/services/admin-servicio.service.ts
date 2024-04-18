@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { publicacion } from '../models/publicacion';
 import { voluntariado } from '../models/voluntariado';
+import { categorias } from '../models/categorias';
 
 @Injectable({
   providedIn: 'root',
@@ -79,5 +80,14 @@ export class AdminServicioService {
   //* funcion ontiene las voluntariados reportadas
   public voluntariadosCancelados(): Observable<voluntariado> {
     return this.http.get<voluntariado>(this.URL + '/voluntariadosCancelados');
+  }
+
+  //funcion para generar nuevas categorias
+  public generarNuevasCategorias(
+    categorias: categorias
+  ): Observable<categorias> {
+    return this.http.post<categorias>(this.URL + '/generarNuevasCategorias', {
+      categorias,
+    });
   }
 }

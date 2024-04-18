@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { of, switchMap } from 'rxjs';
 import { asignacionProductos } from '../../models/asignacionProductos';
@@ -17,6 +17,7 @@ import { articulosVoluntariado } from '../../models/articulosVoluntariado';
 import { voluntariado } from '../../models/voluntariado';
 import { ayudaVoluntariado } from '../../models/ayudaVoluntariado';
 import { comprobanteAyudaVoluntariado } from '../../models/comprobanteAyudaVoluntariado';
+import { comentariosVoluntariado } from '../../models/comentariosVoluntariado';
 
 @Component({
   selector: 'app-vista-voluntariadousuario-compra',
@@ -49,9 +50,48 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
     private ventasServicio: VentasServicioService,
     private comprasServicio: ComprasServicioService,
     private sesionServicio: SesionServicioService,
-    private voluntariadoServicio: VoluntariadoServicioService
+    private voluntariadoServicio: VoluntariadoServicioService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
+  //** espacio para comentarios */
+
+  //funcion para ingreso de comentarios
+  registroComentario() {
+    const nuevoComentario: comentariosVoluntariado =
+      new comentariosVoluntariado();
+    nuevoComentario.id_voluntariado = this.data.datos[0].id;
+    nuevoComentario.id_usuarioPregunta = this.sesionServicio.getUsuario()?.id;
+    nuevoComentario.mensaje = this.textoComentario;
+    nuevoComentario.respuestaUsuarioOriginal =
+      this.data.datos[0].identificador_usuario ===
+      nuevoComentario.id_usuarioPregunta;
+
+    this.voluntariadoServicio
+      .envioComentarioVoluntariado(nuevoComentario)
+      .subscribe((respuesta: any) => {
+        this.textoComentario = '';
+        this.cdRef.detectChanges();
+        this.obtenerComentarios();
+      });
+  }
+
+  //obtencion de los comentarios asociados a la publicacion
+  //! COMO CLIENTE
+  obtenerComentarios() {
+    if (this.idUsuario) {
+      this.voluntariadoServicio
+        .verConversacionClienteVoluntariado(
+          this.sesionServicio.getUsuario()?.id,
+          this.data.datos[0].id
+        )
+        .subscribe((comentarios: comentariosVoluntariado) => {
+          this.comentariosPublicacion = comentarios;
+        });
+    }
+  }
+
+  //-------------
   cerrar() {
     this.referencia.close();
   }
@@ -270,5 +310,6 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
 
     // ver bien porque le mande el all en el php por eso asi
     this.obtencionInfoUsuarioPublicacion();
+    this.obtenerComentarios();
   }
 }

@@ -177,6 +177,18 @@ CREATE TABLE voluntariado(
     FOREIGN KEY (estado) REFERENCES estado(id),
     FOREIGN KEY (tipo) REFERENCES tipoVoluntariado(id)
 );
+--*comentarios voluntariado
+  CREATE TABLE comentariosVoluntariado(
+    id INT NOT NULL AUTO_INCREMENT,
+    fecha DATE NOT NULL,
+    mensaje varchar(3000) NOT NULL,
+    id_voluntariado INT NOT NULL,
+    id_usuarioPregunta INT NOT NULL,
+    respuestaUsuarioOriginal boolean NOT null,
+    PRIMARY KEY(id),
+    FOREIGN KEY (id_voluntariado) REFERENCES voluntariado(id),
+    FOREIGN KEY (id_usuarioPregunta) REFERENCES usuario(id)
+  );
 
 CREATE TABLE retribucion(
     id INT NOT NULL AUTO_INCREMENT,

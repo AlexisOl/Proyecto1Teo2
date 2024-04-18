@@ -47,8 +47,31 @@
         </label>
       </div>
     </div>
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Nombre de categoria"
+          name="cateogria"
+          [(ngModel)]="categoria"
+        />
+      </div>
+      <div class="col-md-4">
+        <div class="col-md-6">
+          <button class="btn btn-primary" (click)="ingresodecategoria()">
+            Crear
+          </button>
+        </div>
+      </div>
+    </div>
     <hr />
-    <div class="row"></div>
-    <hr />
+    @if (this.infoIngresado) {
+    <div class="container">
+      <ngb-alert type="success" [dismissible]="true">
+        <strong>Exito</strong> Se genero la nueva categoria.
+      </ngb-alert>
+    </div>
+    }
   </mat-card-content>
 </mat-card>

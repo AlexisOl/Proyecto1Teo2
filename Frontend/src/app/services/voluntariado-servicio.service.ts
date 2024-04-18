@@ -9,6 +9,7 @@ import { insignias } from '../models/insignias';
 import { ayudaVoluntariado } from '../models/ayudaVoluntariado';
 import { comprobanteAyudaVoluntariado } from '../models/comprobanteAyudaVoluntariado';
 import { tipoVoluntariado } from '../models/tipoVoluntariado';
+import { comentariosVoluntariado } from '../models/comentariosVoluntariado';
 
 @Injectable({
   providedIn: 'root',
@@ -145,5 +146,44 @@ export class VoluntariadoServicioService {
     return this.http.post<voluntariado>(this.URL + '/reportarVoluntariado', {
       id,
     });
+  }
+
+  // para los comentarios de voluntariados
+  //funcion para enviar un comentario
+
+  public envioComentarioVoluntariado(
+    comentario: comentariosVoluntariado
+  ): Observable<comentariosVoluntariado> {
+    return this.http.post<comentariosVoluntariado>(
+      this.URL + '/envioComentarioVoluntariado',
+      {
+        comentario,
+      }
+    );
+  }
+
+  //funcion para obtener la conversacion CLIENTE
+  public verConversacionClienteVoluntariado(
+    idCliente: number | undefined,
+    idvoluntariado: number | undefined
+  ) {
+    return this.http.get<comentariosVoluntariado>(
+      this.URL +
+        '/verConversacionClienteVoluntariado?idCliente=' +
+        idCliente +
+        '&idvoluntariado=' +
+        idvoluntariado
+    );
+  }
+
+  //* SECCION DE COMENTARIOS VOLUNTARIADO VENDEDOR
+  public verComentariosPorIdVoluntariado(
+    idVoluntariado: number
+  ): Observable<comentariosVoluntariado> {
+    return this.http.get<comentariosVoluntariado>(
+      this.URL +
+        '/verComentariosPorIdVoluntariado?idVoluntariado=' +
+        idVoluntariado
+    );
   }
 }
