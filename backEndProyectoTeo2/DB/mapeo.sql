@@ -180,7 +180,7 @@ CREATE TABLE voluntariado(
 --*comentarios voluntariado
   CREATE TABLE comentariosVoluntariado(
     id INT NOT NULL AUTO_INCREMENT,
-    fecha DATE NOT NULL,
+    fecha DATETIME NOT NULL,
     mensaje varchar(3000) NOT NULL,
     id_voluntariado INT NOT NULL,
     id_usuarioPregunta INT NOT NULL,

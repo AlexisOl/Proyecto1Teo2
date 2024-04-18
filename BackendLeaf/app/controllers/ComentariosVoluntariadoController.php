@@ -15,7 +15,7 @@ class ComentariosVoluntariadoController extends Controller
     {
         //generacion de la fecha actual
         $now = new DateTime('', new DateTimeZone('America/Mexico_City'));
-        $date= $now->format('y-m-d');
+        $date= $now->format('y-m-d H:i:s');
         $comentario = app()->request()->get('comentario');
 
         // Convertir respuestaUsuarioOriginal a booleano
