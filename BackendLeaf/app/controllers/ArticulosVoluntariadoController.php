@@ -55,9 +55,24 @@ class ArticulosVoluntariadoController extends Controller
     }
 
     //funcion para eliminar los articulos de los voluntariados
-    public function sePuedeEliminar(){
+     //funcion para determinar la cantidad de elementos que cumplen
+    //con eliminar los datos
+    public function sePuedeEliminarDatos(){
+        $identificador_producto =  app() -> request() -> get('id_producto');;
+        $cantidadProducto =  app() -> request() -> get('cantidadProducto');;
+        $identificador_voluntariado =  app() -> request() -> get('identificador_voluntariado');;
 
+        $result = db()
+        ->query("SELECT * from 
+        articulosVoluntariado
+        where cantidadProducto >={$cantidadProducto} 
+        and  identificador_producto = {$identificador_producto} 
+        and identificador_voluntariado = {$identificador_voluntariado};")
+        ->column();
+
+    return response()->json($result ?? []);
     }
+
 
 }
 

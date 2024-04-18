@@ -18,7 +18,6 @@ class ComentariosVoluntariadoController extends Controller
         $date= $now->format('y-m-d H:i:s');
         $comentario = app()->request()->get('comentario');
 
-        // Convertir respuestaUsuarioOriginal a booleano
         //$respuestaUsuarioOriginal = $comentario['respuestaUsuarioOriginal'] === '1' ? false : true;
         if($comentario['respuestaUsuarioOriginal']==0){
             $valorNuevo  = 1;
@@ -38,12 +37,12 @@ class ComentariosVoluntariadoController extends Controller
             ])
             ->execute();
 
-    if ($insertResult) {
-        $insertedId = db()->lastInsertId();
-        return response()->json(["success" => true, "message" => "Publicación creada correctamente", "insertedId" => $insertedId]);
-    } else {
-        return response()->json(["success" => false, "message" => "Error al crear la publicación"]);
-    }
+        if ($insertResult) {
+            $insertedId = db()->lastInsertId();
+            return response()->json(["success" => true, "message" => "Publicación creada correctamente", "insertedId" => $insertedId]);
+        } else {
+            return response()->json(["success" => false, "message" => "Error al crear la publicación"]);
+        }
     }
 
     public function verConversacionClienteVoluntariado()

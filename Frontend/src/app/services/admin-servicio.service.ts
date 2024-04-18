@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { publicacion } from '../models/publicacion';
 import { voluntariado } from '../models/voluntariado';
 import { categorias } from '../models/categorias';
+import { factura } from '../models/factura';
+import { usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root',
@@ -89,5 +91,20 @@ export class AdminServicioService {
     return this.http.post<categorias>(this.URL + '/generarNuevasCategorias', {
       categorias,
     });
+  }
+
+  //reportes
+
+  public masGastado(): Observable<factura> {
+    return this.http.get<factura>(this.URL + '/masGastado');
+  }
+  public masPublicaciones(): Observable<publicacion> {
+    return this.http.get<publicacion>(this.URL + '/masPublicaciones');
+  }
+  public usuariosVetados(): Observable<usuario> {
+    return this.http.get<usuario>(this.URL + '/usuariosVetados');
+  }
+  public usuariosMasIngreso(): Observable<usuario> {
+    return this.http.get<usuario>(this.URL + '/usuariosMasIngreso');
   }
 }

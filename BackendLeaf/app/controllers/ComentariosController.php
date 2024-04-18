@@ -17,16 +17,14 @@ class ComentariosController extends Controller
     {
         //generacion de la fecha actual
         $now = new DateTime('', new DateTimeZone('America/Mexico_City'));
-        $date= $now->format('y-m-d');
+        $date= $now->format('y-m-d H:i:s');
         $comentario = app()->request()->get('comentario');
 
         // Convertir respuestaUsuarioOriginal a booleano
         //$respuestaUsuarioOriginal = $comentario['respuestaUsuarioOriginal'] === '1' ? false : true;
         if($comentario['respuestaUsuarioOriginal']==0){
-            print('false');
             $valorNuevo  = 1;
         } else {
-            print( 'true');
             $valorNuevo ='0';
         }
         //$valorNuevo =$comentario['respuestaUsuarioOriginal']=='0'? true:false;

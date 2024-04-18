@@ -146,4 +146,54 @@
       }
     </mat-accordion>
   </div>
+
+  <h1>Tus Voluntariados</h1>
+  <div class="row">
+    <mat-accordion>
+      @for (item of this.todosAyudasVoluntariados; track item; let index =
+      $index) {
+      <mat-expansion-panel
+        (opened)="panelAbierto = true"
+        (closed)="panelAbierto = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Voluntariado No. {{ item.id }} </mat-panel-title>
+          <mat-panel-description>
+            Desglozar para mas informacion
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <!--tabla con la informacion general-->
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Indice</th>
+                <th scope="col">Cantidad Comprado</th>
+                <th scope="col">Id de voluntariado</th>
+                <th scope="col">Nombre de Producto</th>
+                <th scope="col">Nombre de vendedor</th>
+                <th scope="col">fecha</th>
+                <th scope="col">titulo de publicacion</th>
+              </tr>
+            </thead>
+            @for (detalle of this.voluntariadosDetalle[index]; track $index) {
+            <tbody>
+              <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ detalle.id_voluntariado }}</td>
+                <td>{{ detalle.nombre_producto }}</td>
+                <td>{{ detalle.nombre_usuario }}</td>
+                <td>{{ detalle.fecha }}</td>
+                <td>{{ detalle.titulo_voluntariado }}</td>
+              </tr>
+            </tbody>
+            }
+          </table>
+        </div>
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </div>
 </div>

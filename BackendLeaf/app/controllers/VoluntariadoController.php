@@ -100,7 +100,8 @@ class VoluntariadoController extends Controller
         ->query("SELECT v.*,e.tipo 
         from voluntariado v 
         join estado e  on e.id = v.estado 
-        where v.estado = 3 or v.estado = 4 or v.estado = 5 ;")
+        where (v.estado = 3 or v.estado = 4 or v.estado = 5 )
+        and v.tipo = 1;")
             ->all();
         return response()->json($respuesta ?? []);
     }
@@ -184,6 +185,42 @@ class VoluntariadoController extends Controller
         WHERE id = {$id};")
         ->execute();
 
+
+
+        $seleccion = db()
+        ->query("SELECT COUNT(*) 
+        from voluntariado where estado = 6 
+        and identificador_usuario = 
+        (select identificador_usuario 
+        from voluntariado where id = {$id});")
+        ->column();
+
+
+        if(($seleccion >=2 )) {
+        $peticion2 = db()
+        ->query("UPDATE voluntariado set estado = 6
+        where estado !=6 
+        and identificador_usuario = 
+        (select identificador_usuario 
+        from voluntariado where id = {$id});")
+        ->execute();
+
+        $peticion3 = db()
+        ->query("UPDATE publicacion set estado = 6
+        where estado !=6 
+        and identificador_usuario = 
+        (select identificador_usuario 
+        from voluntariado where id = {$id});")
+        ->execute();
+
+        $cancelarUsuario = db()
+        ->query("UPDATE usuario
+        SET idRol = 3
+        WHERE id = (select identificador_usuario 
+        from voluntariado where id = {$id});")
+        ->execute();
+        }
+
         if($peticion){
             return response()->json(["success" => true, "message" => "ahora si"]);
         } else {
@@ -225,5 +262,98 @@ class VoluntariadoController extends Controller
         ->all();
         return response()->json($respuesta ?? []);
     }
+
+
+    //todo PARA LO DE ACTULIZAR ESTADO
+    public function actualizarEstado(){
+        $id = app() ->request()->get('id');
+        $idVoluntario = db()
+        ->query("SELECT id_articulo_Voluntariado FROM 
+        comprobanteAyudaVoluntariado where id  = {$id};")
+        ->column();
+
+        $idAyudaVoluntario = db()
+        ->query("SELECT id_ayuda_Voluntariado FROM 
+        comprobanteAyudaVoluntariado where id  = {$id};")
+        ->column();
+        
+        //busqueda de elementos totales
+        $peticion2 = db()
+        -> query("SELECT count(*) as cantidad 
+        from articulosVoluntariado 
+        where  identificador_voluntariado =(SELECT identificador_voluntariado FROM
+        articulosVoluntariado where id = {$idVoluntario})
+        and cantidadProducto = 0;")
+        ->column();
+        //primero hacer busqueda de elementos con cero
+        // en base al ultimo valor de factura
+        $peticion = db()
+        -> query("SELECT COUNT(*) AS cantidad 
+        from articulosVoluntariado 
+        where identificador_voluntariado = (SELECT identificador_voluntariado FROM
+        articulosVoluntariado where id = {$idVoluntario});")
+        ->column();
+        // luego hacer actulizacion
+        //si es valido entonces actualizar solo a los en venta
+        if($peticion == $peticion2) {
+            $idVenta = db()
+            ->query("SELECT id_voluntariado 
+            from ayudaVoluntariado 
+            where id ={$idAyudaVoluntario};")
+            ->column();
+
+
+            $resultado = db()
+            ->update("voluntariado")
+            ->params(["estado" => 3])
+            ->where("id", $idVenta)
+            ->execute();
+
+            return response()->json(["success" => true, "message" => "ahora si"]);
+
+        } else {
+            return response()->json(["error" => true, "message" => "aun no"]);
+
+        }
+
+    }
+
+
+        //obtiene los ids de facturas
+    public function obtenerVoluntariadoId()
+    {
+        $id = app()->request()->get('id');
+        $peticion = db()
+            ->query('SELECT distinct id from ayudaVoluntariado where id_cliente =' . $id)
+            ->fetchAll();
+        return response()->json($peticion ?? []);
+    }
+
+
+        //obtiene todas las compras en base al id de publicacion y de usuarui
+    public function obtenerVoluntariadoIdDetalle()
+    {
+        $id = app()->request()->get('id');
+        $idAyudaVoluntariado = app()->request()->get('idAyudaVoluntariado');
+        $peticion = db()
+            ->query(" SELECT av.id AS id_voluntariado,
+        v.titulo AS titulo_voluntariado,
+        av.fecha,
+        d.id_articulo_Voluntariado,
+        d.cantidad,
+        d.precio,
+        pr.nombre AS nombre_producto,
+        u.user AS nombre_usuario
+        FROM ayudaVoluntariado av
+        JOIN comprobanteAyudaVoluntariado d ON av.id = d.id_ayuda_Voluntariado
+        JOIN voluntariado v ON av.id_voluntariado = v.id
+        join articulosVoluntariado arv on arv.id = d.id_articulo_Voluntariado
+        JOIN producto pr ON arv.identificador_producto = pr.id
+        JOIN usuario u ON v.identificador_usuario = u.id
+        where av.id_cliente ={$id} and av.id ={$idAyudaVoluntariado};")
+            ->fetchAll();
+        return response()->json($peticion ?? []);
+    }
+
 
 }

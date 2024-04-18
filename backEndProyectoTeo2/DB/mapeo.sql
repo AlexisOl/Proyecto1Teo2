@@ -119,7 +119,7 @@ CREATE TABLE articulosporPublicacion (
 --*comentarios 
   CREATE TABLE comentarios(
     id INT NOT NULL AUTO_INCREMENT,
-    fecha DATE NOT NULL,
+    fecha DATETIME NOT NULL,
     mensaje varchar(3000) NOT NULL,
     id_publicacion INT NOT NULL,
     id_usuarioPregunta INT NOT NULL,
@@ -288,6 +288,51 @@ CREATE TABLE asignacionInsignia(
 
 );
 
+--- para cancelar usuarios 
+
+DELIMITER //
+
+CREATE TRIGGER actualizarRolUsuario AFTER UPDATE ON publicacion
+FOR EACH ROW
+BEGIN
+    DECLARE cantidadPublicaciones INT;
+    DECLARE usuario_id INT;
+    
+    SELECT COUNT(*) INTO cantidadPublicaciones
+    FROM publicacion
+    WHERE estado = 6 AND identificador_usuario = NEW.identificador_usuario;
+    
+    IF cantidadPublicaciones > 3 THEN
+        SET usuario_id = NEW.identificador_usuario;  -- Obtiene el usuario_id de la fila actualizada
+        UPDATE usuario
+        SET idRol = 3
+        WHERE id = usuario_id;
+
+
+        UPDATE voluntariado 
+        set estado = 6
+        where identificador_usuario = usuario_id;
+    END IF;
+END//
+
+DELIMITER ;
+
+DELIMITER //
+
+-- Trigger para actualizar el estado de la publicación
+CREATE TRIGGER actualizarEstadoPublicacion AFTER UPDATE ON usuario
+FOR EACH ROW
+BEGIN
+    IF NEW.idRol = 3 THEN
+        UPDATE usuario 
+        SET estado = 6
+        WHERE identificador_usuario = NEW.id;
+    END IF;
+END//
+
+
+
+DELIMITER ;
 
 ----------------------
 ----------------------

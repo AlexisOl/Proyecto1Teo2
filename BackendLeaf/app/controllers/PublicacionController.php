@@ -270,6 +270,32 @@ class PublicacionController extends Controller
         WHERE id = {$id};")
         ->execute();
 
+
+        $seleccion = db()
+        ->query("SELECT COUNT(*) 
+        from publicacion where estado = 6 
+        and identificador_usuario = 
+        (select identificador_usuario 
+        from publicacion where id = {$id});")
+        ->column();
+
+        $seleccion2 = db()
+        ->query("SELECT idRol 
+        from usuario 
+        where  
+        id = (select identificador_usuario 
+        from publicacion where id = {$id});")
+        ->column();
+
+        if(($seleccion >=3 )|| ($seleccion2 == 3)) {
+        $peticion2 = db()
+        ->query("UPDATE publicacion set estado = 6
+        where estado !=6 
+        and identificador_usuario = 
+        (select identificador_usuario 
+        from publicacion where id = {$id});")
+        ->execute();
+        }
         if($peticion){
             return response()->json(["success" => true, "message" => "ahora si"]);
         } else {
@@ -307,4 +333,21 @@ class PublicacionController extends Controller
     /**
      * todo SELECT  SUM(d.precioParcial) FROM factura f JOIN detalleFactura d ON f.id = d.id_factura JOIN publicacion p ON f.id_publicacion = p.id JOIN producto pr ON d.id_producto = pr.id JOIN usuario u ON p.identificador_usuario = u.id where u.id =1 and p.id =5;
      */
+
+
+
+     // para la seccion de reportes 
+             public function masPublicaciones(){
+        $peticion = db()
+            ->query("SELECT 
+             count(*) as cantidad, u.user 
+             from publicacion 
+             join usuario u on u.id = publicacion.identificador_usuario 
+             group by identificador_usuario 
+             order by cantidad desc;")
+            ->fetchAll();
+        return response()->json($peticion ?? []);
+     
+    }
+
 }

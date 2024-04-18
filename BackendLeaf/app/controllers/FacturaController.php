@@ -118,4 +118,22 @@ class FacturaController extends Controller
             ->fetchAll();
         return response()->json($peticion ?? []);
     }
+
+
+    // para reporte de mas gastado 
+
+    public function masGastado(){
+        $peticion = db()
+            ->query("SELECT 
+            distinct sum(precioTotal) as total,
+             f.*,
+             u.user
+             from factura f 
+             join usuario u on u.id = f.id_cliente
+             group by id_cliente 
+             order by total desc ;")
+            ->fetchAll();
+        return response()->json($peticion ?? []);
+     
+    }
 }

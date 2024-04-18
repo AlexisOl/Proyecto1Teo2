@@ -130,9 +130,10 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
 
     for (let index = 0; index < this.datosParaComprar.length; index++) {
       const element = this.datosParaComprar[index];
-      this.ventasServicio
-        .cantidadProductosValida(
-          element.id,
+
+      this.voluntariadoServicio
+        .cantidadProductosValidaVoluntariado(
+          element.identificador_producto,
           element.cantidadProducto,
           this.data.datos[0].id
         )
@@ -159,44 +160,45 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
 
   //funcion para generar la compra
   generarVoluntariado() {
-    console.log(this.datosParaComprar);
+    console.log(
+      this.datosParaComprar.length,
+      this.cantidadValida,
+      ' cabtidades'
+    );
 
     this.prodcutosInsuficiente = false;
-    //if(this.cantidadValida === this.datosParaComprar.length) {
-    if (this.idUsuario) {
-      const generarConstanciaVoluntariado: ayudaVoluntariado =
-        new ayudaVoluntariado();
-      generarConstanciaVoluntariado.id_cliente =
-        this.sesionServicio.getUsuario()?.id;
-      generarConstanciaVoluntariado.id_voluntariado = this.data.datos[0].id;
-      //ingreso
-      this.voluntariadoServicio
-        .ingresoConstanciaAyudaVoluntariado(
-          generarConstanciaVoluntariado,
-          this.data.datos[0].tipo
-        )
-        .pipe(
-          switchMap((constancia: any) => {
-            if (constancia) {
-              return this.generarDetalleFactura(constancia.insertedId);
-            } else {
-              return of();
+    if (this.cantidadValida === this.datosParaComprar.length) {
+      if (this.idUsuario) {
+        const generarConstanciaVoluntariado: ayudaVoluntariado =
+          new ayudaVoluntariado();
+        generarConstanciaVoluntariado.id_cliente =
+          this.sesionServicio.getUsuario()?.id;
+        generarConstanciaVoluntariado.id_voluntariado = this.data.datos[0].id;
+        //ingreso
+        this.voluntariadoServicio
+          .ingresoConstanciaAyudaVoluntariado(
+            generarConstanciaVoluntariado,
+            this.data.datos[0].tipo
+          )
+          .pipe(
+            switchMap((constancia: any) => {
+              if (constancia) {
+                return this.generarDetalleFactura(constancia.insertedId);
+              } else {
+                return of();
+              }
+            })
+          )
+          .subscribe(
+            () => {},
+            (error) => {
+              console.error('Error al generar constancia y detalle:', error);
             }
-          })
-        )
-        .subscribe(
-          () => {},
-          (error) => {
-            console.error('Error al generar constancia y detalle:', error);
-          }
-        );
+          );
+      }
+    } else {
+      this.prodcutosInsuficiente = true;
     }
-    // } else {
-    // this.prodcutosInsuficiente=true
-    // }
-  }
-  generarDetalleConstancia(id_voluntariadoConstancia: number) {
-    return of(id_voluntariadoConstancia);
   }
 
   //funcion para generar el detalle de las facturas
@@ -220,11 +222,11 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
         .subscribe(
           (valores: any) => {
             factura = valores.insertedId;
-            // this.cambiarEstadoVentas(valores.insertedId);
+            this.cambiarEstadoVentas(valores.insertedId);
           },
           //funcion final
           () => {
-            // this.cambiarEstadoVentas(factura);
+            this.cambiarEstadoVentas(factura);
           }
         );
     });
@@ -232,8 +234,7 @@ export class VistaVoluntariadousuarioCompraComponent implements OnInit {
 
   //funcion para la modificacion final
   cambiarEstadoVentas(valor: number) {
-    console.log('adios');
-    this.ventasServicio.actualizarEstado(valor).subscribe();
+    this.voluntariadoServicio.actualizarEstadoVoluntario(valor).subscribe();
   }
 
   //* para usuarios no ingresados

@@ -89,7 +89,10 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
       this.data.datos[0].identificador_usuario ===
       nuevoComentario.id_usuarioPregunta;
 
-    this.comprasServicio.envioComentario(nuevoComentario).subscribe();
+    this.comprasServicio.envioComentario(nuevoComentario).subscribe(() => {
+      this.obtenerComentarios();
+      this.textoComentario = '';
+    });
   }
 
   //obtencion de los comentarios asociados a la publicacion

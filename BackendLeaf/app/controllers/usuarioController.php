@@ -113,5 +113,21 @@ public function ingresoMonedas(){
             return response()->json(["success" => false, "message" => "El usuario ya existe"]);
         }
     }
+
+        public function usuariosVetados(){
+        $peticion = db()
+            ->query("SELECT * from usuario where idRol = 3;")
+            ->fetchAll();
+        return response()->json($peticion ?? []);
+     
+    }
+
+            public function usuariosMasIngreso(){
+        $peticion = db()
+            ->query("SELECT * from usuario order by cantidad_monedas desc  limit 10")
+            ->fetchAll();
+        return response()->json($peticion ?? []);
+     
+    }
     
 }

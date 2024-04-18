@@ -4,18 +4,12 @@
     <button mat-button (click)="irInicio()">Inicio</button>
     <span class="example-spacer"></span>
 
-    <button mat-button >Compras</button>
-    <span class="example-spacer"></span>
-
-    <button mat-button
-    (click)="iraVoluntariado()">
-    Voluntariado</button>
+    <button mat-button (click)="iraVoluntariado()">Voluntariado</button>
     <span class="example-spacer"></span>
 
     <button mat-button [matMenuTriggerFor]="fileMenu">Ingreso Usuario</button>
     <mat-menu #fileMenu="matMenu">
-      <button  mat-menu-item (click)="iraLogin()">ingreso</button>
+      <button mat-menu-item (click)="iraLogin()">ingreso</button>
     </mat-menu>
   </mat-toolbar>
-
 </p>

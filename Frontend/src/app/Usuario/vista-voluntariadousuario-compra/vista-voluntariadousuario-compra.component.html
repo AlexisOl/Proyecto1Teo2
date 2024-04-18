@@ -212,7 +212,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <button class="btn btn-primary" (click)="generarVoluntariado()">
+      <button class="btn btn-primary" (click)="determinaCantidadValida()">
         Aceptar Venta
       </button>
     </div>
@@ -226,7 +226,14 @@
     </div>
   </div>
 </div>
-
+@if (this.prodcutosInsuficiente) {
+<div class="container">
+  <ngb-alert type="danger" [dismissible]="false">
+    <strong>Error</strong> La cantidad de productos seleccionados sobrepasa la
+    cantidad a vender, vuelva a intentarlo.
+  </ngb-alert>
+</div>
+}
 <hr />
 
 <div class="container">

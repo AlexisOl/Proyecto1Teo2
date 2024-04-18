@@ -69,6 +69,9 @@ app() -> get('/cantidadProductosValida', 'ArticulosPublicacionController@sePuede
 
 // cambio del estado
 app() -> get('/actualizarEstado', 'PublicacionController@actualizarEstado');
+// cambio de estado de voluntariado
+app() -> get('/actualizarEstadoVoluntario', 'VoluntariadoController@actualizarEstado');
+
 
 
 //*ADMIN
@@ -155,6 +158,11 @@ app() -> post('/ingresoVoluntariado', 'VoluntariadoController@ingresoVoluntariad
 
 //? ingreso de productos por voluntariado
 app() -> post('/ingresoArticuloVoluntariado', 'ArticulosVoluntariadoController@ingresoArticulosVoluntariado');
+
+
+// para ver si es valido la cantidad
+app() -> get('/cantidadProductosValidaVoluntariado', 'ArticulosVoluntariadoController@sePuedeEliminarDatos');
+
 //? para ver los voluntariados de usuario creados
 
 app() -> get('/vistaVoluntariadoEstado', 'VoluntariadoController@vistaVoluntariadoEstado');
@@ -231,3 +239,14 @@ app() -> get('/obtenerCupones', 'CuponesController@obtenerCupones');
 
 app() -> get('/obtenerCuponesSoloParaUsar', 'CuponesController@obtenerCuponesSoloParaUsar');
 
+// para la vision de voluntariados
+app() -> get('/obtenerVoluntariadoId', 'VoluntariadoController@obtenerVoluntariadoId');
+app() -> get('/obtenerVoluntariadoIdDetalle', 'VoluntariadoController@obtenerVoluntariadoIdDetalle');
+
+
+
+// REPORTES
+app() -> get('/masGastado', 'FacturaController@masGastado');
+app() -> get('/masPublicaciones', 'PublicacionController@masPublicaciones');
+app() -> get('/usuariosVetados', 'usuarioController@usuariosVetados');
+app() -> get('/usuariosMasIngreso', 'usuarioController@usuariosMasIngreso');

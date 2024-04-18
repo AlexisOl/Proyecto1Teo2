@@ -186,4 +186,53 @@ export class VoluntariadoServicioService {
         idVoluntariado
     );
   }
+
+  //funcion para determinar si es valida la compra con la cantidad de productos
+  public cantidadProductosValidaVoluntariado(
+    id_producto: number,
+    cantidadProducto: number,
+    identificador_voluntariado: number
+  ): Observable<number> {
+    return this.http.get<any>(
+      this.URL +
+        '/cantidadProductosValidaVoluntariado?cantidadProducto=' +
+        cantidadProducto +
+        '&identificador_voluntariado=' +
+        identificador_voluntariado +
+        '&id_producto=' +
+        id_producto
+    );
+  }
+
+  // para ver si se cambia el estado
+  public actualizarEstadoVoluntario(
+    id_facturaDetalle: number
+  ): Observable<number> {
+    return this.http.get<any>(
+      this.URL + '/actualizarEstadoVoluntario?id=' + id_facturaDetalle
+    );
+  }
+
+  //funcion para obtener las facturas de los usuarios
+  public obtenerVoluntariadoId(
+    id: number | undefined
+  ): Observable<ayudaVoluntariado> {
+    return this.http.get<ayudaVoluntariado>(
+      this.URL + '/obtenerVoluntariadoId?id=' + id
+    );
+  }
+
+  //funcion para obtener el detalle de cada factura
+  public obtenerVoluntariadoIdDetalle(
+    id: number | undefined,
+    idAyudaVoluntariado: number
+  ): Observable<comentariosVoluntariado> {
+    return this.http.get<comentariosVoluntariado>(
+      this.URL +
+        '/obtenerVoluntariadoIdDetalle?id=' +
+        id +
+        '&idAyudaVoluntariado=' +
+        idAyudaVoluntariado
+    );
+  }
 }

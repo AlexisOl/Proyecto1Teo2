@@ -67,6 +67,14 @@
               </ngb-alert>
             </div>
             }
+            @if (this.cancelado) {
+            <div class="container">
+              <ngb-alert type="danger" [dismissible]="false">
+                <strong>Error</strong> 
+                El usuario ha sido cancelado por infringir normas de la comunidad
+              </ngb-alert>
+            </div>
+            }
             <div class="col-md-12 mt-6 justify-content-center">
               <div class="row">
                 <div class="col-md-6">
