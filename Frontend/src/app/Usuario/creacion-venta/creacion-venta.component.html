@@ -120,28 +120,34 @@
           <td>{{ item.cantidadProducto }}</td>
           <td>{{ item.precioProducto }}</td>
           <td>
-            <button class="btn btn-danger"
-            (click)="eliminar(item)"
-            >
-            Eliminar
-          </button></td>
+            <button class="btn btn-danger" (click)="eliminar(item)">
+              Eliminar
+            </button>
+          </td>
         </tr>
 
         }
       </tbody>
     </table>
   </div>
-
 </div>
-<hr>
+@if (this.todobien) {
 <div class="container">
-    <!--ingreso de los botones del modal-->
-<div class="row">
-  <div class="col-md-6">
-    <button class="btn btn-primary" (click)="ingreso()">Crear</button>
-  </div>
-  <div class="col-md-6">
-    <button class="btn btn-warning" (click)="cerrar()">Cancelar</button>
-  </div>
+  <ngb-alert type="success" [dismissible]="true">
+    <strong>Bien</strong> ingreso correcto
+  </ngb-alert>
 </div>
+
+}
+<hr />
+<div class="container">
+  <!--ingreso de los botones del modal-->
+  <div class="row">
+    <div class="col-md-6">
+      <button class="btn btn-primary" (click)="ingreso()">Crear</button>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-warning" (click)="cerrar()">Cancelar</button>
+    </div>
+  </div>
 </div>

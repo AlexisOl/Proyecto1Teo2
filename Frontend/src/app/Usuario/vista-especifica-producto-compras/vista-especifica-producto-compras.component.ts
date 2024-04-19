@@ -40,7 +40,7 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
   // error
   dineroInsuficiente: boolean = false;
   prodcutosInsuficiente: boolean = false;
-
+  todoBien: boolean = false;
   // para los cupones
   selectedValue: any;
   cupones: any;
@@ -238,6 +238,7 @@ export class VistaEspecificaProductoComprasComponent implements OnInit {
         .insertarDetalleFactura(generardetalleFactura, utilizacionCupones)
         .subscribe(
           (valores: any) => {
+            this.todoBien = true;
             console.log(valores.insertedId, 'esto es el final');
             factura = valores.insertedId;
             this.cambiarEstadoVentas(valores.insertedId);

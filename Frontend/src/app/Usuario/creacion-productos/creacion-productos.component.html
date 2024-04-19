@@ -1,235 +1,241 @@
 <h1 class="justify-content-center">Creacion del Producto</h1>
 @if(this.data.datos==1) {
-  <form class="form-container" #f="ngForm">
-    <div #ingresoCliente>
-      <div class="row">
-        <div class="col-md-4">
-          <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Nombre del Producto
-          </label>
-          <input
+<form class="form-container" #f="ngForm">
+  <div #ingresoCliente>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Nombre del Producto
+        </label>
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Nombre de Producto"
+          name="ProductoBodega"
+          [(ngModel)]="nombre"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Precio del producto
+        </label>
+        <input
+          type="number"
+          class="form-control mt-2"
+          placeholder="Precio del Producto"
+          name="precioProducto"
+          [(ngModel)]="precio"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Categorias del producto
+        </label>
+        <mat-form-field>
+          <mat-label>Seleccione categoria</mat-label>
+          <mat-select [(ngModel)]="selectedValue" name="food">
+            @for (food of categorias; track food.id) {
+            <mat-option [value]="food.id">{{ food.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Imagen Asociada
+        </label>
+        <input
+          type="file"
+          class="form-control mt-2"
+          placeholder="Imagen del Producto"
+          name="imagen"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Descripcion Asociada
+        </label>
+        <div class="md-form">
+          <textarea
             type="text"
-            class="form-control mt-2"
-            placeholder="Nombre de Producto"
-            name="ProductoBodega"
-            [(ngModel)]="nombre"
-          />
-        </div>
-        <div class="col-md-4">
-          <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Precio del producto
-          </label>
-          <input
-            type="number"
-            class="form-control mt-2"
-            placeholder="Precio del Producto"
-            name="precioProducto"
-            [(ngModel)]="precio"
-          />
-        </div>
-        <div class="col-md-4">
-          <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Categorias del producto
-          </label>
-          <mat-form-field>
-            <mat-label>Seleccione categoria</mat-label>
-            <mat-select [(ngModel)]="selectedValue" name="food">
-              @for (food of categorias; track food.id) {
-              <mat-option [value]="food.id">{{ food.nombre }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-8">
-          <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Imagen Asociada
-          </label>
-          <input
-            type="file"
-            class="form-control mt-2"
-            placeholder="Imagen del Producto"
-            name="imagen"
-            (change)="onFileSelected($event)"
-          />
-        </div>
-      </div>
-  
-      <div class="row">
-        <div class="col-md-8">
-          <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Descripcion Asociada
-          </label>
-          <div class="md-form">
-            <textarea
-              type="text"
-              id="form7"
-              class="md-textarea md-textarea-auto form-control"
-              mdbInput
-              [value]="descripcion"
-              name="descripcion"
-              [(ngModel)]="descripcion"
-            ></textarea>
-          </div>
-  
+            id="form7"
+            class="md-textarea md-textarea-auto form-control"
+            mdbInput
+            [value]="descripcion"
+            name="descripcion"
+            [(ngModel)]="descripcion"
+          ></textarea>
         </div>
       </div>
     </div>
-    <hr />
-  </form>
-  
+  </div>
+  <hr />
+</form>
+
 } @else {
-  <form class="form-container" #f="ngForm">
-    <div #ingresoCliente>
-      <div class="row">
-        <div class="col-md-3">
-          <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Nombre del Producto
-          </label>
-          <input
-            type="text"
-            class="form-control mt-2"
-            placeholder="Nombre de Producto"
-            name="ProductoBodega"
-            [(ngModel)]="nombre"
-          />
-        </div>
+<form class="form-container" #f="ngForm">
+  <div #ingresoCliente>
+    <div class="row">
+      <div class="col-md-3">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Nombre del Producto
+        </label>
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Nombre de Producto"
+          name="ProductoBodega"
+          [(ngModel)]="nombre"
+        />
+      </div>
 
-        <div class="col-md-3">
-          <label for="nombre" class="mt-5 d-flex justify-content-center">
-            Categorias del producto
-          </label>
-          <mat-form-field>
-            <mat-label>Seleccione categoria</mat-label>
-            <mat-select [(ngModel)]="selectedValueTipoVoluntariado" name="food" (selectionChange)="this.tipo()">
-              @for (food of this.tipoVoluntariado; track food.id) {
-              <mat-option [value]="food">{{ food.tipo }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+      <div class="col-md-3">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Categorias del producto
+        </label>
+        <mat-form-field>
+          <mat-label>Seleccione categoria</mat-label>
+          <mat-select
+            [(ngModel)]="selectedValueTipoVoluntariado"
+            name="food"
+            (selectionChange)="this.tipo()"
+          >
+            @for (food of this.tipoVoluntariado; track food.id) {
+            <mat-option [value]="food">{{ food.tipo }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    @if(this.seleccion == 1) {
+    <div class="row">
+      <div class="col-md-3">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Precio del producto
+        </label>
+        <input
+          type="number"
+          class="form-control mt-2"
+          placeholder="Precio del Producto"
+          name="precioProducto"
+          [(ngModel)]="precio"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Categorias del producto
+        </label>
+        <mat-form-field>
+          <mat-label>Seleccione categoria</mat-label>
+          <mat-select [(ngModel)]="selectedValue" name="food">
+            @for (food of categorias; track food.id) {
+            <mat-option [value]="food.id">{{ food.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Imagen Asociada
+        </label>
+        <input
+          type="file"
+          class="form-control mt-2"
+          placeholder="Imagen del Producto"
+          name="imagen"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Descripcion Asociada
+        </label>
+        <div class="md-form">
+          <textarea
+            type="text"
+            id="form7"
+            class="md-textarea md-textarea-auto form-control"
+            mdbInput
+            [value]="descripcion"
+            name="descripcion"
+            [(ngModel)]="descripcion"
+          ></textarea>
         </div>
       </div>
-      @if(this.seleccion == 1) {
-        <div class="row">
-          <div class="col-md-3">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Precio del producto
-            </label>
-            <input
-              type="number"
-              class="form-control mt-2"
-              placeholder="Precio del Producto"
-              name="precioProducto"
-              [(ngModel)]="precio"
-            />
-          </div>
-          <div class="col-md-3">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Categorias del producto
-            </label>
-            <mat-form-field>
-              <mat-label>Seleccione categoria</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="food">
-                @for (food of categorias; track food.id) {
-                <mat-option [value]="food.id">{{ food.nombre }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-8">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Imagen Asociada
-            </label>
-            <input
-              type="file"
-              class="form-control mt-2"
-              placeholder="Imagen del Producto"
-              name="imagen"
-              (change)="onFileSelected($event)"
-            />
-          </div>
-        </div>
-    
-        <div class="row">
-          <div class="col-md-8">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Descripcion Asociada
-            </label>
-            <div class="md-form">
-              <textarea
-                type="text"
-                id="form7"
-                class="md-textarea md-textarea-auto form-control"
-                mdbInput
-                [value]="descripcion"
-                name="descripcion"
-                [(ngModel)]="descripcion"
-              ></textarea>
-            </div>
-    
-          </div>
-        </div>
-      } @else {
-        <div class="row">
-          <div class="col-md-3">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Categorias del producto
-            </label>
-            <mat-form-field>
-              <mat-label>Seleccione categoria</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="food">
-                @for (food of categorias; track food.id) {
-                <mat-option [value]="food.id">{{ food.nombre }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-8">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Imagen Asociada
-            </label>
-            <input
-              type="file"
-              class="form-control mt-2"
-              placeholder="Imagen del Producto"
-              name="imagen"
-              (change)="onFileSelected($event)"
-            />
-          </div>
-        </div>
-    
-        <div class="row">
-          <div class="col-md-8">
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Descripcion Asociada
-            </label>
-            <div class="md-form">
-              <textarea
-                type="text"
-                id="form7"
-                class="md-textarea md-textarea-auto form-control"
-                mdbInput
-                [value]="descripcion"
-                name="descripcion"
-                [(ngModel)]="descripcion"
-              ></textarea>
-            </div>
-    
-          </div>
-        </div>
-      }
-
     </div>
-    <hr />
-  </form>
-  
-}
+    } @else {
+    <div class="row">
+      <div class="col-md-3">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Categorias del producto
+        </label>
+        <mat-form-field>
+          <mat-label>Seleccione categoria</mat-label>
+          <mat-select [(ngModel)]="selectedValue" name="food">
+            @for (food of categorias; track food.id) {
+            <mat-option [value]="food.id">{{ food.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Imagen Asociada
+        </label>
+        <input
+          type="file"
+          class="form-control mt-2"
+          placeholder="Imagen del Producto"
+          name="imagen"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col-md-8">
+        <label for="nombre" class="mt-5 d-flex justify-content-center">
+          Descripcion Asociada
+        </label>
+        <div class="md-form">
+          <textarea
+            type="text"
+            id="form7"
+            class="md-textarea md-textarea-auto form-control"
+            mdbInput
+            [value]="descripcion"
+            name="descripcion"
+            [(ngModel)]="descripcion"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  <hr />
+</form>
+
+} @if (this.todobien) {
+<div class="container">
+  <ngb-alert type="success" [dismissible]="true">
+    <strong>Bien</strong> ingreso correcto
+  </ngb-alert>
+</div>
+
+}
 <!--Para botonoes-->
 
 <div class="row">

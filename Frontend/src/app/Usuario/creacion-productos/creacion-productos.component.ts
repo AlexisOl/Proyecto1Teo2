@@ -11,10 +11,17 @@ import { producto } from '../../models/producto';
 import { SesionServicioService } from '../../services/sesion-servicio.service';
 import { VoluntariadoServicioService } from '../../services/voluntariado-servicio.service';
 import { tipoVoluntariado } from '../../models/tipoVoluntariado';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-creacion-productos',
   standalone: true,
-  imports: [FormsModule, MatInputModule, MatFormFieldModule, MatSelectModule],
+  imports: [
+    NgbAlert,
+    FormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+  ],
   templateUrl: './creacion-productos.component.html',
   styleUrl: './creacion-productos.component.css',
 })
@@ -25,7 +32,7 @@ export class CreacionProductosComponent implements OnInit {
   precio: number = 0;
   descripcion: string = '';
   imagen: string = '';
-  imagenTotal:any;
+  imagenTotal: any;
 
   extensiones: any[] = ['.txt', '.html'];
   foods: any[] = [
@@ -34,15 +41,16 @@ export class CreacionProductosComponent implements OnInit {
     { value: 'tacos-2', viewValue: 'Tacos' },
   ];
   selectedValue: string = '';
-  selectedValueTipoVoluntariado!:any
-  seleccion!:number
-  tipoVoluntariado:any
+  selectedValueTipoVoluntariado!: any;
+  seleccion!: number;
+  tipoVoluntariado: any;
+  todobien: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private referencia: MatDialogRef<CreacionProductosComponent>,
     private categoriasServicio: VentasServicioService,
     private servicioUsuario: SesionServicioService,
-    private voluntariadoServicio:VoluntariadoServicioService
+    private voluntariadoServicio: VoluntariadoServicioService
   ) {}
 
   onFileSelected(event: any) {
@@ -50,27 +58,29 @@ export class CreacionProductosComponent implements OnInit {
     const fileName: string = event.target.files[0].name;
     // Puedes hacer lo que necesites con fileName
 
-    console.log('Nombre del archivo seleccionado:' ,fileName, event.target.files[0]);
+    console.log(
+      'Nombre del archivo seleccionado:',
+      fileName,
+      event.target.files[0]
+    );
     // Asignar fileName a la propiedad imagen si lo necesitas
 
     this.imagen = fileName;
-    this.imagenTotal = event.target.files[0]
-
-
+    this.imagenTotal = event.target.files[0];
   }
   //para la seleccion del tipo de voluntariado
-  tipo(){
-    this.seleccion = this.selectedValueTipoVoluntariado.id
+  tipo() {
+    this.seleccion = this.selectedValueTipoVoluntariado.id;
   }
   crearProducto() {
     const productoNuevo: producto = new producto();
-      //si es un truque 
-    if(this.seleccion ==2) {
-      productoNuevo.precio =0
-      productoNuevo.identificador_tipo_producto = 3
-    } else{
+    //si es un truque
+    if (this.seleccion == 2) {
+      productoNuevo.precio = 0;
+      productoNuevo.identificador_tipo_producto = 3;
+    } else {
       productoNuevo.precio = this.precio;
-    productoNuevo.identificador_tipo_producto = this.data.datos
+      productoNuevo.identificador_tipo_producto = this.data.datos;
     }
     productoNuevo.nombre = this.nombre;
     productoNuevo.descripcion = this.descripcion;
@@ -79,7 +89,9 @@ export class CreacionProductosComponent implements OnInit {
     productoNuevo.identificador_categoria = Number(this.selectedValue);
     console.log(productoNuevo, this.descripcion);
     //ingreso del producto
-    this.categoriasServicio.ingresoProducto(productoNuevo).subscribe();
+    this.categoriasServicio.ingresoProducto(productoNuevo).subscribe(() => {
+      this.todobien = true;
+    });
     this.categoriasServicio.guardarImagen(this.imagenTotal).subscribe(
       () => {
         console.log('Imagen guardada con éxito');
@@ -94,13 +106,12 @@ export class CreacionProductosComponent implements OnInit {
     this.referencia.close();
   }
   ngOnInit(): void {
-
     console.log(this.data.datos);
-    this.voluntariadoServicio.obtenerTipoVoluntariado().subscribe(
-      (tipo:tipoVoluntariado) => {
-        this.tipoVoluntariado = tipo
-      }  
-    );
+    this.voluntariadoServicio
+      .obtenerTipoVoluntariado()
+      .subscribe((tipo: tipoVoluntariado) => {
+        this.tipoVoluntariado = tipo;
+      });
 
     this.categoriasServicio
       .obtenerCategorias()
